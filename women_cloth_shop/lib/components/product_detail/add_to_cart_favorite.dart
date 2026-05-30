@@ -4,14 +4,12 @@ class AddToCartFavorite extends StatefulWidget {
   final VoidCallback onAddToCart;
   final VoidCallback onToggleFavorite;
   final bool isFavorited;
-  final String price;
 
   const AddToCartFavorite({
     super.key,
     required this.onAddToCart,
     required this.onToggleFavorite,
     required this.isFavorited,
-    required this.price,
   });
 
   @override
@@ -19,24 +17,14 @@ class AddToCartFavorite extends StatefulWidget {
 }
 
 class _AddToCartFavoriteState extends State<AddToCartFavorite> {
-  late bool _isFavorited;
-
-  @override
-  void initState() {
-    super.initState();
-    _isFavorited = widget.isFavorited;
-  }
-
   void _handleFavorite() {
-    setState(() {
-      _isFavorited = !_isFavorited;
-    });
+    final willBeFavorited = !widget.isFavorited;
     widget.onToggleFavorite();
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          _isFavorited ? 'Added to favorites ❤' : 'Removed from favorites',
+          willBeFavorited ? 'Added to favorites ❤' : 'Removed from favorites',
           style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.brown,
@@ -49,13 +37,10 @@ class _AddToCartFavoriteState extends State<AddToCartFavorite> {
     widget.onAddToCart();
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: const Text(
-          'Added to cart ✓',
-          style: TextStyle(color: Colors.white),
-        ),
+      const SnackBar(
+        content: Text('Added to cart ✓', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.brown,
-        duration: const Duration(seconds: 2),
+        duration: Duration(seconds: 2),
       ),
     );
   }
@@ -64,36 +49,9 @@ class _AddToCartFavoriteState extends State<AddToCartFavorite> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Price
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          textBaseline: TextBaseline.alphabetic,
-          children: [
-            Text(
-              widget.price,
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w700,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              '\$895',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: Colors.grey[500],
-                decoration: TextDecoration.lineThrough,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
         // Buttons
         Row(
           children: [
-            // Add to Cart Button
             Expanded(
               child: ElevatedButton(
                 onPressed: _handleAddToCart,
@@ -122,7 +80,6 @@ class _AddToCartFavoriteState extends State<AddToCartFavorite> {
               ),
             ),
             const SizedBox(width: 12),
-            // Favorite Button
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey[300]!),
@@ -136,8 +93,12 @@ class _AddToCartFavoriteState extends State<AddToCartFavorite> {
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: Icon(
-                      _isFavorited ? Icons.favorite : Icons.favorite_border,
-                      color: _isFavorited ? Colors.red[400] : Colors.grey[600],
+                      widget.isFavorited
+                          ? Icons.favorite
+                          : Icons.favorite_border,
+                      color: widget.isFavorited
+                          ? Colors.red[400]
+                          : Colors.grey[600],
                       size: 24,
                     ),
                   ),
@@ -147,7 +108,8 @@ class _AddToCartFavoriteState extends State<AddToCartFavorite> {
           ],
         ),
         const SizedBox(height: 12),
-        // Additional info
+
+        // Shipping info
         Row(
           children: [
             Icon(

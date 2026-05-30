@@ -10,6 +10,30 @@ class StyleItWithSection extends StatelessWidget {
     required this.onItemTap,
   });
 
+  Widget _buildImage(String path) {
+    if (path.startsWith('http')) {
+      return Image.network(
+        path,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 160,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            color: Colors.grey[300],
+            child: const Icon(Icons.image_not_supported),
+          );
+        },
+      );
+    } else {
+      return Image.asset(
+        path,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: 160,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (relatedItems.isEmpty) {
@@ -57,17 +81,8 @@ class StyleItWithSection extends StatelessWidget {
                         ),
                         child: Stack(
                           children: [
-                            Image.network(
-                              item.image,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Container(
-                                  color: Colors.grey[300],
-                                  child: const Icon(Icons.image_not_supported),
-                                );
-                              },
-                            ),
-                            // Hover overlay with view details
+                            _buildImage(item.image),
+                            // Overlay
                             Container(
                               color: Colors.black.withOpacity(0),
                               child: Align(

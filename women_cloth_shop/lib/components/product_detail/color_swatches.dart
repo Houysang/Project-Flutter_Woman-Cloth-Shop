@@ -44,11 +44,11 @@ class _ColorSwatchesState extends State<ColorSwatches> {
       children: [
         const Text(
           'Color',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
         SizedBox(
-          height: 80,
+          height: 70, // reduced height to avoid overflow
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.colors.length,
@@ -66,13 +66,13 @@ class _ColorSwatchesState extends State<ColorSwatches> {
                   widget.onColorSelected(colorName);
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(right: 16),
+                  margin: const EdgeInsets.only(right: 12),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min, // prevents overflow
                     children: [
                       Container(
-                        width: 60,
-                        height: 60,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: _hexToColor(colorHex),
@@ -80,15 +80,15 @@ class _ColorSwatchesState extends State<ColorSwatches> {
                             color: isSelected
                                 ? Colors.black
                                 : Colors.grey[300]!,
-                            width: isSelected ? 3 : 2,
+                            width: isSelected ? 2 : 1,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 4),
                       Text(
                         colorName,
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: isSelected
                               ? FontWeight.w600
                               : FontWeight.w400,
