@@ -130,20 +130,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       _selectedFooterIndex = index;
     });
 
-    // Example navigation logic
-    if (index == 0) {
-      await Navigator.pushNamed(context, '/shop');
-    } else if (index == 1) {
-      await Navigator.pushNamed(context, '/bag');
-    } else if (index == 2) {
-      await Navigator.pushNamed(context, '/wishlist');
+    await AppFooter.navigateTo(context, index);
 
-      // After returning from wishlist, ensure local favorite button reflects store.
+    if (index == 2) {
       setState(() {
         _isFavorited = wishlist.any((w) => w.id == widget.productId);
       });
-    } else if (index == 3) {
-      await Navigator.pushNamed(context, '/profile');
     }
   }
 

@@ -6,6 +6,27 @@ class AppFooter extends StatelessWidget {
 
   const AppFooter({super.key, required this.currentIndex, required this.onTap});
 
+  static Future<void> navigateTo(BuildContext context, int index) async {
+    String? route;
+    switch (index) {
+      case 0:
+        route = '/shop';
+        break;
+      case 1:
+        route = '/cart';
+        break;
+      case 2:
+        route = '/wishlist';
+        break;
+      case 3:
+        route = '/profile';
+        break;
+    }
+    if (route != null) {
+      await Navigator.pushNamed(context, route);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(

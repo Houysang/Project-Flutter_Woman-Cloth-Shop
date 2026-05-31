@@ -16,20 +16,7 @@ class _CartPageState extends State<CartPage> {
   }
 
   void _handleFooterTap(int index) {
-    switch (index) {
-      case 0:
-        Navigator.pushNamed(context, '/shop');
-        break;
-      case 1:
-        Navigator.pushNamed(context, '/cart');
-        break;
-      case 2:
-        Navigator.pushNamed(context, '/wishlist');
-        break;
-      case 3:
-        Navigator.pushNamed(context, '/profile');
-        break;
-    }
+    AppFooter.navigateTo(context, index);
   }
 
   double get subtotal {
@@ -212,11 +199,7 @@ class _CartPageState extends State<CartPage> {
                     onPressed: cart.isEmpty
                         ? null
                         : () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Proceeding to checkout...'),
-                              ),
-                            );
+                            Navigator.pushNamed(context, '/checkout');
                           },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.brown,

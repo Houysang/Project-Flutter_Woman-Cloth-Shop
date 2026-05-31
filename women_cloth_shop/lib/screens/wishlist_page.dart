@@ -70,17 +70,12 @@ class _WishlistPageState extends State<WishlistPage> {
       _selectedFooterIndex = index;
     });
 
-    if (index == 0) {
-      await Navigator.pushNamed(context, '/shop');
-    } else if (index == 1) {
-      await Navigator.pushNamed(context, '/bag');
-    } else if (index == 2) {
-      await Navigator.pushNamed(context, '/wishlist');
+    await AppFooter.navigateTo(context, index);
+
+    if (index == 2) {
       setState(() {
         _items = List.of(wishlist);
       });
-    } else if (index == 3) {
-      await Navigator.pushNamed(context, '/profile');
     }
   }
 
