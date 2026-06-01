@@ -8,6 +8,9 @@ import 'components/app_footer.dart';
 import 'components/floating_cart_button.dart';
 import 'models/wishlist_store.dart';
 import 'models/cart_store.dart';
+import 'login_page.dart';
+import 'register_page.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -53,6 +56,9 @@ class MyApp extends StatelessWidget {
         ),
       },
       debugShowCheckedModeBanner: false,
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LoginPage(),
     );
   }
 }
