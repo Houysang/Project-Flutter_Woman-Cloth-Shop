@@ -107,7 +107,8 @@ class LoginPage extends StatelessWidget {
                               TextField(
                                 decoration: InputDecoration(
                                   hintText: "name@example.com",
-                                  hintStyle: TextStyle(color: Colors.grey.shade600),
+                                  hintStyle:
+                                      TextStyle(color: Colors.grey.shade600),
                                   filled: true,
                                   fillColor: Colors.white.withOpacity(0.85),
                                   border: OutlineInputBorder(
@@ -135,7 +136,8 @@ class LoginPage extends StatelessWidget {
                                 obscureText: true,
                                 decoration: InputDecoration(
                                   hintText: "••••••••",
-                                  suffixIcon: const Icon(Icons.visibility_outlined),
+                                  suffixIcon:
+                                      const Icon(Icons.visibility_outlined),
                                   filled: true,
                                   fillColor: Colors.white.withOpacity(0.85),
                                   border: OutlineInputBorder(
@@ -154,13 +156,17 @@ class LoginPage extends StatelessWidget {
                                   height: 48,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(255, 180, 138, 96),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 180, 138, 96),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                       elevation: 0,
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(
+                                          context, '/shop');
+                                    },
                                     child: Text(
                                       "LOGIN",
                                       style: GoogleFonts.poppins(
@@ -192,23 +198,24 @@ class LoginPage extends StatelessWidget {
 
                               /// Social Icons
                               /// 🌈 Social Login Buttons (REPLACE OLD ROW)
-Row(
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  children: [
-    _socialCircleButton(
-      icon: Icons.g_mobiledata,
-      color: Colors.red,
-    ),
-    _socialCircleButton(
-      icon: Icons.apple,
-      color: Colors.black,
-    ),
-    _socialCircleButton(
-      icon: Icons.facebook,
-      color: const Color(0xFF1877F2),
-    ),
-  ],
-),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  _socialCircleButton(
+                                    icon: Icons.g_mobiledata,
+                                    color: Colors.red,
+                                  ),
+                                  _socialCircleButton(
+                                    icon: Icons.apple,
+                                    color: Colors.black,
+                                  ),
+                                  _socialCircleButton(
+                                    icon: Icons.facebook,
+                                    color: const Color(0xFF1877F2),
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -245,29 +252,29 @@ Row(
   }
 
   /// 💡 Social button
-Widget _socialCircleButton({
-  required IconData icon,
-  required Color color,
-}) {
-  return Container(
-    width: 50,
-    height: 50,
-    decoration: BoxDecoration(
-      color: color,
-      shape: BoxShape.circle,
-      boxShadow: [
-        BoxShadow(
-          color: color.withOpacity(0.4),
-          blurRadius: 10,
-          offset: const Offset(0, 4),
-        ),
-      ],
-    ),
-    child: Icon(
-      icon,
-      color: Colors.white,
-      size: 26,
-    ),
-  );
-}
+  Widget _socialCircleButton({
+    required IconData icon,
+    required Color color,
+  }) {
+    return Container(
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        color: color,
+        shape: BoxShape.circle,
+        boxShadow: [
+          BoxShadow(
+            color: color.withOpacity(0.4),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Icon(
+        icon,
+        color: Colors.white,
+        size: 26,
+      ),
+    );
+  }
 }
