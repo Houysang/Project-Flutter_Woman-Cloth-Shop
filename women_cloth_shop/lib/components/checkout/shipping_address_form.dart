@@ -29,7 +29,7 @@ class ShippingAddressForm extends StatelessWidget {
       ),
       contentPadding: const EdgeInsets.symmetric(
         horizontal: 12,
-        vertical: 10,
+        vertical: 12,
       ),
     );
   }
@@ -39,6 +39,7 @@ class ShippingAddressForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 14),
         Text(
           'Shipping Address',
           style: GoogleFonts.playfairDisplay(

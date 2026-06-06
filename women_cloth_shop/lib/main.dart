@@ -10,6 +10,7 @@ import 'models/wishlist_store.dart';
 import 'models/cart_store.dart';
 import 'login_page.dart';
 import 'register_page.dart';
+import 'screens/category_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       home: const LoginPage(),
       routes: {
         '/shop': (context) => const ProductDetailPage(productId: 'product_001'),
+        '/category': (context) => CategoryPage(),
         '/wishlist': (context) =>
             WishlistPage(items: wishlist, currentProductId: 'product_001'),
         '/cart': (context) => const CartPage(),
