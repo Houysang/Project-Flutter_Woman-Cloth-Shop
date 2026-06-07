@@ -132,10 +132,15 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
         backgroundColor: Colors.white,
         elevation: 0.5,
         title: const Text(
-          'Order Confirmed',
-          style: TextStyle(color: Colors.black),
+          'Order Confirmation',
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
