@@ -115,8 +115,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         title: Text(
           'Checkout',
           style: GoogleFonts.playfairDisplay(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
         ),

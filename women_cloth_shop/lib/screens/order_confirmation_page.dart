@@ -151,7 +151,6 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
               'Thank you${customer != null ? ', $customer' : ''}!',
               textAlign: TextAlign.center,
               style: const TextStyle(
-                fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
