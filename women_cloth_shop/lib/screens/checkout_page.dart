@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../components/app_footer.dart';
 import '../components/checkout/step_indicator.dart';
 import '../components/checkout/shipping_address_form.dart';
@@ -18,7 +17,6 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
   final _formKey = GlobalKey<FormState>();
 
-  // Controllers
   final _firstNameCtrl = TextEditingController();
   final _lastNameCtrl = TextEditingController();
   final _addressCtrl = TextEditingController();
@@ -61,18 +59,21 @@ class _CheckoutPageState extends State<CheckoutPage> {
     });
   }
 
-  // ===== PRICE =====
   double get subtotal {
     double sum = 0;
-    for (final c in cart) {
-      final p =
-          double.tryParse(c.price.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0;
-      sum += p * c.quantity;
+
+    for (final item in cart) {
+      final price =
+          double.tryParse(item.price.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0;
+
+      sum += price * item.quantity;
     }
+
     return sum;
   }
 
   double get tax => subtotal * 0.2;
+
   double get total => subtotal + tax;
 
   @override
@@ -90,6 +91,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     if (!_formKey.currentState!.validate()) return;
 
     final orderTotal = total;
+
     clearCart();
 
     Navigator.pushReplacementNamed(
@@ -105,115 +107,111 @@ class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+
+      // HEADER LIKE WISHLIST
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
+        title: const Text(
           'Checkout',
-          style: GoogleFonts.playfairDisplay(
-            fontWeight: FontWeight.bold,
+          style: TextStyle(
             color: Colors.black,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        centerTitle: true,
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
       ),
+
       body: SingleChildScrollView(
         controller: _scrollController,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                StepIndicator(currentStep: _currentStep),
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              StepIndicator(
+                currentStep: _currentStep,
+              ),
+              const SizedBox(height: 24),
+              ShippingAddressForm(
+                firstNameCtrl: _firstNameCtrl,
+                lastNameCtrl: _lastNameCtrl,
+                addressCtrl: _addressCtrl,
+                provinceCtrl: _provinceCtrl,
+                phoneCtrl: _phoneCtrl,
+                onPickLocation: () {},
+              ),
+              const SizedBox(height: 28),
+              PaymentMethodSection(
+                selectedPayment: _selectedPayment,
+                onPaymentChanged: (value) {
+                  setState(() {
+                    _selectedPayment = value;
+                  });
 
-                // ===== SHIPPING =====
-                ShippingAddressForm(
-                  firstNameCtrl: _firstNameCtrl,
-                  lastNameCtrl: _lastNameCtrl,
-                  addressCtrl: _addressCtrl,
-                  provinceCtrl: _provinceCtrl,
-                  phoneCtrl: _phoneCtrl,
-                  onPickLocation: () {},
-                ),
-
-                const SizedBox(height: 28),
-
-                // ===== PAYMENT =====
-                PaymentMethodSection(
-                  selectedPayment: _selectedPayment,
-                  onPaymentChanged: (value) {
-                    setState(() {
-                      _selectedPayment = value;
-                      _updateStep();
-                    });
-                  },
-                ),
-
-                const SizedBox(height: 28),
-
-                // ===== REVIEW =====
-                OrderReviewSection(cartItems: cart),
-
-                const SizedBox(height: 20),
-
-                // ===== PRICE =====
-                PriceBreakdown(
-                  subtotal: subtotal,
-                  tax: tax,
-                  total: total,
-                ),
-
-                const SizedBox(height: 20),
-
-                // ===== BUTTON =====
-                SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: _placeOrder,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 180, 138, 96),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25),
-                      ),
+                  _updateStep();
+                },
+              ),
+              const SizedBox(height: 28),
+              OrderReviewSection(
+                cartItems: cart,
+              ),
+              const SizedBox(height: 20),
+              PriceBreakdown(
+                subtotal: subtotal,
+                tax: tax,
+                total: total,
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                height: 52,
+                child: ElevatedButton(
+                  onPressed: _placeOrder,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 180, 138, 96),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
                     ),
-                    child: Text(
-                      'PLACE ORDER',
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1.5,
-                        color: Colors.white,
-                      ),
+                  ),
+                  child: const Text(
+                    'PLACE ORDER',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 1.5,
                     ),
                   ),
                 ),
-
-                const SizedBox(height: 12),
-
-                Center(
-                  child: Text(
-                    'By placing your order, you agree to our\nTerms of Service and Privacy Policy.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 11, color: Colors.grey[600]),
+              ),
+              const SizedBox(height: 16),
+              Center(
+                child: Text(
+                  'By placing your order, you agree to our\nTerms of Service and Privacy Policy.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Colors.grey.shade600,
                   ),
                 ),
-
-                const SizedBox(height: 32),
-              ],
-            ),
+              ),
+              const SizedBox(height: 32),
+            ],
           ),
         ),
       ),
+
       bottomNavigationBar: AppFooter(
         currentIndex: 1,
-        onTap: (i) => AppFooter.navigateTo(context, i),
+        onTap: (index) {
+          AppFooter.navigateTo(context, index);
+        },
       ),
     );
   }
