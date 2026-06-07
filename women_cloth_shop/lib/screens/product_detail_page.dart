@@ -9,6 +9,7 @@ import '../components/app_footer.dart'; // <-- import your shared footer
 import '../components/floating_cart_button.dart';
 import '../models/wishlist_store.dart';
 import '../models/cart_store.dart';
+import '../models/related_item.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final String productId;
@@ -35,46 +36,53 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   Map<String, dynamic> get productData => {
-    'id': widget.productId,
-    'name': 'Beige Wool Coat',
-    'price': '\$895',
-    'oldPrice': '\$995',
-    'rating': 4.8,
-    'reviews': 124,
-    'images': [
-      'assets/images/coat.png',
-      'assets/images/coat.png',
-      'assets/images/coat.png',
-      'assets/images/coat.png',
-    ],
-    'colors': [
-      {'name': 'Beige', 'hex': '#D4C5B9'},
-      {'name': 'Black', 'hex': '#1A1A1A'},
-      {'name': 'Brown', 'hex': '#6F4E3E'},
-      {'name': 'Cream', 'hex': '#F5F1ED'},
-    ],
-    'sizes': ['XS', 'S', 'M', 'L', 'XL'],
-    'modelHeight': "5'8\"",
-    'modelSize': 'M',
-    'relatedItems': [
-      RelatedItem(
-        id: '1',
-        name: 'Petite Leather Chain',
-        price: '\$125',
-        image: 'assets/images/coat.png',
-        rating: 4.9,
-        reviewCount: 89,
-      ),
-      RelatedItem(
-        id: '2',
-        name: 'Tailored Trousers',
-        price: '\$245',
-        image: 'assets/images/coat.png',
-        rating: 4.7,
-        reviewCount: 156,
-      ),
-    ],
-  };
+        'id': widget.productId,
+        'name': 'Beige Wool Coat',
+        'price': '\$895',
+        'oldPrice': '\$995',
+        'rating': 4.8,
+        'reviews': 124,
+        'images': [
+          'assets/images/coat.png',
+          'assets/images/coat1.png',
+          'assets/images/coat2.png',
+        ],
+        'colors': [
+          {'name': 'Beige', 'hex': '#D4C5B9'},
+          {'name': 'Black', 'hex': '#1A1A1A'},
+          {'name': 'Brown', 'hex': '#6F4E3E'},
+          {'name': 'Cream', 'hex': '#F5F1ED'},
+        ],
+        'sizes': ['XS', 'S', 'M', 'L', 'XL'],
+        'modelHeight': "5'8\"",
+        'modelSize': 'M',
+        'relatedItems': [
+          RelatedItem(
+            id: '1',
+            name: 'Petite Gold Link Chain',
+            price: '\$125',
+            image: 'assets/images/style1.png',
+            rating: 4.9,
+            reviewCount: 89,
+          ),
+          RelatedItem(
+            id: '2',
+            name: 'Minimalist Leather Clutch',
+            price: '\$245',
+            image: 'assets/images/style2.png',
+            rating: 4.7,
+            reviewCount: 156,
+          ),
+          RelatedItem(
+            id: '3',
+            name: 'Minimalist Strapped Sandal',
+            price: '\$200',
+            image: 'assets/images/style3.png',
+            rating: 4.7,
+            reviewCount: 156,
+          ),
+        ],
+      };
 
   Future<void> _handleAddToCart() async {
     final item = CartItem(
@@ -122,7 +130,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 
   void _handleRelatedItemTap(String itemId) {
-    print('Related item tapped: $itemId');
+    Navigator.pushNamed(context, '/category');
   }
 
   Future<void> _handleFooterTap(int index) async {

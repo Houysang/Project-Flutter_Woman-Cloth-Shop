@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../../models/related_item.dart';
 
 class StyleItWithSection extends StatelessWidget {
   final List<RelatedItem> relatedItems;
+
+  /// return itemId to parent screen
   final Function(String itemId) onItemTap;
 
   const StyleItWithSection({
@@ -45,69 +48,76 @@ class StyleItWithSection extends StatelessWidget {
       children: [
         const Text(
           'Style It With',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+          ),
         ),
         const SizedBox(height: 4),
         Text(
           'Complete the look with these items',
-          style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey[600],
+          ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
         SizedBox(
-          height: 280,
+          height: 260,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: relatedItems.length,
             itemBuilder: (context, index) {
               final item = relatedItems[index];
+
               return GestureDetector(
-                onTap: () => onItemTap(item.id),
+                onTap: () {
+                  onItemTap(item.id);
+                },
                 child: Container(
-                  width: 160,
+                  width: 150,
                   margin: EdgeInsets.only(
-                    right: index < relatedItems.length - 1 ? 12 : 0,
+                    right: index == relatedItems.length - 1 ? 0 : 10,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Product Image
+                      // IMAGE
                       Container(
-                        width: double.infinity,
-                        height: 160,
+                        height: 150,
                         decoration: BoxDecoration(
-                          color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.grey[200]!),
+                          border: Border.all(
+                            color: Colors.grey.shade200,
+                          ),
                         ),
+                        clipBehavior: Clip.hardEdge,
                         child: Stack(
                           children: [
                             _buildImage(item.image),
-                            // Overlay
-                            Container(
-                              color: Colors.black.withOpacity(0),
-                              child: Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  width: double.infinity,
-                                  padding: const EdgeInsets.all(8),
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topCenter,
-                                      colors: [
-                                        Colors.black.withOpacity(0.5),
-                                        Colors.transparent,
-                                      ],
-                                    ),
+
+                            // Overlay text
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.bottomCenter,
+                                    end: Alignment.topCenter,
+                                    colors: [
+                                      Colors.black.withOpacity(0.6),
+                                      Colors.transparent,
+                                    ],
                                   ),
-                                  child: const Text(
-                                    'View Details',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    textAlign: TextAlign.center,
+                                ),
+                                child: const Text(
+                                  'Tap to view',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 11,
                                   ),
                                 ),
                               ),
@@ -115,52 +125,56 @@ class StyleItWithSection extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      // Product Name
+
+                      const SizedBox(height: 6),
+
+                      // NAME
                       Text(
                         item.name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 13,
+                          fontSize: 12,
                           fontWeight: FontWeight.w600,
-                          height: 1.4,
                         ),
                       ),
-                      const SizedBox(height: 6),
-                      // Rating
+
+                      const SizedBox(height: 4),
+
+                      // RATING
                       Row(
                         children: [
-                          Icon(
-                            Icons.star_rate_rounded,
-                            size: 14,
-                            color: Colors.amber[600],
+                          const Icon(
+                            Icons.star,
+                            size: 12,
+                            color: Colors.amber,
                           ),
                           const SizedBox(width: 4),
                           Text(
                             '${item.rating}',
                             style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 11,
                             ),
                           ),
                           const SizedBox(width: 4),
                           Text(
                             '(${item.reviewCount})',
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 11,
                               color: Colors.grey[600],
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 6),
-                      // Price
+
+                      const SizedBox(height: 4),
+
+                      // PRICE
                       Text(
                         item.price,
                         style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
@@ -173,22 +187,4 @@ class StyleItWithSection extends StatelessWidget {
       ],
     );
   }
-}
-
-class RelatedItem {
-  final String id;
-  final String name;
-  final String price;
-  final String image;
-  final double rating;
-  final int reviewCount;
-
-  RelatedItem({
-    required this.id,
-    required this.name,
-    required this.price,
-    required this.image,
-    required this.rating,
-    required this.reviewCount,
-  });
 }

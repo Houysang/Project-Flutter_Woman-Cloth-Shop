@@ -29,7 +29,7 @@ class _ImageGalleryState extends State<ImageGallery> {
     if (path.startsWith('http')) {
       return Image.network(
         path,
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
         errorBuilder: (context, error, stackTrace) {
           return Container(
             color: Colors.grey[300],
