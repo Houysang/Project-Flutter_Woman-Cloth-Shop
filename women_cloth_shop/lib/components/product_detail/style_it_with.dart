@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../models/related_item.dart';
 
 class StyleItWithSection extends StatelessWidget {
   final List<RelatedItem> relatedItems;
-
-  /// return itemId to parent screen
   final Function(String itemId) onItemTap;
 
   const StyleItWithSection({
@@ -12,6 +11,9 @@ class StyleItWithSection extends StatelessWidget {
     required this.relatedItems,
     required this.onItemTap,
   });
+
+  static const Color accent = Color(0xFFC5A081);
+  static const Color darkText = Color(0xFF2D2926);
 
   Widget _buildImage(String path) {
     if (path.startsWith('http')) {
@@ -22,7 +24,7 @@ class StyleItWithSection extends StatelessWidget {
         height: 160,
         errorBuilder: (context, error, stackTrace) {
           return Container(
-            color: Colors.grey[300],
+            color: Colors.grey[200],
             child: const Icon(Icons.image_not_supported),
           );
         },
@@ -46,22 +48,39 @@ class StyleItWithSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Style It With',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-          ),
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(6),
+              decoration: BoxDecoration(
+                color: accent.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(Icons.diamond_outlined, size: 16, color: accent),
+            ),
+            const SizedBox(width: 10),
+            Text(
+              'Style It With',
+              style: GoogleFonts.comfortaa(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: darkText,
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 4),
-        Text(
-          'Complete the look with these items',
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
+        Padding(
+          padding: const EdgeInsets.only(left: 32),
+          child: Text(
+            'Complete the look with these items',
+            style: GoogleFonts.comfortaa(
+              fontSize: 11,
+              color: Colors.black45,
+            ),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 14),
         SizedBox(
           height: 260,
           child: ListView.builder(
@@ -71,13 +90,11 @@ class StyleItWithSection extends StatelessWidget {
               final item = relatedItems[index];
 
               return GestureDetector(
-                onTap: () {
-                  onItemTap(item.id);
-                },
+                onTap: () => onItemTap(item.id),
                 child: Container(
                   width: 150,
                   margin: EdgeInsets.only(
-                    right: index == relatedItems.length - 1 ? 0 : 10,
+                    right: index == relatedItems.length - 1 ? 0 : 12,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,39 +103,46 @@ class StyleItWithSection extends StatelessWidget {
                       Container(
                         height: 150,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: Colors.grey.shade200,
-                          ),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
                         ),
                         clipBehavior: Clip.hardEdge,
                         child: Stack(
                           children: [
                             _buildImage(item.image),
-
-                            // Overlay text
-                            Align(
-                              alignment: Alignment.bottomCenter,
+                            // Gradient overlay
+                            Positioned.fill(
                               child: Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     begin: Alignment.bottomCenter,
                                     end: Alignment.topCenter,
                                     colors: [
-                                      Colors.black.withOpacity(0.6),
+                                      Colors.black.withOpacity(0.4),
                                       Colors.transparent,
                                     ],
                                   ),
                                 ),
-                                child: const Text(
-                                  'Tap to view',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 11,
-                                  ),
+                              ),
+                            ),
+                            // Tap hint
+                            Positioned(
+                              bottom: 8,
+                              left: 0,
+                              right: 0,
+                              child: Text(
+                                'Tap to view',
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.comfortaa(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                             ),
@@ -126,42 +150,41 @@ class StyleItWithSection extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 10),
 
                       // NAME
                       Text(
                         item.name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: GoogleFonts.comfortaa(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
+                          color: darkText,
                         ),
                       ),
 
                       const SizedBox(height: 4),
 
-                      // RATING
+                      // Rating
                       Row(
                         children: [
-                          const Icon(
-                            Icons.star,
-                            size: 12,
-                            color: Colors.amber,
-                          ),
+                          const Icon(Icons.star, size: 12, color: Color(0xFFFFB800)),
                           const SizedBox(width: 4),
                           Text(
                             '${item.rating}',
-                            style: const TextStyle(
+                            style: GoogleFonts.comfortaa(
                               fontSize: 11,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                           const SizedBox(width: 4),
                           Text(
                             '(${item.reviewCount})',
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Colors.grey[600],
+                            style: GoogleFonts.comfortaa(
+                              fontSize: 10,
+                              color: Colors.black38,
                             ),
                           ),
                         ],
@@ -172,9 +195,10 @@ class StyleItWithSection extends StatelessWidget {
                       // PRICE
                       Text(
                         item.price,
-                        style: const TextStyle(
-                          fontSize: 13,
+                        style: GoogleFonts.comfortaa(
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
+                          color: accent,
                         ),
                       ),
                     ],

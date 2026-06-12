@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ColorSwatches extends StatefulWidget {
-  final List<Map<String, String>>
-  colors; // [{name: 'Beige', hex: '#D4C5B9'}, ...]
+  final List<Map<String, String>> colors;
   final Function(String colorName) onColorSelected;
   final String selectedColor;
 
@@ -19,6 +19,9 @@ class ColorSwatches extends StatefulWidget {
 
 class _ColorSwatchesState extends State<ColorSwatches> {
   late String _selectedColor;
+
+  static const Color accent = Color(0xFFC5A081);
+  static const Color darkText = Color(0xFF2D2926);
 
   @override
   void initState() {
@@ -42,13 +45,37 @@ class _ColorSwatchesState extends State<ColorSwatches> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Color',
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        Row(
+          children: [
+            Text(
+              'Color',
+              style: GoogleFonts.comfortaa(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: darkText,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: accent.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                _selectedColor,
+                style: GoogleFonts.comfortaa(
+                  fontSize: 11,
+                  color: accent,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 10),
         SizedBox(
-          height: 70, // reduced height to avoid overflow
+          height: 60,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.colors.length,
@@ -65,10 +92,11 @@ class _ColorSwatchesState extends State<ColorSwatches> {
                   });
                   widget.onColorSelected(colorName);
                 },
-                child: Container(
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
                   margin: const EdgeInsets.only(right: 12),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min, // prevents overflow
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Container(
                         width: 40,
@@ -77,23 +105,28 @@ class _ColorSwatchesState extends State<ColorSwatches> {
                           shape: BoxShape.circle,
                           color: _hexToColor(colorHex),
                           border: Border.all(
-                            color: isSelected
-                                ? Colors.black
-                                : Colors.grey[300]!,
-                            width: isSelected ? 2 : 1,
+                            color: isSelected ? accent : Colors.grey[300]!,
+                            width: isSelected ? 3 : 1.5,
                           ),
+                          boxShadow: isSelected
+                              ? [
+                                  BoxShadow(
+                                    color: accent.withOpacity(0.3),
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ]
+                              : [],
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        colorName,
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: isSelected
-                              ? FontWeight.w600
-                              : FontWeight.w400,
-                          color: isSelected ? Colors.black : Colors.grey[600],
-                        ),
+                        child: isSelected
+                            ? const Center(
+                                child: Icon(
+                                  Icons.check,
+                                  size: 16,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : null,
                       ),
                     ],
                   ),
