@@ -16,10 +16,18 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
   static const Color darkText = Color(0xFF2D2926);
 
   final List<_NavItem> _navItems = [
-    _NavItem(icon: Icons.store_outlined, activeIcon: Icons.store, label: 'Shop'),
-    _NavItem(icon: Icons.favorite_outline, activeIcon: Icons.favorite, label: 'Wishlist'),
-    _NavItem(icon: Icons.shopping_bag_outlined, activeIcon: Icons.shopping_bag, label: 'Cart'),
-    _NavItem(icon: Icons.person_outline, activeIcon: Icons.person, label: 'Profile'),
+    _NavItem(
+        icon: Icons.store_outlined, activeIcon: Icons.store, label: 'Shop'),
+    _NavItem(
+        icon: Icons.favorite_outline,
+        activeIcon: Icons.favorite,
+        label: 'Wishlist'),
+    _NavItem(
+        icon: Icons.shopping_bag_outlined,
+        activeIcon: Icons.shopping_bag,
+        label: 'Cart'),
+    _NavItem(
+        icon: Icons.person_outline, activeIcon: Icons.person, label: 'Profile'),
   ];
 
   void _onItemTap(int index) {
@@ -28,11 +36,7 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
     });
 
     final routes = ['/shop', '/wishlist', '/cart', '/profile'];
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      routes[index],
-      (route) => route.settings.name == routes[index] || route.isFirst,
-    );
+    Navigator.pushNamed(context, routes[index]);
   }
 
   @override
@@ -101,8 +105,9 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
                             duration: const Duration(milliseconds: 250),
                             style: GoogleFonts.comfortaa(
                               fontSize: isSelected ? 11 : 10,
-                              fontWeight:
-                                  isSelected ? FontWeight.w700 : FontWeight.w500,
+                              fontWeight: isSelected
+                                  ? FontWeight.w700
+                                  : FontWeight.w500,
                               color: isSelected ? accent : Colors.grey[400],
                             ),
                             child: Text(item.label),

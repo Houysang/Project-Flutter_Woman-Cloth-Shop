@@ -446,10 +446,20 @@ class _MenuOverlay extends StatelessWidget {
               ),
             ),
           ),
-          // Remaining space is the dismiss area - shows you're "in" the menu overlay
+          // Remaining space shows "you are in" the menu overlay
           Expanded(
             child: Container(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withOpacity(0.35),
+              child: const Center(
+                child: Text(
+                  "⋮",
+                  style: TextStyle(
+                    color: Colors.white54,
+                    fontSize: 32,
+                    fontWeight: FontWeight.w100,
+                  ),
+                ),
+              ),
             ),
           ),
         ],
@@ -579,13 +589,10 @@ class _MenuContent extends StatelessWidget {
                           item.label,
                           style: GoogleFonts.comfortaa(
                             fontSize: 13,
-                            fontWeight:
-                                isActive ? FontWeight.w700 : FontWeight.w600,
-                            color: isActive
-                                ? const Color(0xFFC5A081)
-                                : (item.isDestructive
-                                    ? Colors.red
-                                    : const Color(0xFF2D2926)),
+                            fontWeight: FontWeight.w600,
+                            color: item.isDestructive
+                                ? Colors.red
+                                : const Color(0xFF2D2926),
                           ),
                         ),
                       ],
