@@ -14,20 +14,16 @@ class SearchBarWidget extends StatefulWidget {
 class _SearchBarWidgetState extends State<SearchBarWidget> {
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
-  List<String> _names = [];
-  List<String> _ids = [];
+  List<MapEntry<String, Map<String, dynamic>>> _suggestions = [];
   bool _show = false;
 
   static const Color accent = Color(0xFFC5A081);
   static const Color darkText = Color(0xFF2D2926);
-  static const String _allNames =
-      "Silk Blouse, Elegant Dress, Summer Top, Summer Dress, Elegant Top, Casual Shirt, Mini Skirt, Luxury Bag, Oversized Shirt, Crop Top, Silk Blouse, Summer Floral Dress, Elegant Evening Dress, Casual Day Dress, Oversized Shirt, Crop Top, Silk Blouse, Pleated Mini Skirt, A-Line Midi Skirt, Wrap Skirt, Leather Shoulder Bag, Tote Bag, Clutch Evening Bag";
 
   void _search(String query) {
     if (query.trim().isEmpty) {
       setState(() {
-        _names = [];
-        _ids = [];
+        _suggestions = [];
         _show = false;
       });
       return;
@@ -35,20 +31,17 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
     final q = query.toLowerCase().trim();
     final all = ProductCatalog.getAllProducts();
-    final found = <String>[];
-    final foundIds = <String>[];
+    final found = <MapEntry<String, Map<String, dynamic>>>[];
 
     for (final e in all.entries) {
       final v = e.value.toString().toLowerCase();
       if (v.contains(q)) {
-        found.add(e.value['name'] as String? ?? '?');
-        foundIds.add(e.key);
+        found.add(MapEntry(e.key, e.value));
       }
     }
 
     setState(() {
-      _names = found;
-      _ids = foundIds;
+      _suggestions = found;
       _show = found.isNotEmpty;
     });
   }
@@ -57,8 +50,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
     _controller.clear();
     _focusNode.unfocus();
     setState(() {
-      _names = [];
-      _ids = [];
+      _suggestions = [];
       _show = false;
     });
     Navigator.push(context,
@@ -116,8 +108,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                       _controller.clear();
                       _focusNode.unfocus();
                       setState(() {
-                        _names = [];
-                        _ids = [];
+                        _suggestions = [];
                         _show = false;
                       });
                     })
@@ -145,20 +136,49 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
               child: ListView.separated(
                 shrinkWrap: true,
                 padding: const EdgeInsets.symmetric(vertical: 6),
-                itemCount: _names.length > 5 ? 5 : _names.length,
+                itemCount: _suggestions.length > 5 ? 5 : _suggestions.length,
                 separatorBuilder: (_, __) =>
                     const Divider(height: 1, indent: 16, endIndent: 16),
-                itemBuilder: (_, i) => ListTile(
-                  onTap: () => _go(_ids[i]),
-                  title: Text(_names[i],
-                      style: GoogleFonts.comfortaa(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: darkText)),
-                ),
+                itemBuilder: (_, i) {
+                  final e = _suggestions[i];
+                  final product = e.value;
+                  final images = List<String>.from(product['images'] ?? []);
+                  final image = images.isNotEmpty ? images.first : '';
+                  final name = product['name'] ?? '';
+                  final price = product['price'] ?? '';
+                  return ListTile(
+                    onTap: () => _go(e.key),
+                    leading: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.asset(
+                        image,
+                        width: 44,
+                        height: 56,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          width: 44,
+                          height: 56,
+                          color: Colors.grey[200],
+                          child: const Icon(Icons.image,
+                              size: 24, color: Colors.grey),
+                        ),
+                      ),
+                    ),
+                    title: Text(name,
+                        style: GoogleFonts.comfortaa(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: darkText)),
+                    trailing: Text(price,
+                        style: GoogleFonts.comfortaa(
+                            fontSize: 13,
+                            fontWeight: FontWeight.bold,
+                            color: accent)),
+                  );
+                },
               ),
             ),
-            if (_names.length > 5)
+            if (_suggestions.length > 5)
               Padding(
                 padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
                 child: SizedBox(
@@ -175,7 +195,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                           MaterialPageRoute(
                               builder: (_) => SearchResultsPage(query: q)));
                     },
-                    child: Text('View all ${_names.length} results',
+                    child: Text('View all ${_suggestions.length} results',
                         style: GoogleFonts.comfortaa(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,

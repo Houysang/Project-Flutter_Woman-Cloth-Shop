@@ -589,20 +589,10 @@ class _MenuContent extends StatelessWidget {
                           item.label,
                           style: GoogleFonts.comfortaa(
                             fontSize: 13,
-<<<<<<< HEAD
                             fontWeight: FontWeight.w600,
                             color: item.isDestructive
                                 ? Colors.red
                                 : const Color(0xFF2D2926),
-=======
-                            fontWeight:
-                                isActive ? FontWeight.w700 : FontWeight.w600,
-                            color: isActive
-                                ? const Color(0xFFC5A081)
-                                : (item.isDestructive
-                                    ? Colors.red
-                                    : const Color(0xFF2D2926)),
->>>>>>> 9848be0d54f1f85393ac806b6de452062ddea5a0
                           ),
                         ),
                       ],
