@@ -35,16 +35,8 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
       _selectedIndex = index;
     });
 
-    final routes = ['/shop', '/wishlist', '/cart', '/profileuser'];
-    if (index == 3) {
-      Navigator.pushNamed(context, routes[index]);
-    } else {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        routes[index],
-        (route) => route.settings.name == routes[index] || route.isFirst,
-      );
-    }
+    final routes = ['/shop', '/wishlist', '/cart', '/profile'];
+    Navigator.pushNamed(context, routes[index]);
   }
 
   @override
