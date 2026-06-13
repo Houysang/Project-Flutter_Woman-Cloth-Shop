@@ -106,9 +106,9 @@ class _FeaturedCardWidgetState extends State<FeaturedCardWidget> {
               child: Text(
                 _titles[_currentPage],
                 style: GoogleFonts.comfortaa(
-                  fontSize: 24,
-                  color: Colors.white,
+                  fontSize: 20,
                   fontWeight: FontWeight.bold,
+                  color: Color(0xFF2D2926),
                 ),
               ),
             ),

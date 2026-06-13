@@ -18,9 +18,10 @@ class FooterWidget extends StatelessWidget {
         children: [
           Text(
             "NEARY",
-            style: GoogleFonts.cormorantGaramond(
-              fontSize: 28,
+            style: GoogleFonts.comfortaa(
+              fontSize: 20,
               fontWeight: FontWeight.bold,
+              letterSpacing: 3,
             ),
           ),
 

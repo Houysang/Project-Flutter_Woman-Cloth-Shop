@@ -476,9 +476,13 @@ class MenuItemData {
 }
 
 class _MenuContent extends StatelessWidget {
+  final String currentRoute;
   final void Function(MenuItemData) onItemTap;
 
-  const _MenuContent({required this.onItemTap});
+  const _MenuContent({
+    this.currentRoute = '/shop',
+    required this.onItemTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -533,14 +537,16 @@ class _MenuContent extends StatelessWidget {
               itemCount: items.length,
               itemBuilder: (context, i) {
                 final item = items[i];
+                final isActive = item.route == currentRoute;
                 return GestureDetector(
                   onTap: () => onItemTap(item),
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
                     margin: const EdgeInsets.only(bottom: 6),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: isActive ? const Color(0xFFC5A081).withOpacity(0.1) : Colors.white,
                       borderRadius: BorderRadius.circular(12),
+                      border: isActive ? Border.all(color: const Color(0xFFC5A081).withOpacity(0.3)) : null,
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -548,15 +554,19 @@ class _MenuContent extends StatelessWidget {
                         Icon(
                           item.icon,
                           size: 18,
-                          color: item.isDestructive ? Colors.red : const Color(0xFFC5A081),
+                          color: isActive 
+                            ? const Color(0xFFC5A081) 
+                            : (item.isDestructive ? Colors.red : const Color(0xFFC5A081).withOpacity(0.6)),
                         ),
                         const SizedBox(width: 12),
                         Text(
                           item.label,
                           style: GoogleFonts.comfortaa(
                             fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: item.isDestructive ? Colors.red : const Color(0xFF2D2926),
+                            fontWeight: isActive ? FontWeight.w700 : FontWeight.w600,
+                            color: isActive 
+                              ? const Color(0xFFC5A081) 
+                              : (item.isDestructive ? Colors.red : const Color(0xFF2D2926)),
                           ),
                         ),
                       ],

@@ -14,9 +14,10 @@ class OrderReviewSection extends StatelessWidget {
       children: [
         Text(
           'Review Order',
-          style: GoogleFonts.playfairDisplay(
-            fontSize: 20,
+          style: GoogleFonts.comfortaa(
+            fontSize: 16,
             fontWeight: FontWeight.w700,
+            letterSpacing: 0.5,
           ),
         ),
         const SizedBox(height: 16),

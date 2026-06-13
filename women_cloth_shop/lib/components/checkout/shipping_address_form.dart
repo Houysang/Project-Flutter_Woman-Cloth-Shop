@@ -42,9 +42,10 @@ class ShippingAddressForm extends StatelessWidget {
         const SizedBox(height: 14),
         Text(
           'Shipping Address',
-          style: GoogleFonts.playfairDisplay(
-            fontSize: 20,
+          style: GoogleFonts.comfortaa(
+            fontSize: 16,
             fontWeight: FontWeight.w700,
+            letterSpacing: 0.5,
           ),
         ),
 

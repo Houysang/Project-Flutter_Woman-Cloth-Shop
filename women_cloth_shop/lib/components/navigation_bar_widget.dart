@@ -50,10 +50,10 @@ class NavigationBarWidget extends StatelessWidget {
                 children: [
                   Text(
                     "NEARY",
-                    style: GoogleFonts.cormorantGaramond(
-                      fontSize: 28,
+                    style: GoogleFonts.comfortaa(
+                      fontSize: 22,
                       fontWeight: FontWeight.w700,
-                      letterSpacing: 3,
+                      letterSpacing: 4,
                       color: darkText,
                       height: 1.1,
                     ),

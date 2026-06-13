@@ -95,8 +95,8 @@ class _InterestedPageState extends State<InterestedPage> {
               Text(
                 "Tell us your style",
                 textAlign: TextAlign.center,
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 27,
+                style: GoogleFonts.comfortaa(
+                  fontSize: 24,
                   fontWeight: FontWeight.w700,
                   color: dark,
                   height: 1.2,
@@ -107,8 +107,8 @@ class _InterestedPageState extends State<InterestedPage> {
 
               Text(
                 "Pick what you love, we'll do the rest",
-                style: GoogleFonts.poppins(
-                  fontSize: 13,
+                style: GoogleFonts.comfortaa(
+                  fontSize: 12,
                   color: Colors.black45,
                 ),
               ),
@@ -171,7 +171,7 @@ class _InterestedPageState extends State<InterestedPage> {
                               const SizedBox(width: 8),
                               Text(
                                 item.name,
-                                style: GoogleFonts.poppins(
+                                style: GoogleFonts.comfortaa(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
                                   color: sel ? Colors.white : dark,
@@ -201,7 +201,7 @@ class _InterestedPageState extends State<InterestedPage> {
                     ),
                     child: Text(
                       "${_selected.length} style${_selected.length > 1 ? 's' : ''} selected",
-                      style: GoogleFonts.poppins(
+                      style: GoogleFonts.comfortaa(
                         fontSize: 12,
                         color: accent,
                         fontWeight: FontWeight.w600,
@@ -231,7 +231,7 @@ class _InterestedPageState extends State<InterestedPage> {
                   ),
                   child: Text(
                     _selected.isNotEmpty ? "Let's Go!" : "Pick your styles",
-                    style: GoogleFonts.poppins(
+                    style: GoogleFonts.comfortaa(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.5,
@@ -248,7 +248,7 @@ class _InterestedPageState extends State<InterestedPage> {
                     context, '/shop', (route) => false),
                 child: Text(
                   "Skip, I'll decide later",
-                  style: GoogleFonts.poppins(
+                  style: GoogleFonts.comfortaa(
                     fontSize: 12,
                     color: Colors.black38,
                     fontWeight: FontWeight.w500,
