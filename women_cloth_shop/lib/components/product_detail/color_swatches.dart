@@ -87,9 +87,7 @@ class _ColorSwatchesState extends State<ColorSwatches> {
 
               return GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _selectedColor = colorName;
-                  });
+                  setState(() => _selectedColor = colorName);
                   widget.onColorSelected(colorName);
                 },
                 child: AnimatedContainer(
@@ -98,9 +96,10 @@ class _ColorSwatchesState extends State<ColorSwatches> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      // COLOR CIRCLE
                       Container(
-                        width: 40,
-                        height: 40,
+                        width: 42,
+                        height: 42,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: _hexToColor(colorHex),

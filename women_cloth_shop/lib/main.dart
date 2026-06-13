@@ -15,6 +15,7 @@ import 'screens/tops_page.dart';
 import 'screens/skirts_page.dart';
 import 'screens/bags_page.dart';
 import 'screens/booking_page.dart';
+import 'screens/profile_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,24 +45,7 @@ class MyApp extends StatelessWidget {
         '/bag': (context) => const CartPage(),
         '/checkout': (context) => const CheckoutPage(),
         '/order_confirmation': (context) => const OrderConfirmationPage(),
-        '/booking': (context) => const BookingPage(),
-        '/profile': (context) => Scaffold(
-              appBar: AppBar(
-                title: const Text('Profile'),
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                elevation: 0.5,
-              ),
-              body: const Center(
-                child: Text('Profile page is under construction.'),
-              ),
-              floatingActionButton:
-                  cart.isNotEmpty ? const FloatingCartButton() : null,
-              bottomNavigationBar: AppFooter(
-                currentIndex: 3,
-                onTap: (i) => AppFooter.navigateTo(context, i),
-              ),
-            ),
+        '/profileuser': (context) => ProfilePage(),
       },
       debugShowCheckedModeBanner: false,
     );
