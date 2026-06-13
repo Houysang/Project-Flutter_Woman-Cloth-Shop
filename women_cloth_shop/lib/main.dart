@@ -1,23 +1,33 @@
 import 'package:flutter/material.dart';
-import 'screens/outfit_builder_screen.dart';
+import 'screens/lookbook_screen.dart';
+import 'screens/booking_screen.dart';
+import 'screens/chat_screen.dart';
+import 'screens/map_screen.dart';
 
 void main() {
-  runApp(const OnlyWomenApp());
+  runApp(const OutfitBuilderApp());
 }
 
-class OnlyWomenApp extends StatelessWidget {
-  const OnlyWomenApp({super.key});
+class OutfitBuilderApp extends StatelessWidget {
+  const OutfitBuilderApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'OnlyWomen',
-      theme: ThemeData(
-        fontFamily: 'Georgia',
-        scaffoldBackgroundColor: const Color(0xFFFAF9F6),
-      ),
-      home: const OutfitBuilderScreen(),
+      title: 'Outfit Builder',
+
+      // ✅ START FROM LOOKBOOK (better app flow)
+      home: const LookbookPage(),
+
+      // ✅ START FROM BOOKING PAGE
+      //home: const BookingPage(),
+
+      // ✅ START FROM CHAT PAGE
+      //home: const ChatPage(),
+
+      // ✅ START FROM MAP PAGE
+      //home: const MapPage(),
     );
   }
 }
