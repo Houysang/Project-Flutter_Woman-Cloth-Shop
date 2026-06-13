@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SizeSelector extends StatefulWidget {
-  final List<String> sizes; // ['XS', 'S', 'M', 'L', 'XL']
+  final List<String> sizes;
   final Function(String size) onSizeSelected;
   final String selectedSize;
 
@@ -19,6 +20,9 @@ class SizeSelector extends StatefulWidget {
 class _SizeSelectorState extends State<SizeSelector> {
   late String _selectedSize;
 
+  static const Color accent = Color(0xFFC5A081);
+  static const Color darkText = Color(0xFF2D2926);
+
   @override
   void initState() {
     super.initState();
@@ -33,26 +37,43 @@ class _SizeSelectorState extends State<SizeSelector> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               'Size',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              style: GoogleFonts.comfortaa(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: darkText,
+              ),
             ),
             GestureDetector(
               onTap: () => _showSizeGuide(context),
-              child: Text(
-                'Size Guide',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.brown[400],
-                  decoration: TextDecoration.underline,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: accent.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.straighten, size: 14, color: accent),
+                    const SizedBox(width: 4),
+                    Text(
+                      'Size Guide',
+                      style: GoogleFonts.comfortaa(
+                        fontSize: 11,
+                        color: accent,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         SizedBox(
-          height: 55, // smaller height
+          height: 50,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.sizes.length,
@@ -67,27 +88,36 @@ class _SizeSelectorState extends State<SizeSelector> {
                   });
                   widget.onSizeSelected(size);
                 },
-                child: Container(
-                  width: 45,
-                  height: 45,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  width: 48,
+                  height: 48,
                   margin: const EdgeInsets.only(right: 10),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: isSelected ? Colors.brown : Colors.grey[300]!,
+                      color: isSelected ? accent : Colors.grey[300]!,
                       width: isSelected ? 2 : 1,
                     ),
-                    borderRadius: BorderRadius.circular(6),
-                    color: isSelected ? Colors.brown[50] : Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                    color: isSelected ? accent : Colors.white,
+                    boxShadow: isSelected
+                        ? [
+                            BoxShadow(
+                              color: accent.withOpacity(0.25),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2),
+                            ),
+                          ]
+                        : [],
                   ),
                   child: Center(
                     child: Text(
                       size,
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: isSelected
-                            ? FontWeight.w700
-                            : FontWeight.w500,
-                        color: isSelected ? Colors.brown : Colors.grey[700],
+                      style: GoogleFonts.comfortaa(
+                        fontSize: 13,
+                        fontWeight:
+                            isSelected ? FontWeight.w700 : FontWeight.w500,
+                        color: isSelected ? Colors.white : Colors.grey[700],
                       ),
                     ),
                   ),
@@ -104,103 +134,87 @@ class _SizeSelectorState extends State<SizeSelector> {
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (context) {
         return Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Size Guide',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(height: 12),
-              Table(
-                border: TableBorder.all(color: Colors.grey[300]!),
-                columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(1),
-                  2: FlexColumnWidth(1),
-                },
+              Row(
                 children: [
-                  TableRow(
-                    decoration: BoxDecoration(color: Colors.brown[50]),
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          'Size',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          'Chest',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          'Length',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ],
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: accent.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(Icons.straighten, color: accent, size: 20),
                   ),
-                  const TableRow(
-                    children: [
-                      Padding(padding: EdgeInsets.all(8), child: Text('XS')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('32"')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('35"')),
-                    ],
-                  ),
-                  const TableRow(
-                    children: [
-                      Padding(padding: EdgeInsets.all(8), child: Text('S')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('34"')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('36"')),
-                    ],
-                  ),
-                  const TableRow(
-                    children: [
-                      Padding(padding: EdgeInsets.all(8), child: Text('M')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('36"')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('37"')),
-                    ],
-                  ),
-                  const TableRow(
-                    children: [
-                      Padding(padding: EdgeInsets.all(8), child: Text('L')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('38"')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('38"')),
-                    ],
-                  ),
-                  const TableRow(
-                    children: [
-                      Padding(padding: EdgeInsets.all(8), child: Text('XL')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('40"')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('39"')),
-                    ],
+                  const SizedBox(width: 12),
+                  Text(
+                    'Size Guide',
+                    style: GoogleFonts.comfortaa(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: darkText,
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: Colors.grey[200]!),
+                ),
+                child: Table(
+                  border: TableBorder.all(color: Colors.grey[200]!),
+                  columnWidths: const {
+                    0: FlexColumnWidth(1),
+                    1: FlexColumnWidth(1),
+                    2: FlexColumnWidth(1),
+                  },
+                  children: [
+                    TableRow(
+                      decoration: BoxDecoration(
+                        color: accent.withOpacity(0.08),
+                      ),
+                      children: [
+                        _sizeGuideCell('Size', isHeader: true),
+                        _sizeGuideCell('Chest', isHeader: true),
+                        _sizeGuideCell('Length', isHeader: true),
+                      ],
+                    ),
+                    _sizeRow('XS', '32"', '35"'),
+                    _sizeRow('S', '34"', '36"'),
+                    _sizeRow('M', '36"', '37"'),
+                    _sizeRow('L', '38"', '38"'),
+                    _sizeRow('XL', '40"', '39"'),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.brown,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    backgroundColor: accent,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    elevation: 0,
                   ),
-                  child: const Text(
+                  child: Text(
                     'Close',
-                    style: TextStyle(color: Colors.white),
+                    style: GoogleFonts.comfortaa(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
@@ -208,6 +222,31 @@ class _SizeSelectorState extends State<SizeSelector> {
           ),
         );
       },
+    );
+  }
+
+  Widget _sizeGuideCell(String text, {bool isHeader = false}) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: GoogleFonts.comfortaa(
+          fontSize: 12,
+          fontWeight: isHeader ? FontWeight.w700 : FontWeight.w500,
+          color: darkText,
+        ),
+      ),
+    );
+  }
+
+  TableRow _sizeRow(String size, String chest, String length) {
+    return TableRow(
+      children: [
+        _sizeGuideCell(size),
+        _sizeGuideCell(chest),
+        _sizeGuideCell(length),
+      ],
     );
   }
 }

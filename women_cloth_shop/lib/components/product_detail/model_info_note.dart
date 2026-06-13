@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ModelInfoNote extends StatelessWidget {
   final String modelHeight;
@@ -10,37 +11,46 @@ class ModelInfoNote extends StatelessWidget {
     required this.modelSize,
   });
 
+  static const Color accent = Color(0xFFC5A081);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.brown[50],
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(color: Colors.brown[200]!),
+        color: accent.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: accent.withOpacity(0.15)),
       ),
       child: Row(
         children: [
-          Icon(Icons.info_outline, color: Colors.brown[600], size: 18),
-          const SizedBox(width: 8),
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.info_outline, color: accent, size: 18),
+          ),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Model Info',
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
+                  style: GoogleFonts.comfortaa(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF2D2926),
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: 3),
                 Text(
-                  'Height: $modelHeight | Wearing Size: $modelSize',
-                  style: TextStyle(
+                  'Height: $modelHeight  •  Wearing Size: $modelSize',
+                  style: GoogleFonts.comfortaa(
                     fontSize: 11,
-                    color: Colors.grey[700],
+                    color: Colors.black54,
                     height: 1.3,
                   ),
                 ),
