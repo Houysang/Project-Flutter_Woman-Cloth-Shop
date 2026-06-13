@@ -14,6 +14,7 @@ import 'screens/dress_page.dart';
 import 'screens/tops_page.dart';
 import 'screens/skirts_page.dart';
 import 'screens/bags_page.dart';
+import 'screens/booking_page.dart';
 import 'screens/profile_page.dart';
 
 void main() {
