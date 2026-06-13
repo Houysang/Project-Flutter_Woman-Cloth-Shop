@@ -528,49 +528,57 @@ class ProductCatalog {
     CustomerReview(
       customerName: 'Sophie Laurent',
       profileImage: 'assets/images/fashion9.jpg',
-      feedback: 'Absolutely in love with this piece! The fabric feels luxurious and the fit is perfect. I\'ve received so many compliments.',
+      feedback:
+          'Absolutely in love with this piece! The fabric feels luxurious and the fit is perfect. I\'ve received so many compliments.',
       rating: 5.0,
     ),
     CustomerReview(
       customerName: 'Emma Chen',
       profileImage: 'assets/images/fashion7.jpg',
-      feedback: 'Great quality for the price. The material is soft and comfortable. Will definitely be ordering more from this collection.',
+      feedback:
+          'Great quality for the price. The material is soft and comfortable. Will definitely be ordering more from this collection.',
       rating: 4.5,
     ),
     CustomerReview(
       customerName: 'Olivia Martinez',
       profileImage: 'assets/images/fashion8.jpg',
-      feedback: 'Stylish and versatile, I can dress it up or down. The craftsmanship is top-notch. Highly recommend!',
+      feedback:
+          'Stylish and versatile, I can dress it up or down. The craftsmanship is top-notch. Highly recommend!',
       rating: 5.0,
     ),
     CustomerReview(
       customerName: 'Isabella Kim',
       profileImage: 'assets/images/fashion10.jpg',
-      feedback: 'The color is even more beautiful in person. Perfect for summer outings. Shipping was fast too!',
+      feedback:
+          'The color is even more beautiful in person. Perfect for summer outings. Shipping was fast too!',
       rating: 4.5,
     ),
     CustomerReview(
       customerName: 'Mia Johnson',
       profileImage: 'assets/images/fashion6.jpg',
-      feedback: 'This exceeded my expectations. The tailoring is impeccable and the design is timeless.',
+      feedback:
+          'This exceeded my expectations. The tailoring is impeccable and the design is timeless.',
       rating: 5.0,
     ),
     CustomerReview(
       customerName: 'Ava Thompson',
       profileImage: 'assets/images/fashion5.jpg',
-      feedback: 'Very elegant and classy. True to size and the material feels premium. A great addition to my wardrobe.',
+      feedback:
+          'Very elegant and classy. True to size and the material feels premium. A great addition to my wardrobe.',
       rating: 4.5,
     ),
     CustomerReview(
       customerName: 'Charlotte Davis',
       profileImage: 'assets/images/fashion7.jpg',
-      feedback: 'Beautiful design and excellent quality. The stitching details are gorgeous. Worth every penny!',
+      feedback:
+          'Beautiful design and excellent quality. The stitching details are gorgeous. Worth every penny!',
       rating: 5.0,
     ),
     CustomerReview(
       customerName: 'Amelia Wilson',
       profileImage: 'assets/images/fashion9.jpg',
-      feedback: 'So comfortable and chic! I love how it fits. Already planning to buy it in another color.',
+      feedback:
+          'So comfortable and chic! I love how it fits. Already planning to buy it in another color.',
       rating: 4.5,
     ),
   ];
@@ -614,6 +622,10 @@ class ProductCatalog {
     return indices.map((i) => _allReviews[i]).toList();
   }
 
+  static Map<String, Map<String, dynamic>> getAllProducts() {
+    return Map.from(_products);
+  }
+
   static Map<String, dynamic> getById(String productId) {
     final product = _products[productId];
     if (product == null) {
@@ -622,10 +634,8 @@ class ProductCatalog {
 
     return {
       ...product,
-      'relatedItems': _relatedItems
-          .where((item) => item.id != productId)
-          .take(3)
-          .toList(),
+      'relatedItems':
+          _relatedItems.where((item) => item.id != productId).take(3).toList(),
       'customerReviews': getReviewsForProduct(productId),
     };
   }
