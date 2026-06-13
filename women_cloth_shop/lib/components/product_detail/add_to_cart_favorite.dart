@@ -193,12 +193,12 @@ class _AddToCartFavoriteState extends State<AddToCartFavorite> {
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   color: widget.isFavorited
-                      ? Colors.red.withOpacity(0.08)
+                      ? Colors.red.withValues(alpha: 0.08)
                       : Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: widget.isFavorited
-                        ? Colors.red.withOpacity(0.2)
+                        ? Colors.red.withValues(alpha: 0.2)
                         : Colors.grey[300]!,
                   ),
                 ),

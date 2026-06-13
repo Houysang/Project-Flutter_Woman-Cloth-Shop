@@ -26,17 +26,26 @@ class _MapPickerPageState extends State<MapPickerPage> {
     });
   }
 
-  String _getAreaName(LatLng point) {
-    // Simple realistic mapping (no API needed)
+  /// Returns a clean area/neighborhood name and the city.
+  /// Returns (streetArea, city).
+  (String, String) _getLocationDetails(LatLng point) {
     final lat = point.latitude;
     final lng = point.longitude;
 
     if (lat > 11.58 && lng > 104.88) {
-      return "Toul Kork area";
+      return ("Toul Kork", "Phnom Penh");
+    } else if (lat > 11.565 && lng > 104.9) {
+      return ("Boeung Keng Kang (BKK)", "Phnom Penh");
+    } else if (lat > 11.55 && lng > 104.92) {
+      return ("Daun Penh", "Phnom Penh");
     } else if (lat > 11.54) {
-      return "BKK area";
+      return ("7 Makara", "Phnom Penh");
+    } else if (lat > 11.52) {
+      return ("Chamkar Mon", "Phnom Penh");
+    } else if (lat > 11.48) {
+      return ("Mean Chey", "Phnom Penh");
     } else {
-      return "Phnom Penh area";
+      return ("Phnom Penh", "Phnom Penh");
     }
   }
 
@@ -55,10 +64,9 @@ class _MapPickerPageState extends State<MapPickerPage> {
                   selected = point;
 
                   // ✅ SMART LOCAL AREA DETECTION
-                  final area = _getAreaName(point);
-
-                  address =
-                      "$area (${point.latitude.toStringAsFixed(4)}, ${point.longitude.toStringAsFixed(4)})";
+                  final (area, cityName) = _getLocationDetails(point);
+                  address = area;
+                  city = cityName;
                 });
               },
             ),

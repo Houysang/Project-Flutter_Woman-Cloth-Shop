@@ -19,7 +19,7 @@ class AppFooter extends StatelessWidget {
         route = '/wishlist';
         break;
       case 3:
-        route = '/profile';
+        route = '/profileuser';
         break;
     }
     if (route != null) {

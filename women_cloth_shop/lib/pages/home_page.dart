@@ -70,7 +70,6 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: HomePage.backgroundColor,
       extendBody: true,
       bottomNavigationBar: const GlassBottomNavWidget(),
-
       body: Stack(
         children: [
           SafeArea(
@@ -153,8 +152,7 @@ class _HomePageState extends State<HomePage> {
           ),
 
           // === MENU OVERLAY ===
-          if (_isMenuOpen)
-            const _MenuOverlay(),
+          if (_isMenuOpen) const _MenuOverlay(),
         ],
       ),
     );
@@ -435,15 +433,14 @@ class _MenuOverlay extends StatelessWidget {
                   ),
                   // Menu content
                   Expanded(
-                child: _MenuContent(
-                  currentRoute: '/shop',
-                  onItemTap: (item) {
-                    if (homeState != null) {
-                      homeState._closeMenu();
-                      homeState._onMenuItemTap(item);
-                    }
-                  },
-                ),
+                    child: _MenuContent(
+                      onItemTap: (item) {
+                        if (homeState != null) {
+                          homeState._closeMenu();
+                          homeState._onMenuItemTap(item);
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -484,11 +481,23 @@ class _MenuContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final items = [
       MenuItemData(icon: Icons.home_outlined, label: "Home", route: '/shop'),
-      MenuItemData(icon: Icons.person_outline, label: "Profile Setting", route: '/profile'),
-      MenuItemData(icon: Icons.calendar_today_outlined, label: "Booking", route: '/booking'),
-      MenuItemData(icon: Icons.info_outlined, label: "About Us", route: '/about'),
-      MenuItemData(icon: Icons.mail_outline, label: "Contact", route: '/contact'),
-      MenuItemData(icon: Icons.logout, label: "Logout", route: '/logout', isDestructive: true),
+      MenuItemData(
+          icon: Icons.person_outline,
+          label: "Profile Setting",
+          route: '/profile'),
+      MenuItemData(
+          icon: Icons.calendar_today_outlined,
+          label: "Booking",
+          route: '/booking'),
+      MenuItemData(
+          icon: Icons.info_outlined, label: "About Us", route: '/about'),
+      MenuItemData(
+          icon: Icons.mail_outline, label: "Contact", route: '/contact'),
+      MenuItemData(
+          icon: Icons.logout,
+          label: "Logout",
+          route: '/logout',
+          isDestructive: true),
     ];
 
     return Padding(
@@ -508,7 +517,8 @@ class _MenuContent extends StatelessWidget {
                     color: const Color(0xFFC5A081).withOpacity(0.15),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.person, size: 24, color: Color(0xFFC5A081)),
+                  child: const Icon(Icons.person,
+                      size: 24, color: Color(0xFFC5A081)),
                 ),
                 const SizedBox(height: 8),
                 Text(
@@ -536,7 +546,8 @@ class _MenuContent extends StatelessWidget {
                 return GestureDetector(
                   onTap: () => onItemTap(item),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 12),
                     margin: const EdgeInsets.only(bottom: 6),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -548,7 +559,9 @@ class _MenuContent extends StatelessWidget {
                         Icon(
                           item.icon,
                           size: 18,
-                          color: item.isDestructive ? Colors.red : const Color(0xFFC5A081),
+                          color: item.isDestructive
+                              ? Colors.red
+                              : const Color(0xFFC5A081),
                         ),
                         const SizedBox(width: 12),
                         Text(
@@ -556,7 +569,9 @@ class _MenuContent extends StatelessWidget {
                           style: GoogleFonts.comfortaa(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
-                            color: item.isDestructive ? Colors.red : const Color(0xFF2D2926),
+                            color: item.isDestructive
+                                ? Colors.red
+                                : const Color(0xFF2D2926),
                           ),
                         ),
                       ],
