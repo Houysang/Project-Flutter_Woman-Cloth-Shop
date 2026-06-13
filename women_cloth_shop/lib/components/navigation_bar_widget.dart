@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NavigationBarWidget extends StatelessWidget {
-  const NavigationBarWidget({super.key});
+  final VoidCallback? onMenuTap;
+
+  const NavigationBarWidget({super.key, this.onMenuTap});
 
   static const Color darkText = Color(0xFF2D2926);
   static const Color accent = Color(0xFFC5A081);
@@ -10,12 +12,12 @@ class NavigationBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      padding: const EdgeInsets.only(right: 20, top: 12, bottom: 12),
       child: Row(
         children: [
           // Menu icon
           GestureDetector(
-            onTap: () => Scaffold.of(context).openDrawer(),
+            onTap: onMenuTap,
             child: Container(
               height: 40,
               width: 40,
@@ -33,9 +35,7 @@ class NavigationBarWidget extends StatelessWidget {
               child: const Icon(Icons.menu_rounded, color: darkText, size: 20),
             ),
           ),
-
           const Spacer(),
-
           // Brand logo
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -43,10 +43,7 @@ class NavigationBarWidget extends StatelessWidget {
               Container(
                 width: 6,
                 height: 6,
-                decoration: const BoxDecoration(
-                  // color: accent,
-                  shape: BoxShape.circle,
-                ),
+                decoration: const BoxDecoration(shape: BoxShape.circle),
               ),
               const SizedBox(width: 10),
               Column(
@@ -76,17 +73,11 @@ class NavigationBarWidget extends StatelessWidget {
               Container(
                 width: 6,
                 height: 6,
-                decoration: const BoxDecoration(
-                  // color: accent,
-                  shape: BoxShape.circle,
-                ),
+                decoration: const BoxDecoration(shape: BoxShape.circle),
               ),
             ],
           ),
-
           const Spacer(),
-
-          // Empty space for balance (to keep the logo centered)
           const SizedBox(width: 40),
         ],
       ),
