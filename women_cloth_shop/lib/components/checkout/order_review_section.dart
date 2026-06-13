@@ -18,15 +18,9 @@ class OrderReviewSection extends StatelessWidget {
         Text(
           'Review Order',
           style: GoogleFonts.comfortaa(
-<<<<<<< HEAD
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 0.5,
-=======
             fontSize: 18,
             fontWeight: FontWeight.w700,
             color: darkText,
->>>>>>> c7c26041bded06e1697c5920d16d795020cbd8dd
           ),
         ),
 
