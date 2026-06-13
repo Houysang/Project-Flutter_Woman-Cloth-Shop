@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
       return;
     }
     try {
-      Navigator.pushReplacementNamed(context, item.route);
+      Navigator.pushNamed(context, item.route);
     } catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -555,9 +555,14 @@ class _MenuContent extends StatelessWidget {
                         vertical: 12, horizontal: 12),
                     margin: const EdgeInsets.only(bottom: 6),
                     decoration: BoxDecoration(
-                      color: isActive ? const Color(0xFFC5A081).withOpacity(0.1) : Colors.white,
+                      color: isActive
+                          ? const Color(0xFFC5A081).withOpacity(0.1)
+                          : Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      border: isActive ? Border.all(color: const Color(0xFFC5A081).withOpacity(0.3)) : null,
+                      border: isActive
+                          ? Border.all(
+                              color: const Color(0xFFC5A081).withOpacity(0.3))
+                          : null,
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -565,32 +570,22 @@ class _MenuContent extends StatelessWidget {
                         Icon(
                           item.icon,
                           size: 18,
-<<<<<<< HEAD
-                          color: isActive 
-                            ? const Color(0xFFC5A081) 
-                            : (item.isDestructive ? Colors.red : const Color(0xFFC5A081).withOpacity(0.6)),
-=======
                           color: item.isDestructive
                               ? Colors.red
                               : const Color(0xFFC5A081),
->>>>>>> c7c26041bded06e1697c5920d16d795020cbd8dd
                         ),
                         const SizedBox(width: 12),
                         Text(
                           item.label,
                           style: GoogleFonts.comfortaa(
                             fontSize: 13,
-<<<<<<< HEAD
-                            fontWeight: isActive ? FontWeight.w700 : FontWeight.w600,
-                            color: isActive 
-                              ? const Color(0xFFC5A081) 
-                              : (item.isDestructive ? Colors.red : const Color(0xFF2D2926)),
-=======
-                            fontWeight: FontWeight.w600,
-                            color: item.isDestructive
-                                ? Colors.red
-                                : const Color(0xFF2D2926),
->>>>>>> c7c26041bded06e1697c5920d16d795020cbd8dd
+                            fontWeight:
+                                isActive ? FontWeight.w700 : FontWeight.w600,
+                            color: isActive
+                                ? const Color(0xFFC5A081)
+                                : (item.isDestructive
+                                    ? Colors.red
+                                    : const Color(0xFF2D2926)),
                           ),
                         ),
                       ],

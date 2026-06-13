@@ -63,32 +63,6 @@ class ShippingAddressForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 14),
-        Text(
-          'Shipping Address',
-          style: GoogleFonts.comfortaa(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 0.5,
-          ),
-        ),
-
-        const SizedBox(height: 14),
-
-        // Name row
-        Row(
-          children: [
-            Expanded(
-              child: TextFormField(
-                controller: firstNameCtrl,
-                decoration: _inputStyle('First Name'),
-                validator: (v) => v?.trim().isEmpty ?? true ? 'Required' : null,
-              ),
-=======
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -111,7 +85,6 @@ class ShippingAddressForm extends StatelessWidget {
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: darkText,
->>>>>>> c7c26041bded06e1697c5920d16d795020cbd8dd
             ),
           ),
 
