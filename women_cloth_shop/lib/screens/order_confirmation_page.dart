@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../components/app_footer.dart';
+import '../components/glass_bottom_nav_widget.dart';
 import '../components/floating_cart_button.dart';
 import '../models/cart_store.dart';
 import '../screens/order_history_page.dart';
@@ -558,10 +558,7 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage>
         ],
       ),
       floatingActionButton: cart.isNotEmpty ? const FloatingCartButton() : null,
-      bottomNavigationBar: AppFooter(
-        currentIndex: 0,
-        onTap: (i) => AppFooter.navigateTo(context, i),
-      ),
+      bottomNavigationBar: const GlassBottomNavWidget(),
     );
   }
 }

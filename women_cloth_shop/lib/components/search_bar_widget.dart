@@ -14,58 +14,55 @@ class SearchBarWidget extends StatefulWidget {
 class _SearchBarWidgetState extends State<SearchBarWidget> {
   final _controller = TextEditingController();
   final _focusNode = FocusNode();
-  List<MapEntry<String, Map<String, dynamic>>> _suggestions = [];
-  bool _showDropdown = false;
+  List<String> _names = [];
+  List<String> _ids = [];
+  bool _show = false;
 
   static const Color accent = Color(0xFFC5A081);
   static const Color darkText = Color(0xFF2D2926);
+  static const String _allNames =
+      "Silk Blouse, Elegant Dress, Summer Top, Summer Dress, Elegant Top, Casual Shirt, Mini Skirt, Luxury Bag, Oversized Shirt, Crop Top, Silk Blouse, Summer Floral Dress, Elegant Evening Dress, Casual Day Dress, Oversized Shirt, Crop Top, Silk Blouse, Pleated Mini Skirt, A-Line Midi Skirt, Wrap Skirt, Leather Shoulder Bag, Tote Bag, Clutch Evening Bag";
 
-  void _onSearchChanged(String query) {
-    final lowerQuery = query.toLowerCase().trim();
-    if (lowerQuery.isEmpty) {
-      if (mounted) {
-        setState(() {
-          _suggestions = [];
-          _showDropdown = false;
-        });
-      }
+  void _search(String query) {
+    if (query.trim().isEmpty) {
+      setState(() {
+        _names = [];
+        _ids = [];
+        _show = false;
+      });
       return;
     }
 
+    final q = query.toLowerCase().trim();
     final all = ProductCatalog.getAllProducts();
-    if (all.isEmpty) return;
+    final found = <String>[];
+    final foundIds = <String>[];
 
-    final List<MapEntry<String, Map<String, dynamic>>> found = [];
-
-    for (final entry in all.entries) {
-      // Convert product data to a single lowercase string and search it all
-      final dataStr = entry.value.toString().toLowerCase();
-      if (dataStr.contains(lowerQuery)) {
-        found.add(MapEntry(entry.key, entry.value));
+    for (final e in all.entries) {
+      final v = e.value.toString().toLowerCase();
+      if (v.contains(q)) {
+        found.add(e.value['name'] as String? ?? '?');
+        foundIds.add(e.key);
       }
     }
 
-    if (mounted) {
-      setState(() {
-        _suggestions = found;
-        _showDropdown = found.isNotEmpty;
-      });
-    }
+    setState(() {
+      _names = found;
+      _ids = foundIds;
+      _show = found.isNotEmpty;
+    });
   }
 
-  void _goToProduct(String productId) {
+  void _go(String id) {
     _controller.clear();
     _focusNode.unfocus();
     setState(() {
-      _suggestions = [];
-      _showDropdown = false;
+      _names = [];
+      _ids = [];
+      _show = false;
     });
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => ProductDetailPage(productId: productId),
-      ),
-    );
+    Navigator.push(context,
+        MaterialPageRoute(builder: (_) => ProductDetailPage(productId: id)));
   }
 
   @override
@@ -77,161 +74,117 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
+    return Column(mainAxisSize: MainAxisSize.min, children: [
+      Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: const [
+            BoxShadow(
+                color: Colors.black12, blurRadius: 10, offset: Offset(0, 5))
+          ],
+        ),
+        child: TextField(
+          controller: _controller,
+          focusNode: _focusNode,
+          onChanged: _search,
+          textInputAction: TextInputAction.search,
+          decoration: InputDecoration(
+            prefixIcon: IconButton(
+              icon: const Icon(Icons.search, color: accent),
+              onPressed: () {
+                if (_controller.text.trim().isNotEmpty) {
+                  setState(() {
+                    _show = false;
+                  });
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => SearchResultsPage(
+                              query: _controller.text.trim())));
+                }
+              },
+            ),
+            hintText: "Search collections...",
+            hintStyle: GoogleFonts.comfortaa(fontSize: 13, color: Colors.grey),
+            border: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(vertical: 15),
+            suffixIcon: _controller.text.isNotEmpty
+                ? IconButton(
+                    icon: const Icon(Icons.close, size: 18, color: Colors.grey),
+                    onPressed: () {
+                      _controller.clear();
+                      _focusNode.unfocus();
+                      setState(() {
+                        _names = [];
+                        _ids = [];
+                        _show = false;
+                      });
+                    })
+                : null,
+          ),
+          style: GoogleFonts.comfortaa(fontSize: 13),
+        ),
+      ),
+      if (_show)
         Container(
+          margin: const EdgeInsets.only(top: 4),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(15),
-            boxShadow: const [
+            boxShadow: [
               BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10,
-                offset: Offset(0, 5),
-              ),
-            ],
-          ),
-          child: TextField(
-            controller: _controller,
-            focusNode: _focusNode,
-            onChanged: _onSearchChanged,
-            textInputAction: TextInputAction.search,
-            decoration: InputDecoration(
-              prefixIcon: const Icon(Icons.search, color: accent),
-              hintText: "Search collections...",
-              hintStyle:
-                  GoogleFonts.comfortaa(fontSize: 13, color: Colors.grey),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(vertical: 15),
-              suffixIcon: _controller.text.isNotEmpty
-                  ? IconButton(
-                      icon:
-                          const Icon(Icons.close, size: 18, color: Colors.grey),
-                      onPressed: () {
-                        _controller.clear();
-                        _focusNode.unfocus();
-                        setState(() {
-                          _suggestions = [];
-                          _showDropdown = false;
-                        });
-                      },
-                    )
-                  : null,
-            ),
-            style: GoogleFonts.comfortaa(fontSize: 13),
-          ),
-        ),
-
-        // Live suggestions dropdown
-        if (_showDropdown)
-          Container(
-            margin: const EdgeInsets.only(top: 4),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
                   color: Colors.black.withValues(alpha: 0.08),
                   blurRadius: 16,
-                  offset: const Offset(0, 6),
+                  offset: const Offset(0, 6))
+            ],
+          ),
+          constraints: const BoxConstraints(maxHeight: 300),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Flexible(
+              child: ListView.separated(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                itemCount: _names.length > 5 ? 5 : _names.length,
+                separatorBuilder: (_, __) =>
+                    const Divider(height: 1, indent: 16, endIndent: 16),
+                itemBuilder: (_, i) => ListTile(
+                  onTap: () => _go(_ids[i]),
+                  title: Text(_names[i],
+                      style: GoogleFonts.comfortaa(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: darkText)),
                 ),
-              ],
+              ),
             ),
-            constraints: const BoxConstraints(maxHeight: 320),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: ListView.separated(
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(vertical: 6),
-                    itemCount:
-                        _suggestions.length > 5 ? 5 : _suggestions.length,
-                    separatorBuilder: (_, __) =>
-                        const Divider(height: 1, indent: 16, endIndent: 16),
-                    itemBuilder: (_, i) {
-                      final entry = _suggestions[i];
-                      final product = entry.value;
-                      final images = List<String>.from(product['images'] ?? []);
-                      final image = images.isNotEmpty ? images.first : '';
-                      final name = product['name'] ?? '';
-                      final price = product['price'] ?? '';
-
-                      return ListTile(
-                        onTap: () => _goToProduct(entry.key),
-                        leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.asset(
-                            image,
-                            width: 40,
-                            height: 50,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) =>
-                                Container(
-                              width: 40,
-                              height: 50,
-                              color: Colors.grey[200],
-                              child: const Icon(Icons.image,
-                                  size: 20, color: Colors.grey),
-                            ),
-                          ),
-                        ),
-                        title: Text(
-                          name,
-                          style: GoogleFonts.comfortaa(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: darkText,
-                          ),
-                        ),
-                        trailing: Text(
-                          price,
-                          style: GoogleFonts.comfortaa(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: accent,
-                          ),
-                        ),
-                      );
+            if (_names.length > 5)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(12, 2, 12, 6),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: TextButton(
+                    onPressed: () {
+                      _focusNode.unfocus();
+                      final q = _controller.text.trim();
+                      setState(() {
+                        _show = false;
+                      });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => SearchResultsPage(query: q)));
                     },
-                  ),
-                ),
-                // View all results button
-                if (_suggestions.length > 5)
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 4, 12, 8),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextButton(
-                        onPressed: () {
-                          _focusNode.unfocus();
-                          setState(() {
-                            _showDropdown = false;
-                          });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => SearchResultsPage(
-                                  query: _controller.text.trim()),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'View all ${_suggestions.length} results',
-                          style: GoogleFonts.comfortaa(
+                    child: Text('View all ${_names.length} results',
+                        style: GoogleFonts.comfortaa(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: accent,
-                          ),
-                        ),
-                      ),
-                    ),
+                            color: accent)),
                   ),
-              ],
-            ),
-          ),
-      ],
-    );
+                ),
+              ),
+          ]),
+        ),
+    ]);
   }
 }

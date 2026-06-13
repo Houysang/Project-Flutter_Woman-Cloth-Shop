@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../data/product_catalog.dart';
 import '../models/product.dart';
 import '../screens/product_detail_page.dart';
-import '../components/app_footer.dart';
+import '../components/glass_bottom_nav_widget.dart';
 
 class SearchResultsPage extends StatefulWidget {
   final String query;
@@ -248,13 +248,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
           ),
         ],
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: AppFooter(
-          currentIndex: 0,
-          onTap: (i) => AppFooter.navigateTo(context, i),
-        ),
-      ),
+      bottomNavigationBar: const GlassBottomNavWidget(),
     );
   }
 }
