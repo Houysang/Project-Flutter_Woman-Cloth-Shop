@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../components/app_footer.dart';
+import '../components/glass_bottom_nav_widget.dart';
 import '../models/cart_store.dart';
 
 class CartPage extends StatefulWidget {
@@ -18,10 +18,6 @@ class _CartPageState extends State<CartPage> {
   void _removeItem(String id, String color, String size) {
     removeFromCart(id, color, size);
     setState(() {});
-  }
-
-  void _handleFooterTap(int index) {
-    AppFooter.navigateTo(context, index);
   }
 
   double get subtotal {
@@ -50,13 +46,11 @@ class _CartPageState extends State<CartPage> {
           ),
         ),
       ),
-
-      // ✅ IMPORTANT FIX: SCROLL FIX
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // ================= CART ITEMS =================
+            // CART ITEMS
             if (cart.isEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 50),
@@ -83,7 +77,7 @@ class _CartPageState extends State<CartPage> {
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: Colors.black.withValues(alpha: 0.05),
                           blurRadius: 8,
                           offset: const Offset(0, 3),
                         ),
@@ -92,7 +86,6 @@ class _CartPageState extends State<CartPage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // IMAGE
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Image.asset(
@@ -102,10 +95,7 @@ class _CartPageState extends State<CartPage> {
                             fit: BoxFit.cover,
                           ),
                         ),
-
                         const SizedBox(width: 12),
-
-                        // NAME + PRICE + COLOR + SIZE
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,8 +122,6 @@ class _CartPageState extends State<CartPage> {
                             ],
                           ),
                         ),
-
-                        // ================= YOUR - 1 + (UNCHANGED) =================
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -190,7 +178,7 @@ class _CartPageState extends State<CartPage> {
 
             const SizedBox(height: 20),
 
-            // ================= ORDER SUMMARY =================
+            // ORDER SUMMARY
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
@@ -233,10 +221,7 @@ class _CartPageState extends State<CartPage> {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 16),
-
-                  // ================= CHECKOUT BUTTON (ADDED BACK) =================
                   ElevatedButton(
                     onPressed: cart.isEmpty
                         ? null
@@ -264,11 +249,7 @@ class _CartPageState extends State<CartPage> {
           ],
         ),
       ),
-
-      bottomNavigationBar: AppFooter(
-        currentIndex: 1,
-        onTap: _handleFooterTap,
-      ),
+      bottomNavigationBar: const GlassBottomNavWidget(),
     );
   }
 

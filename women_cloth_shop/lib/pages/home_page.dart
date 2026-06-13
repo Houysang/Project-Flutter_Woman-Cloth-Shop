@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
       return;
     }
     try {
-      Navigator.pushReplacementNamed(context, item.route);
+      Navigator.pushNamed(context, item.route);
     } catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -565,9 +565,14 @@ class _MenuContent extends StatelessWidget {
                         vertical: 12, horizontal: 12),
                     margin: const EdgeInsets.only(bottom: 6),
                     decoration: BoxDecoration(
-                      color: isActive ? const Color(0xFFC5A081).withOpacity(0.1) : Colors.white,
+                      color: isActive
+                          ? const Color(0xFFC5A081).withOpacity(0.1)
+                          : Colors.white,
                       borderRadius: BorderRadius.circular(12),
-                      border: isActive ? Border.all(color: const Color(0xFFC5A081).withOpacity(0.3)) : null,
+                      border: isActive
+                          ? Border.all(
+                              color: const Color(0xFFC5A081).withOpacity(0.3))
+                          : null,
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -584,10 +589,20 @@ class _MenuContent extends StatelessWidget {
                           item.label,
                           style: GoogleFonts.comfortaa(
                             fontSize: 13,
+<<<<<<< HEAD
                             fontWeight: FontWeight.w600,
                             color: item.isDestructive
                                 ? Colors.red
                                 : const Color(0xFF2D2926),
+=======
+                            fontWeight:
+                                isActive ? FontWeight.w700 : FontWeight.w600,
+                            color: isActive
+                                ? const Color(0xFFC5A081)
+                                : (item.isDestructive
+                                    ? Colors.red
+                                    : const Color(0xFF2D2926)),
+>>>>>>> 9848be0d54f1f85393ac806b6de452062ddea5a0
                           ),
                         ),
                       ],

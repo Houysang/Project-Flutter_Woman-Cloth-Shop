@@ -2,7 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class AppFooter extends StatelessWidget {
+class AppFooter extends StatefulWidget {
   final int currentIndex;
   final Function(int) onTap;
 
@@ -15,10 +15,10 @@ class AppFooter extends StatelessWidget {
         route = '/shop';
         break;
       case 1:
-        route = '/cart';
+        route = '/wishlist';
         break;
       case 2:
-        route = '/wishlist';
+        route = '/cart';
         break;
       case 3:
         route = '/profile';
@@ -29,28 +29,31 @@ class AppFooter extends StatelessWidget {
     }
   }
 
+  @override
+  State<AppFooter> createState() => _AppFooterState();
+}
+
+class _AppFooterState extends State<AppFooter> {
   static const Color accent = Color(0xFFC5A081);
   static const Color darkText = Color(0xFF2D2926);
 
+  final List<_NavItem> _navItems = [
+    _NavItem(
+        icon: Icons.store_outlined, activeIcon: Icons.store, label: 'Shop'),
+    _NavItem(
+        icon: Icons.favorite_outline,
+        activeIcon: Icons.favorite,
+        label: 'Wishlist'),
+    _NavItem(
+        icon: Icons.shopping_bag_outlined,
+        activeIcon: Icons.shopping_bag,
+        label: 'Cart'),
+    _NavItem(
+        icon: Icons.person_outline, activeIcon: Icons.person, label: 'Profile'),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final navItems = [
-      _NavItem(
-          icon: Icons.store_outlined, activeIcon: Icons.store, label: 'Shop'),
-      _NavItem(
-          icon: Icons.shopping_bag_outlined,
-          activeIcon: Icons.shopping_bag,
-          label: 'Bag'),
-      _NavItem(
-          icon: Icons.favorite_outline,
-          activeIcon: Icons.favorite,
-          label: 'Wishlist'),
-      _NavItem(
-          icon: Icons.person_outline,
-          activeIcon: Icons.person,
-          label: 'Profile'),
-    ];
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
       child: ClipRRect(
@@ -77,13 +80,13 @@ class AppFooter extends StatelessWidget {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: List.generate(navItems.length, (i) {
-                final item = navItems[i];
-                final isSelected = i == currentIndex;
+              children: List.generate(_navItems.length, (i) {
+                final item = _navItems[i];
+                final isSelected = i == widget.currentIndex;
 
                 return Expanded(
                   child: GestureDetector(
-                    onTap: () => onTap(i),
+                    onTap: () => widget.onTap(i),
                     behavior: HitTestBehavior.opaque,
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 250),

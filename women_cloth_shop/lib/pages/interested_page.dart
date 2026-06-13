@@ -48,7 +48,8 @@ class _InterestedPageState extends State<InterestedPage> {
 
               // Brand pill
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
@@ -147,7 +148,8 @@ class _InterestedPageState extends State<InterestedPage> {
                             color: sel ? accent : Colors.white,
                             borderRadius: BorderRadius.circular(18),
                             border: Border.all(
-                              color: sel ? accent : Colors.black.withOpacity(0.06),
+                              color:
+                                  sel ? accent : Colors.black.withOpacity(0.06),
                               width: sel ? 0 : 1,
                             ),
                             boxShadow: [
@@ -194,7 +196,8 @@ class _InterestedPageState extends State<InterestedPage> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                     decoration: BoxDecoration(
                       color: accent.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(14),

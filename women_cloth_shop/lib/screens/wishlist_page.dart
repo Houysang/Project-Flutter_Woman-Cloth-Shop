@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../models/wishlist_store.dart';
 import '../models/cart_store.dart';
 import '../components/floating_cart_button.dart';
-import '../components/app_footer.dart';
+import '../components/glass_bottom_nav_widget.dart';
 
 class WishlistPage extends StatefulWidget {
   final List<WishlistItem> items;
@@ -87,20 +87,6 @@ class _WishlistPageState extends State<WishlistPage>
         duration: const Duration(seconds: 2),
       ),
     );
-  }
-
-  Future<void> _handleFooterTap(int index) async {
-    setState(() {
-      _selectedFooterIndex = index;
-    });
-
-    await AppFooter.navigateTo(context, index);
-
-    if (index == 2) {
-      setState(() {
-        _items = List.of(wishlist);
-      });
-    }
   }
 
   Widget _buildAmbientCircle(
@@ -311,10 +297,7 @@ class _WishlistPageState extends State<WishlistPage>
         ],
       ),
       floatingActionButton: cart.isNotEmpty ? const FloatingCartButton() : null,
-      bottomNavigationBar: AppFooter(
-        currentIndex: _selectedFooterIndex,
-        onTap: _handleFooterTap,
-      ),
+      bottomNavigationBar: const GlassBottomNavWidget(),
     );
   }
 }
