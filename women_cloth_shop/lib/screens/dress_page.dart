@@ -58,7 +58,7 @@ class DressPage extends StatelessWidget {
         rating: 4.4,
         reviewCount: 98,
       ),
-              Product(
+      Product(
         id: "product_dress_006",
         name: "Casual Day Dress",
         price: "\$59",
@@ -67,7 +67,6 @@ class DressPage extends StatelessWidget {
         reviewCount: 98,
       ),
     ];
-
     return Scaffold(
       backgroundColor: backgroundColor,
       extendBody: true,
