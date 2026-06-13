@@ -1,12 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+void runAddToCartFavoriteExample() {
+  runApp(const MaterialApp(
+    home: Scaffold(
+      body: Center(
+        child: AddToCartFavorite(
+          onAddToCart: _mockAddToCart,
+          onToggleFavorite: _mockToggleFavorite,
+          isFavorited: false,
+          quantity: 1,
+          onQuantityChanged: _mockQuantityChanged,
+        ),
+      ),
+    ),
+  ));
+} 
+
 class AddToCartFavorite extends StatefulWidget {
   final VoidCallback onAddToCart;
   final VoidCallback onToggleFavorite;
   final bool isFavorited;
   final int quantity;
   final ValueChanged<int> onQuantityChanged;
+
+
 
   const AddToCartFavorite({
     super.key,

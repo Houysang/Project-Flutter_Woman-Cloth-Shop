@@ -21,7 +21,7 @@ class AppFooter extends StatefulWidget {
         route = '/cart';
         break;
       case 3:
-        route = '/profileuser';
+        route = '/profile';
         break;
     }
     if (route != null) {

@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         '/bag': (context) => const CartPage(),
         '/checkout': (context) => const CheckoutPage(),
         '/order_confirmation': (context) => const OrderConfirmationPage(),
-        '/profileuser': (context) => ProfilePage(),
+        '/profile': (context) => const ProfilePage(),
       },
       debugShowCheckedModeBanner: false,
     );

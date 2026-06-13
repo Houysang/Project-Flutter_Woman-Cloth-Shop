@@ -9,6 +9,7 @@ import '../components/category_list_widget.dart';
 import '../components/glass_bottom_nav_widget.dart';
 import '../components/category_icons.dart';
 import '../components/filter_bottom_sheet.dart';
+import '../components/menu_overlay_widget.dart';
 
 class DressPage extends StatefulWidget {
   const DressPage({super.key});
@@ -19,6 +20,7 @@ class DressPage extends StatefulWidget {
 
 class _DressPageState extends State<DressPage> {
   PriceFilter _priceFilter = const PriceFilter();
+  bool _isMenuOpen = false;
 
   static const Color backgroundColor = Color(0xFFF9F7F2);
   static const Color accent = Color(0xFFC5A081);
@@ -50,7 +52,7 @@ class _DressPageState extends State<DressPage> {
       reviewCount: 98,
     ),
     Product(
-      id: "product_dress_004",
+      id: "product_dsress_004",
       name: "Elegant Blue Evening Dress",
       price: "\$59",
       image: "../../assets/images/dress4.jpg",
