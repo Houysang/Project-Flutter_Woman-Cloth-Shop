@@ -7,42 +7,82 @@ import '../components/navigation_bar_widget.dart';
 import '../components/search_bar_widget.dart';
 import '../components/category_list_widget.dart';
 import '../components/glass_bottom_nav_widget.dart';
+import '../components/category_icons.dart';
+import '../components/filter_bottom_sheet.dart';
 
-class SkirtsPage extends StatelessWidget {
+class SkirtsPage extends StatefulWidget {
   const SkirtsPage({super.key});
+
+  @override
+  State<SkirtsPage> createState() => _SkirtsPageState();
+}
+
+class _SkirtsPageState extends State<SkirtsPage> {
+  PriceFilter _priceFilter = const PriceFilter();
 
   static const Color backgroundColor = Color(0xFFF9F7F2);
   static const Color accent = Color(0xFFC5A081);
   static const Color darkText = Color(0xFF2D2926);
 
+  List<Product> get allSkirts => const [
+    Product(
+      id: "product_skirt_001",
+      name: "Short Skirt",
+      price: "\$49",
+      image: "../../assets/images/skirt1.webp",
+      rating: 4.5,
+      reviewCount: 87,
+    ),
+    Product(
+      id: "product_skirt_002",
+      name: "Short Skirt",
+      price: "\$59",
+      image: "../../assets/images/skirt2.jpg",
+      rating: 4.3,
+      reviewCount: 72,
+    ),
+    Product(
+      id: "product_skirt_003",
+      name: "Short Skirt",
+      price: "\$44",
+      image: "../../assets/images/skirt3.jpg",
+      rating: 4.6,
+      reviewCount: 115,
+    ),
+    Product(
+      id: "product_skirt_004",
+      name: "long Skirt",
+      price: "\$49",
+      image: "../../assets/images/skirt4.jpg",
+      rating: 4.5,
+      reviewCount: 87,
+    ),
+    Product(
+      id: "product_skirt_005",
+      name: "long Skirt",
+      price: "\$59",
+      image: "../../assets/images/skirt5.jpg",
+      rating: 4.3,
+      reviewCount: 72,
+    ),
+    Product(
+      id: "product_skirt_006",
+      name: "long Skirt",
+      price: "\$44",
+      image: "../../assets/images/skirt6.webp",
+      rating: 4.6,
+      reviewCount: 115,
+    ),
+  ];
+
+  List<Product> get filteredSkirts {
+    if (!_priceFilter.isActive) return allSkirts;
+    return allSkirts.where((p) => _priceFilter.matches(p.priceValue)).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final skirts = [
-      Product(
-        id: "product_skirt_001",
-        name: "Pleated Mini Skirt",
-        price: "\$49",
-        image: "assets/images/style1.png",
-        rating: 4.5,
-        reviewCount: 87,
-      ),
-      Product(
-        id: "product_skirt_002",
-        name: "A-Line Midi Skirt",
-        price: "\$59",
-        image: "assets/images/style2.png",
-        rating: 4.3,
-        reviewCount: 72,
-      ),
-      Product(
-        id: "product_skirt_003",
-        name: "Wrap Skirt",
-        price: "\$44",
-        image: "assets/images/style3.png",
-        rating: 4.6,
-        reviewCount: 115,
-      ),
-    ];
+    final skirts = filteredSkirts;
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -70,8 +110,7 @@ class SkirtsPage extends StatelessWidget {
                       color: accent,
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(
-                      Icons.skateboarding_outlined,
+                    child: const SkirtIcon(
                       color: Colors.white,
                       size: 20,
                     ),
@@ -99,29 +138,44 @@ class SkirtsPage extends StatelessWidget {
                   ),
                   const Spacer(),
                   // Filter chip
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 8,
+                  GestureDetector(
+                    onTap: () => FilterBottomSheet.show(
+                      context,
+                      currentFilter: _priceFilter,
+                      onApply: (filter) => setState(() => _priceFilter = filter),
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.black.withOpacity(0.08)),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.tune, size: 16, color: accent),
-                        const SizedBox(width: 6),
-                        Text(
-                          "Filter",
-                          style: GoogleFonts.comfortaa(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: darkText,
-                          ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
+                      decoration: BoxDecoration(
+                        color: _priceFilter.isActive ? accent : Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: _priceFilter.isActive
+                              ? accent
+                              : Colors.black.withOpacity(0.08),
                         ),
-                      ],
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.tune,
+                            size: 16,
+                            color: _priceFilter.isActive ? Colors.white : accent,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            _priceFilter.isActive ? "Filtered" : "Filter",
+                            style: GoogleFonts.comfortaa(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: _priceFilter.isActive ? Colors.white : darkText,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -131,16 +185,26 @@ class SkirtsPage extends StatelessWidget {
 
               // Product grid
               Expanded(
-                child: MasonryGridView.count(
-                  crossAxisCount: 2,
-                  physics: const BouncingScrollPhysics(),
-                  mainAxisSpacing: 14,
-                  crossAxisSpacing: 14,
-                  itemCount: skirts.length,
-                  itemBuilder: (_, index) {
-                    return ProductCardWidget(product: skirts[index]);
-                  },
-                ),
+                child: skirts.isEmpty
+                    ? Center(
+                        child: Text(
+                          "No products in this price range",
+                          style: GoogleFonts.comfortaa(
+                            fontSize: 14,
+                            color: Colors.black45,
+                          ),
+                        ),
+                      )
+                    : MasonryGridView.count(
+                        crossAxisCount: 2,
+                        physics: const BouncingScrollPhysics(),
+                        mainAxisSpacing: 14,
+                        crossAxisSpacing: 14,
+                        itemCount: skirts.length,
+                        itemBuilder: (_, index) {
+                          return ProductCardWidget(product: skirts[index]);
+                        },
+                      ),
               ),
             ],
           ),
