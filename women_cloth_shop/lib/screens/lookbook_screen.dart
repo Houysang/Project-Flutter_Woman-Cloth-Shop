@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'outfit_builder_screen.dart';
+import 'outfit_builder_page.dart';
 import '../components/navigation_bar_widget.dart';
 import '../components/glass_bottom_nav_widget.dart';
 

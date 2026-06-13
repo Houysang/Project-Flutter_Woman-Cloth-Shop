@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../components/navigation_bar_widget.dart';
 import '../components/glass_bottom_nav_widget.dart';
 
 class BookingPage extends StatefulWidget {
@@ -57,239 +56,243 @@ class _BookingPageState extends State<BookingPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        toolbarHeight: 0,
+        iconTheme: const IconThemeData(color: Color(0xFF2D2926)),
+        title: Text(
+          'Booking',
+          style: GoogleFonts.comfortaa(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF2D2926),
+          ),
+        ),
+        centerTitle: true,
       ),
 
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              NavigationBarWidget(
-                onMenuTap: () => Navigator.maybePop(context),
-              ),
-              const SizedBox(height: 20),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
 
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Stack(
-                  children: [
-                    Image.asset(
-                      "assets/atelier_banner.png",
-                      height: 280,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
-                    Container(
-                      height: 280,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.black.withOpacity(0.05),
-                            Colors.black.withOpacity(0.35),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 22),
-              Text(
-                "The Art of Bespoke Elegance",
-                style: GoogleFonts.cormorantGaramond(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF2D2926),
-                  height: 1.1,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                "Step into a world of unhurried precision. Our atelier sessions are designed for the woman who seeks intention in every silhouette.",
-                style: GoogleFonts.comfortaa(
-                  fontSize: 13,
-                  height: 1.7,
-                  color: const Color(0xFF6E655B),
-                ),
-              ),
-              const SizedBox(height: 24),
-
-              _buildAtelierCard(),
-              const SizedBox(height: 26),
-              Text(
-                "Curated Exclusivity",
-                style: GoogleFonts.comfortaa(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF2D2926),
-                ),
-              ),
-              const SizedBox(height: 14),
-              _buildFeatureRow(
-                "Bespoke curation",
-                "Personalized wardrobe consultation with premium textile selection.",
-              ),
-              _buildFeatureRow(
-                "Precision metrics",
-                "Full body measurements and posture mapping for flawless fit.",
-              ),
-              _buildFeatureRow(
-                "Artisan refreshments",
-                "Champagne and curated tea service during styling.",
-              ),
-              _buildFeatureRow(
-                "Aftercare plan",
-                "Lifetime garment care guidance and styling follow-up.",
-              ),
-              const SizedBox(height: 24),
-
-              Row(
+            ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Stack(
                 children: [
-                  Expanded(
-                    child: _buildSelectionCard(
-                      title: "Select Date",
-                      value: selectedDate == null
-                          ? "Choose"
-                          : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
-                      icon: Icons.date_range,
-                      onTap: pickDate,
-                    ),
+                  Image.asset(
+                    "assets/atelier_banner.png",
+                    height: 280,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
                   ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: _buildSelectionCard(
-                      title: "Time slot",
-                      value: selectedSlot ?? "Pick time",
-                      icon: Icons.access_time,
-                      onTap: () {},
+                  Container(
+                    height: 280,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withOpacity(0.05),
+                          Colors.black.withOpacity(0.35),
+                        ],
+                      ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 18),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: slots.map((slot) {
-                  final isSelected = selectedSlot == slot;
-                  return ChoiceChip(
-                    label: Text(slot),
-                    selected: isSelected,
-                    selectedColor: const Color(0xFF5D4E37),
-                    backgroundColor: Colors.white,
-                    labelStyle: TextStyle(
-                      color: isSelected ? Colors.white : const Color(0xFF4B453F),
-                      fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      side: BorderSide(
-                        color: isSelected
-                            ? Colors.transparent
-                            : const Color(0xFFE2D8CC),
-                      ),
-                    ),
-                    onSelected: (_) => setState(() => selectedSlot = slot),
-                  );
-                }).toList(),
+            ),
+            const SizedBox(height: 22),
+            Text(
+              "The Art of Bespoke Elegance",
+              style: GoogleFonts.cormorantGaramond(
+                fontSize: 32,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF2D2926),
+                height: 1.1,
               ),
-              const SizedBox(height: 28),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.06),
-                      blurRadius: 18,
-                      offset: const Offset(0, 10),
-                    ),
-                  ],
-                ),
-                padding: const EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Appointment Summary",
-                      style: GoogleFonts.comfortaa(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xFF2D2926),
-                      ),
-                    ),
-                    const SizedBox(height: 18),
-                    _buildSummaryRow("Service", "Private Suite Tailoring"),
-                    const SizedBox(height: 10),
-                    _buildSummaryRow("Duration", "120 Minutes"),
-                    const SizedBox(height: 10),
-                    _buildSummaryRow("Stylist", "Evelyn Vane"),
-                    const SizedBox(height: 10),
-                    _buildSummaryRow("Location", "The Atelier Suite, Flagship"),
-                    const SizedBox(height: 10),
-                    _buildSummaryRow(
-                      "Date",
-                      selectedDate == null
-                          ? "Not selected"
-                          : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
-                    ),
-                    const SizedBox(height: 10),
-                    _buildSummaryRow("Time", selectedSlot ?? "Not selected"),
-                    const SizedBox(height: 20),
-                    const Divider(color: Color(0xFFE8E1D6)),
-                    const SizedBox(height: 18),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Total",
-                          style: GoogleFonts.comfortaa(
-                            fontSize: 16,
-                            color: const Color(0xFF6E655B),
-                          ),
-                        ),
-                        Text(
-                          "\$250.00",
-                          style: GoogleFonts.comfortaa(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF2D2926),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 22),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: confirmBooking,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF5D4E37),
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                        ),
-                        child: Text(
-                          "CONFIRM APPOINTMENT",
-                          style: GoogleFonts.comfortaa(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+            ),
+            const SizedBox(height: 12),
+            Text(
+              "Step into a world of unhurried precision. Our atelier sessions are designed for the woman who seeks intention in every silhouette.",
+              style: GoogleFonts.comfortaa(
+                fontSize: 13,
+                height: 1.7,
+                color: const Color(0xFF6E655B),
               ),
-              const SizedBox(height: 20),
-            ],
-          ),
+            ),
+            const SizedBox(height: 24),
+
+            _buildAtelierCard(),
+            const SizedBox(height: 26),
+            Text(
+              "Curated Exclusivity",
+              style: GoogleFonts.comfortaa(
+                fontSize: 16,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF2D2926),
+              ),
+            ),
+            const SizedBox(height: 14),
+            _buildFeatureRow(
+              "Bespoke curation",
+              "Personalized wardrobe consultation with premium textile selection.",
+            ),
+            _buildFeatureRow(
+              "Precision metrics",
+              "Full body measurements and posture mapping for flawless fit.",
+            ),
+            _buildFeatureRow(
+              "Artisan refreshments",
+              "Champagne and curated tea service during styling.",
+            ),
+            _buildFeatureRow(
+              "Aftercare plan",
+              "Lifetime garment care guidance and styling follow-up.",
+            ),
+            const SizedBox(height: 24),
+
+            Row(
+              children: [
+                Expanded(
+                  child: _buildSelectionCard(
+                    title: "Select Date",
+                    value: selectedDate == null
+                        ? "Choose"
+                        : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+                    icon: Icons.date_range,
+                    onTap: pickDate,
+                  ),
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: _buildSelectionCard(
+                    title: "Time slot",
+                    value: selectedSlot ?? "Pick time",
+                    icon: Icons.access_time,
+                    onTap: () {},
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 18),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: slots.map((slot) {
+                final isSelected = selectedSlot == slot;
+                return ChoiceChip(
+                  label: Text(slot),
+                  selected: isSelected,
+                  selectedColor: const Color(0xFF5D4E37),
+                  backgroundColor: Colors.white,
+                  labelStyle: TextStyle(
+                    color: isSelected ? Colors.white : const Color(0xFF4B453F),
+                    fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(14),
+                    side: BorderSide(
+                      color: isSelected
+                          ? Colors.transparent
+                          : const Color(0xFFE2D8CC),
+                    ),
+                  ),
+                  onSelected: (_) => setState(() => selectedSlot = slot),
+                );
+              }).toList(),
+            ),
+            const SizedBox(height: 28),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.06),
+                    blurRadius: 18,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Appointment Summary",
+                    style: GoogleFonts.comfortaa(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF2D2926),
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                  _buildSummaryRow("Service", "Private Suite Tailoring"),
+                  const SizedBox(height: 10),
+                  _buildSummaryRow("Duration", "120 Minutes"),
+                  const SizedBox(height: 10),
+                  _buildSummaryRow("Stylist", "Evelyn Vane"),
+                  const SizedBox(height: 10),
+                  _buildSummaryRow("Location", "The Atelier Suite, Flagship"),
+                  const SizedBox(height: 10),
+                  _buildSummaryRow(
+                    "Date",
+                    selectedDate == null
+                        ? "Not selected"
+                        : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+                  ),
+                  const SizedBox(height: 10),
+                  _buildSummaryRow("Time", selectedSlot ?? "Not selected"),
+                  const SizedBox(height: 20),
+                  const Divider(color: Color(0xFFE8E1D6)),
+                  const SizedBox(height: 18),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Total",
+                        style: GoogleFonts.comfortaa(
+                          fontSize: 16,
+                          color: const Color(0xFF6E655B),
+                        ),
+                      ),
+                      Text(
+                        "\$250.00",
+                        style: GoogleFonts.comfortaa(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF2D2926),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 22),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: confirmBooking,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF5D4E37),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18),
+                        ),
+                      ),
+                      child: Text(
+                        "CONFIRM APPOINTMENT",
+                        style: GoogleFonts.comfortaa(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+          ],
         ),
       ),
 
@@ -536,136 +539,134 @@ class AppointmentSummaryPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        toolbarHeight: 0,
+        iconTheme: const IconThemeData(color: Color(0xFF2D2926)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, size: 18),
+          onPressed: () => Navigator.maybePop(context),
+        ),
+        title: Text(
+          'Appointment Summary',
+          style: GoogleFonts.comfortaa(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF2D2926),
+          ),
+        ),
+        centerTitle: true,
       ),
 
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              NavigationBarWidget(
-                onMenuTap: () => Navigator.maybePop(context),
-              ),
-              const SizedBox(height: 24),
-              Text(
-                "Appointment Summary",
-                style: GoogleFonts.cormorantGaramond(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF2D2926),
-                  height: 1.1,
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 24),
+            _buildInfoRow("Service Type", "Private Suite Tailoring"),
+            const SizedBox(height: 10),
+            _buildInfoRow("Duration", "120 Minutes"),
+            const SizedBox(height: 10),
+            _buildInfoRow("Stylist", "Evelyn Vane"),
+            const SizedBox(height: 10),
+            _buildInfoRow("Location", "The Atelier Suite, Flagship"),
+            const SizedBox(height: 20),
+            _buildInfoRow(
+              "Date",
+              date.toLocal().toString().split(' ')[0],
+            ),
+            const SizedBox(height: 10),
+            _buildInfoRow("Time", slot),
+            const SizedBox(height: 20),
+            const Divider(color: Color(0xFFE8E1D6)),
+            const SizedBox(height: 18),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "TOTAL FEE",
+                  style: GoogleFonts.comfortaa(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF6E655B),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              _buildInfoRow("Service Type", "Private Suite Tailoring"),
-              const SizedBox(height: 10),
-              _buildInfoRow("Duration", "120 Minutes"),
-              const SizedBox(height: 10),
-              _buildInfoRow("Stylist", "Evelyn Vane"),
-              const SizedBox(height: 10),
-              _buildInfoRow("Location", "The Atelier Suite, Flagship"),
-              const SizedBox(height: 20),
-              _buildInfoRow(
-                "Date",
-                date.toLocal().toString().split(' ')[0],
-              ),
-              const SizedBox(height: 10),
-              _buildInfoRow("Time", slot),
-              const SizedBox(height: 20),
-              const Divider(color: Color(0xFFE8E1D6)),
-              const SizedBox(height: 18),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "TOTAL FEE",
-                    style: GoogleFonts.comfortaa(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF6E655B),
-                    ),
+                Text(
+                  "\$250.00",
+                  style: GoogleFonts.cormorantGaramond(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF2D2926),
                   ),
-                  Text(
-                    "\$250.00",
-                    style: GoogleFonts.cormorantGaramond(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF2D2926),
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: Text(
-                          "Booking Confirmed",
-                          style: GoogleFonts.comfortaa(
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF2D2926),
-                          ),
+                ),
+              ],
+            ),
+            const Spacer(),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text(
+                        "Booking Confirmed",
+                        style: GoogleFonts.comfortaa(
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF2D2926),
                         ),
-                        content: Text(
-                          "Your appointment has been successfully booked.\n\n"
-                          "We look forward to seeing you at The Atelier Suite!",
-                          style: GoogleFonts.comfortaa(
-                            color: const Color(0xFF6E655B),
-                          ),
+                      ),
+                      content: Text(
+                        "Your appointment has been successfully booked.\n\n"
+                        "We look forward to seeing you at The Atelier Suite!",
+                        style: GoogleFonts.comfortaa(
+                          color: const Color(0xFF6E655B),
                         ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              "OK",
-                              style: GoogleFonts.comfortaa(
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF5D4E37),
-                              ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            "OK",
+                            style: GoogleFonts.comfortaa(
+                              fontWeight: FontWeight.w600,
+                              color: const Color(0xFF5D4E37),
                             ),
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF5D4E37),
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18),
+                        ),
+                      ],
                     ),
-                  ),
-                  child: Text(
-                    "CONFIRM APPOINTMENT",
-                    style: GoogleFonts.comfortaa(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF5D4E37),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
                   ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Center(
                 child: Text(
-                  "FREE CANCELLATION UP TO 24 HOURS BEFORE",
+                  "CONFIRM APPOINTMENT",
                   style: GoogleFonts.comfortaa(
-                    color: Colors.black54,
-                    fontSize: 11,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 10),
+            Center(
+              child: Text(
+                "FREE CANCELLATION UP TO 24 HOURS BEFORE",
+                style: GoogleFonts.comfortaa(
+                  color: Colors.black54,
+                  fontSize: 11,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
 
