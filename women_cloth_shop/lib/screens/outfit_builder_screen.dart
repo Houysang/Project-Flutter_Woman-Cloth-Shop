@@ -1,5 +1,8 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'lookbook_screen.dart';
+import '../components/navigation_bar_widget.dart';
+import '../components/glass_bottom_nav_widget.dart';
 
 class OutfitBuilderPage extends StatefulWidget {
   final String? presetTitle;
@@ -17,7 +20,7 @@ class OutfitBuilderPage extends StatefulWidget {
 
 class _OutfitBuilderPageState extends State<OutfitBuilderPage> {
   int selectedTab = 1;
-  int bottomIndex = 0; // track bottom nav selection
+  int bottomIndex = 0;
 
   final List<Map<String, String>> clothes = [
     {"name": "Turtleneck", "image": "assets/Cashmere Turtleneck.png"},
@@ -81,289 +84,270 @@ class _OutfitBuilderPageState extends State<OutfitBuilderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-
-      // 🔥 Custom Header styled like “OnlyWomen”
+      backgroundColor: const Color(0xFFF9F7F2),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF5F5DC),
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: Color(0xFF5D4E37)),
-          onPressed: () {},
-        ),
-        title: const Text(
-          "OnlyWomen",
-          style: TextStyle(
-            color: Color(0xFF5D4E37),
-            fontSize: 22,
-            fontFamily: 'Times New Roman',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: Icon(Icons.shopping_bag_outlined, color: Color(0xFF5D4E37)),
-          ),
-        ],
+        toolbarHeight: 0,
       ),
 
-      body: Column(
-        children: [
-          const SizedBox(height: 12),
-
-          // TAB SWITCH
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              height: 45,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(25),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: NavigationBarWidget(
+                onMenuTap: () {},
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        setState(() => selectedTab = 0);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LookbookPage(),
+            ),
+
+            const SizedBox(height: 12),
+
+            // TAB SWITCH
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                height: 45,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() => selectedTab = 0);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LookbookPage(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: selectedTab == 0
+                                ? const Color(0xFF5D4E37)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(25),
                           ),
-                        );
-                      },
+                          child: Center(
+                            child: Text(
+                              "Pre-Styled",
+                              style: GoogleFonts.comfortaa(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: selectedTab == 0
+                                    ? Colors.white
+                                    : const Color(0xFF2D2926),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: selectedTab == 0
+                          color: selectedTab == 1
                               ? const Color(0xFF5D4E37)
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            "Pre-Styled",
-                            style: TextStyle(
-                              color: Colors.black,
+                            "Build Outfit",
+                            style: GoogleFonts.comfortaa(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: selectedTab == 1
+                                  ? Colors.white
+                                  : const Color(0xFF2D2926),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 15),
+
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+
+                    // SELECTED AREA
+                    Container(
+                      margin: const EdgeInsets.all(16),
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: selectedItems.isEmpty
+                          ? Center(
+                              child: Text(
+                                "Tap clothes to add",
+                                style: GoogleFonts.comfortaa(
+                                  color: const Color(0xFF6E655B),
+                                ),
+                              ),
+                            )
+                          : Wrap(
+                              spacing: 10,
+                              runSpacing: 10,
+                              alignment: WrapAlignment.center,
+                              children: selectedItems.map((item) {
+                                return Stack(
+                                  children: [
+                                    Container(
+                                      width: 100,
+                                      height: 120,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        border: Border.all(color: Colors.grey),
+                                      ),
+                                      child: Image.asset(
+                                        item["image"]!,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 6,
+                                      top: 6,
+                                      child: GestureDetector(
+                                        onTap: () =>
+                                            removeItem(item["image"]!),
+                                        child: const Icon(
+                                          Icons.close,
+                                          color: Colors.red,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }).toList(),
+                            ),
+                    ),
+
+                    // BUTTONS
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.grey.shade400,
+                            foregroundColor: Colors.black,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              selectedItems.clear();
+                            });
+                          },
+                          child: Text(
+                            "Cancel",
+                            style: GoogleFonts.comfortaa(fontSize: 13),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFF5D4E37),
+                            foregroundColor: Colors.white,
+                          ),
+                          onPressed: saveOutfit,
+                          child: Text(
+                            "Save Outfit",
+                            style: GoogleFonts.comfortaa(
+                              fontSize: 13,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: selectedTab == 1
-                            ? const Color(0xFF5D4E37)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          "Build Outfit",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
 
-          const SizedBox(height: 15),
+                    const SizedBox(height: 20),
 
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 10),
+                    // CLOTHES LIST
+                    SizedBox(
+                      height: 180,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: clothes.length,
+                        itemBuilder: (context, index) {
+                          final item = clothes[index];
 
-                  // SELECTED AREA
-                  Container(
-                    margin: const EdgeInsets.all(16),
-                    height: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: selectedItems.isEmpty
-                        ? const Center(
-                            child: Text("Tap clothes to add"),
-                          )
-                        : Wrap(
-                            spacing: 10,
-                            runSpacing: 10,
-                            alignment: WrapAlignment.center,
-                            children: selectedItems.map((item) {
-                              return Stack(
+                          return GestureDetector(
+                            onTap: () => addItem(item),
+                            child: Container(
+                              width: 140,
+                              margin: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(18),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.08),
+                                    blurRadius: 10,
+                                  ),
+                                ],
+                              ),
+                              child: Column(
                                 children: [
-                                  Container(
-                                    width: 100,
-                                    height: 120,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(12),
-                                      border: Border.all(color: Colors.grey),
-                                    ),
-                                    child: Image.asset(
-                                      item["image"]!,
-                                      fit: BoxFit.cover,
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Image.asset(
+                                        item["image"]!,
+                                        fit: BoxFit.contain,
+                                      ),
                                     ),
                                   ),
-                                  Positioned(
-                                    right: 6,
-                                    top: 6,
-                                    child: GestureDetector(
-                                      onTap: () =>
-                                          removeItem(item["image"]!),
-                                      child: const Icon(
-                                        Icons.close,
-                                        color: Colors.red,
-                                        size: 20,
+                                  Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 8,
+                                    ),
+                                    decoration: const BoxDecoration(
+                                      color: Color(0xFF5D4E37),
+                                      borderRadius: BorderRadius.vertical(
+                                        bottom: Radius.circular(18),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      item["name"]!,
+                                      textAlign: TextAlign.center,
+                                      style: GoogleFonts.comfortaa(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 12,
                                       ),
                                     ),
                                   ),
                                 ],
-                              );
-                            }).toList(),
-                          ),
-                  ),
-
-                  // BUTTONS
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade400,
-                          foregroundColor: Colors.black,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            selectedItems.clear();
-                          });
+                              ),
+                            ),
+                          );
                         },
-                        child: const Text("Cancel"),
                       ),
-                      const SizedBox(width: 16),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF5D4E37),
-                          foregroundColor: Colors.white,
-                        ),
-                        onPressed: saveOutfit,
-                        child: const Text("Save Outfit"),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // CLOTHES LIST
-                  SizedBox(
-                    height: 180,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: clothes.length,
-                      itemBuilder: (context, index) {
-                        final item = clothes[index];
-
-                        return GestureDetector(
-                          onTap: () => addItem(item),
-                          child: Container(
-                            width: 140,
-                            margin: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(18),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.08),
-                                  blurRadius: 10,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Image.asset(
-                                      item["image"]!,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: double.infinity,
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 8,
-                                  ),
-                                  decoration: const BoxDecoration(
-                                    color: Color(0xFF5D4E37),
-                                    borderRadius: BorderRadius.vertical(
-                                      bottom: Radius.circular(18),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    item["name"]!,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
 
-      // 🔥 Bottom Navigation Bar
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: bottomIndex,
-        onTap: (index) {
-          setState(() => bottomIndex = index);
-          // handle navigation logic here
-        },
-        selectedItemColor: const Color(0xFF5D4E37),
-        unselectedItemColor: Colors.black54,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: "Collections",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.brush),
-            label: "Atelier",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: "Wishlist",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Account",
-          ),
-        ],
-      ),
+      bottomNavigationBar: const GlassBottomNavWidget(),
     );
   }
 }
@@ -382,98 +366,76 @@ class OutfitPreviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-
-      // 🔥 Custom Header styled like “OnlyWomen”
+      backgroundColor: const Color(0xFFF9F7F2),
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF5F5DC),
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: Color(0xFF5D4E37)),
-          onPressed: () {},
-        ),
-        title: const Text(
-          "OnlyWomen",
-          style: TextStyle(
-            color: Color(0xFF5D4E37),
-            fontSize: 22,
-            fontFamily: 'Times New Roman',
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: Icon(Icons.shopping_bag_outlined, color: Color(0xFF5D4E37)),
-          ),
-        ],
+        toolbarHeight: 0,
       ),
 
-      body: Center(
-        child: Container(
-          width: 320,
-          height: 450,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.grey),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.08),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              NavigationBarWidget(
+                onMenuTap: () => Navigator.maybePop(context),
+              ),
+              const SizedBox(height: 24),
+              Text(
+                "Outfit Preview",
+                style: GoogleFonts.cormorantGaramond(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xFF2D2926),
+                  height: 1.1,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: Center(
+                  child: Container(
+                    width: 320,
+                    height: 450,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.grey),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.08),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: selectedItems.isNotEmpty
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image.asset(
+                              selectedItems.first["image"]!,
+                              fit: BoxFit.contain,
+                            ),
+                          )
+                        : Center(
+                            child: Text(
+                              "No outfit selected",
+                              style: GoogleFonts.comfortaa(
+                                color: Colors.black54,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
               ),
             ],
           ),
-          child: selectedItems.isNotEmpty
-              ? ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.asset(
-                    selectedItems.first["image"]!,
-                    fit: BoxFit.contain,
-                  ),
-                )
-              : const Center(
-                  child: Text(
-                    "No outfit selected",
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
         ),
       ),
 
-      // 🔥 Bottom Navigation Bar also in Preview Page
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        onTap: (index) {
-          // handle navigation logic here
-        },
-        selectedItemColor: const Color(0xFF5D4E37),
-        unselectedItemColor: Colors.black54,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: "Collections",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.brush),
-            label: "Atelier",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: "Wishlist",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Account",
-          ),
-        ],
-      ),
+      bottomNavigationBar: const GlassBottomNavWidget(),
     );
   }
 }
