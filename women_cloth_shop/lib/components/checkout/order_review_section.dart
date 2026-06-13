@@ -7,21 +7,26 @@ class OrderReviewSection extends StatelessWidget {
 
   const OrderReviewSection({super.key, required this.cartItems});
 
+  static const Color darkText = Color(0xFF2D2926);
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // TITLE (FIXED FONT)
         Text(
           'Review Order',
-          style: GoogleFonts.playfairDisplay(
-            fontSize: 20,
+          style: GoogleFonts.comfortaa(
+            fontSize: 18,
             fontWeight: FontWeight.w700,
+            color: darkText,
           ),
         ),
+
         const SizedBox(height: 16),
 
-        // List of cart items
+        // ITEMS
         ...cartItems.map((item) {
           return Padding(
             padding: const EdgeInsets.only(bottom: 12),
@@ -31,12 +36,15 @@ class OrderReviewSection extends StatelessWidget {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(6),
                     color: Colors.grey[200],
                   ),
-                  child: Image.asset(
-                    item.image,
-                    fit: BoxFit.cover,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: Image.asset(
+                      item.image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -46,11 +54,19 @@ class OrderReviewSection extends StatelessWidget {
                     children: [
                       Text(
                         item.title,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
+                        style: GoogleFonts.comfortaa(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: darkText,
+                        ),
                       ),
+                      const SizedBox(height: 4),
                       Text(
                         'One Size',
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                        style: GoogleFonts.comfortaa(
+                          fontSize: 11,
+                          color: Colors.grey,
+                        ),
                       ),
                     ],
                   ),
@@ -60,11 +76,19 @@ class OrderReviewSection extends StatelessWidget {
                   children: [
                     Text(
                       item.price,
-                      style: const TextStyle(fontWeight: FontWeight.w600),
+                      style: GoogleFonts.comfortaa(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w700,
+                        color: darkText,
+                      ),
                     ),
+                    const SizedBox(height: 4),
                     Text(
                       'Qty: ${item.quantity}',
-                      style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                      style: GoogleFonts.comfortaa(
+                        fontSize: 11,
+                        color: Colors.grey,
+                      ),
                     ),
                   ],
                 ),

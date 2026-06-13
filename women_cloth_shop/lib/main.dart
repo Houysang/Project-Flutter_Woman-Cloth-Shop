@@ -14,6 +14,7 @@ import 'screens/dress_page.dart';
 import 'screens/tops_page.dart';
 import 'screens/skirts_page.dart';
 import 'screens/bags_page.dart';
+import 'screens/profile_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,31 +36,15 @@ class MyApp extends StatelessWidget {
         '/shop': (context) => const HomePage(),
         '/wishlist': (context) =>
             WishlistPage(items: wishlist, currentProductId: 'product_001'),
-          '/dresses': (context) => const DressPage(),
-  '/tops': (context) => const TopsPage(),
-  '/skirts': (context) => const SkirtsPage(),
-  '/bags': (context) => const BagsPage(),
+        '/dresses': (context) => const DressPage(),
+        '/tops': (context) => const TopsPage(),
+        '/skirts': (context) => const SkirtsPage(),
+        '/bags': (context) => const BagsPage(),
         '/cart': (context) => const CartPage(),
         '/bag': (context) => const CartPage(),
         '/checkout': (context) => const CheckoutPage(),
         '/order_confirmation': (context) => const OrderConfirmationPage(),
-        '/profile': (context) => Scaffold(
-              appBar: AppBar(
-                title: const Text('Profile'),
-                backgroundColor: Colors.white,
-                foregroundColor: Colors.black,
-                elevation: 0.5,
-              ),
-              body: const Center(
-                child: Text('Profile page is under construction.'),
-              ),
-              floatingActionButton:
-                  cart.isNotEmpty ? const FloatingCartButton() : null,
-              bottomNavigationBar: AppFooter(
-                currentIndex: 3,
-                onTap: (i) => AppFooter.navigateTo(context, i),
-              ),
-            ),
+        '/profileuser': (context) => ProfilePage(),
       },
       debugShowCheckedModeBanner: false,
     );
