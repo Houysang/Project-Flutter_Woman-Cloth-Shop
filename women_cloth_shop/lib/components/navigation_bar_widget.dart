@@ -9,129 +9,85 @@ class NavigationBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 4,
-        vertical: 10,
-      ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Row(
         children: [
-          // MENU
-          Container(
-            height: 42,
-            width: 42,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(.05),
-                  blurRadius: 10,
-                ),
-              ],
-            ),
-            child: const Icon(
-              Icons.menu_rounded,
-              color: darkText,
+          // Menu icon
+          GestureDetector(
+            onTap: () => Scaffold.of(context).openDrawer(),
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.04),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Icon(Icons.menu_rounded, color: darkText, size: 20),
             ),
           ),
 
           const Spacer(),
 
-          // BRAND
-          Column(
-            children: [
-              Text(
-                "NEARY",
-                style: GoogleFonts.cormorantGaramond(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
-                  color: darkText,
-                ),
-              ),
-              Text(
-                "fashion",
-                style: GoogleFonts.comfortaa(
-                  fontSize: 10,
-                  letterSpacing: 3,
-                  color: Colors.black54,
-                ),
-              ),
-            ],
-          ),
-
-          const Spacer(),
-
-          // HEART
-          Container(
-            height: 42,
-            width: 42,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(.05),
-                  blurRadius: 10,
-                ),
-              ],
-            ),
-            child: const Icon(
-              Icons.favorite_border_rounded,
-              color: darkText,
-              size: 20,
-            ),
-          ),
-
-          const SizedBox(width: 10),
-
-          // CART
-          Stack(
+          // Brand logo
+          Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                height: 42,
-                width: 42,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(14),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(.05),
-                      blurRadius: 10,
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.shopping_bag_outlined,
-                  color: darkText,
-                  size: 20,
+                width: 6,
+                height: 6,
+                decoration: const BoxDecoration(
+                  // color: accent,
+                  shape: BoxShape.circle,
                 ),
               ),
-              Positioned(
-                right: 2,
-                top: 2,
-                child: Container(
-                  height: 16,
-                  width: 16,
-                  decoration: const BoxDecoration(
-                    color: accent,
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "2",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 9,
-                        fontWeight: FontWeight.bold,
-                      ),
+              const SizedBox(width: 10),
+              Column(
+                children: [
+                  Text(
+                    "NEARY",
+                    style: GoogleFonts.cormorantGaramond(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 3,
+                      color: darkText,
+                      height: 1.1,
                     ),
                   ),
+                  Text(
+                    "FASHION",
+                    style: GoogleFonts.comfortaa(
+                      fontSize: 8,
+                      letterSpacing: 5,
+                      color: Colors.black38,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 10),
+              Container(
+                width: 6,
+                height: 6,
+                decoration: const BoxDecoration(
+                  // color: accent,
+                  shape: BoxShape.circle,
                 ),
               ),
             ],
           ),
+
+          const Spacer(),
+
+          // Empty space for balance (to keep the logo centered)
+          const SizedBox(width: 40),
         ],
       ),
     );

@@ -45,21 +45,37 @@ class _ColorSwatchesState extends State<ColorSwatches> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // TITLE
-        Text(
-          'Color',
-          style: GoogleFonts.comfortaa(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-            color: darkText,
-          ),
+        Row(
+          children: [
+            Text(
+              'Color',
+              style: GoogleFonts.comfortaa(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: darkText,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+              decoration: BoxDecoration(
+                color: accent.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                _selectedColor,
+                style: GoogleFonts.comfortaa(
+                  fontSize: 11,
+                  color: accent,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
         ),
-
         const SizedBox(height: 10),
-
-        // COLORS
         SizedBox(
-          height: 80,
+          height: 60,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.colors.length,
@@ -76,7 +92,7 @@ class _ColorSwatchesState extends State<ColorSwatches> {
                 },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
-                  margin: const EdgeInsets.only(right: 14),
+                  margin: const EdgeInsets.only(right: 12),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -88,36 +104,28 @@ class _ColorSwatchesState extends State<ColorSwatches> {
                           shape: BoxShape.circle,
                           color: _hexToColor(colorHex),
                           border: Border.all(
-                            color: isSelected ? accent : Colors.black12,
-                            width: isSelected ? 2 : 1,
+                            color: isSelected ? accent : Colors.grey[300]!,
+                            width: isSelected ? 3 : 1.5,
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.08),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                            if (isSelected)
-                              BoxShadow(
-                                color: accent.withOpacity(0.25),
-                                blurRadius: 12,
-                                offset: const Offset(0, 6),
-                              ),
-                          ],
+                          boxShadow: isSelected
+                              ? [
+                                  BoxShadow(
+                                    color: accent.withOpacity(0.3),
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ]
+                              : [],
                         ),
-                      ),
-
-                      const SizedBox(height: 6),
-
-                      // NAME
-                      Text(
-                        colorName,
-                        style: GoogleFonts.comfortaa(
-                          fontSize: 11,
-                          fontWeight:
-                              isSelected ? FontWeight.w600 : FontWeight.w400,
-                          color: isSelected ? accent : Colors.black54,
-                        ),
+                        child: isSelected
+                            ? const Center(
+                                child: Icon(
+                                  Icons.check,
+                                  size: 16,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : null,
                       ),
                     ],
                   ),

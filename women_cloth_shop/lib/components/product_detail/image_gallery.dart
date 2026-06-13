@@ -1,29 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ImageGallery extends StatefulWidget {
+class ImageGallery extends StatelessWidget {
   final List<String> images;
 
   const ImageGallery({super.key, required this.images});
-
-  @override
-  State<ImageGallery> createState() => _ImageGalleryState();
-}
-
-class _ImageGalleryState extends State<ImageGallery> {
-  late PageController _pageController;
-  int _currentImageIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
 
   Widget _buildImage(String path) {
     if (path.startsWith('http')) {
@@ -32,58 +12,43 @@ class _ImageGalleryState extends State<ImageGallery> {
         fit: BoxFit.contain,
         errorBuilder: (context, error, stackTrace) {
           return Container(
-            color: Colors.grey[300],
+            color: Colors.grey[200],
             child: const Icon(Icons.image_not_supported),
           );
         },
       );
     } else {
-      return Image.asset(path, fit: BoxFit.cover);
+      return Image.asset(path, fit: BoxFit.contain);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Main image (one at a time)
-        SizedBox(
-          height: 270, // smaller height
-          child: PageView.builder(
-            controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _currentImageIndex = index;
-              });
-            },
-            itemCount: widget.images.length,
-            itemBuilder: (context, index) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: _buildImage(widget.images[index]),
-              );
-            },
+    final imagePath = images.isNotEmpty ? images.first : '';
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.06),
+              blurRadius: 12,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: SizedBox(
+            height: 500,
+            child: Center(
+              child: _buildImage(imagePath),
+            ),
           ),
         ),
-        const SizedBox(height: 12),
-        // Bullet indicators
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(widget.images.length, (index) {
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 4),
-              width: _currentImageIndex == index ? 12 : 8,
-              height: _currentImageIndex == index ? 12 : 8,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: _currentImageIndex == index
-                    ? Colors.brown
-                    : Colors.grey[400],
-              ),
-            );
-          }),
-        ),
-      ],
+      ),
     );
   }
 }

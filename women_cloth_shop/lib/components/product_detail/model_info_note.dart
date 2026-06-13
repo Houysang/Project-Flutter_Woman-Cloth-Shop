@@ -12,25 +12,27 @@ class ModelInfoNote extends StatelessWidget {
   });
 
   static const Color accent = Color(0xFFC5A081);
-  static const Color darkText = Color(0xFF2D2926);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: accent.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.black12),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: accent.withOpacity(0.15)),
       ),
       child: Row(
         children: [
-          Icon(
-            Icons.info_outline,
-            color: accent,
-            size: 18,
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(Icons.info_outline, color: accent, size: 18),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,16 +42,16 @@ class ModelInfoNote extends StatelessWidget {
                   style: GoogleFonts.comfortaa(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: darkText,
+                    color: const Color(0xFF2D2926),
                   ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 3),
                 Text(
-                  'Height: $modelHeight | Wearing Size: $modelSize',
+                  'Height: $modelHeight  •  Wearing Size: $modelSize',
                   style: GoogleFonts.comfortaa(
                     fontSize: 11,
                     color: Colors.black54,
-                    height: 1.4,
+                    height: 1.3,
                   ),
                 ),
               ],
