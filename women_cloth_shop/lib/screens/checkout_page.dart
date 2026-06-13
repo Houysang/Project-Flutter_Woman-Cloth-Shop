@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../components/app_footer.dart';
+import '../components/glass_bottom_nav_widget.dart';
 import '../components/checkout/step_indicator.dart';
 import '../components/checkout/shipping_address_form.dart';
 import '../components/checkout/payment_method_section.dart';
@@ -235,10 +235,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
         ),
       ),
 
-      bottomNavigationBar: AppFooter(
-        currentIndex: 1,
-        onTap: (index) => AppFooter.navigateTo(context, index),
-      ),
+      bottomNavigationBar: const GlassBottomNavWidget(),
     );
   }
 }
