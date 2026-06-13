@@ -11,107 +11,91 @@ class PaymentMethodSection extends StatelessWidget {
     required this.onPaymentChanged,
   });
 
+  static const Color darkText = Color(0xFF2D2926);
+  static const Color accent = Color(0xFFC5A081);
+
+  Widget _buildOption({
+    required String id,
+    required IconData icon,
+    required String title,
+  }) {
+    final isSelected = selectedPayment == id;
+
+    return GestureDetector(
+      onTap: () => onPaymentChanged(id),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: isSelected ? accent : Colors.grey.shade300,
+            width: 2,
+          ),
+          borderRadius: BorderRadius.circular(10),
+          color: isSelected ? accent.withOpacity(0.08) : Colors.white,
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 20, color: darkText),
+            const SizedBox(width: 16),
+            Text(
+              title,
+              style: GoogleFonts.comfortaa(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: darkText,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // TITLE (FIXED FONT)
         Text(
           'Payment Method',
           style: GoogleFonts.comfortaa(
+<<<<<<< HEAD
             fontSize: 16,
             fontWeight: FontWeight.w700,
             letterSpacing: 0.5,
+=======
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: darkText,
+>>>>>>> c7c26041bded06e1697c5920d16d795020cbd8dd
           ),
         ),
+
         const SizedBox(height: 16),
 
-        // Apple Pay Button
-        // Visa Card Button
-        GestureDetector(
-          onTap: () => onPaymentChanged('visa'),
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: selectedPayment == 'visa'
-                    ? Colors.brown
-                    : Colors.grey[300]!,
-                width: 2,
-              ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              children: const [
-                Icon(Icons.credit_card, size: 20),
-                SizedBox(width: 20),
-                Text(
-                  'Visa Card',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ),
+        _buildOption(
+          id: 'visa',
+          icon: Icons.credit_card,
+          title: 'Visa Card',
         ),
 
         const SizedBox(height: 12),
 
-// KHQR Button
-        GestureDetector(
-          onTap: () => onPaymentChanged('khqr'),
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: selectedPayment == 'khqr'
-                    ? Colors.brown
-                    : Colors.grey[300]!,
-                width: 2,
-              ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              children: const [
-                Icon(Icons.qr_code, size: 20),
-                SizedBox(width: 20),
-                Text(
-                  'KHQR',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ),
+        _buildOption(
+          id: 'khqr',
+          icon: Icons.qr_code,
+          title: 'KHQR',
         ),
 
         const SizedBox(height: 12),
 
-// Cash on Delivery Button
-        GestureDetector(
-          onTap: () => onPaymentChanged('cod'),
-          child: Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color:
-                    selectedPayment == 'cod' ? Colors.brown : Colors.grey[300]!,
-                width: 2,
-              ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              children: const [
-                Icon(Icons.local_shipping, size: 20),
-                SizedBox(width: 20),
-                Text(
-                  'Cash on Delivery',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ),
+        _buildOption(
+          id: 'cod',
+          icon: Icons.local_shipping,
+          title: 'Cash on Delivery',
         ),
-
-        const SizedBox(height: 12),
       ],
     );
   }

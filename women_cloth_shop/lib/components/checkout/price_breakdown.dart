@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PriceBreakdown extends StatelessWidget {
   final double subtotal;
@@ -28,7 +29,11 @@ class PriceBreakdown extends StatelessWidget {
           const SizedBox(height: 8),
           _priceRow('Tax', '\€${tax.toStringAsFixed(2)}'),
           const Divider(height: 16),
-          _priceRow('Total', '\€${total.toStringAsFixed(2)}', isBold: true),
+          _priceRow(
+            'Total',
+            '\€${total.toStringAsFixed(2)}',
+            isBold: true,
+          ),
         ],
       ),
     );
@@ -40,16 +45,18 @@ class PriceBreakdown extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: GoogleFonts.comfortaa(
             fontSize: 14,
-            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            fontWeight: isBold ? FontWeight.w700 : FontWeight.w400,
+            color: Colors.black87,
           ),
         ),
         Text(
           amount,
-          style: TextStyle(
+          style: GoogleFonts.comfortaa(
             fontSize: 14,
-            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            fontWeight: isBold ? FontWeight.w700 : FontWeight.w400,
+            color: Colors.black87,
           ),
         ),
       ],

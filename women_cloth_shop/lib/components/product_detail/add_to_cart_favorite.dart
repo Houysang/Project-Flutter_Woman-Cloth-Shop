@@ -102,9 +102,7 @@ class _AddToCartFavoriteState extends State<AddToCartFavorite> {
                       child: Icon(
                         Icons.remove,
                         size: 18,
-                        color: widget.quantity > 1
-                            ? accent
-                            : Colors.grey[300],
+                        color: widget.quantity > 1 ? accent : Colors.grey[300],
                       ),
                     ),
                   ),
@@ -153,6 +151,7 @@ class _AddToCartFavoriteState extends State<AddToCartFavorite> {
         // Add to cart + Favorite
         Row(
           children: [
+            // ADD TO CART BUTTON
             Expanded(
               child: ElevatedButton(
                 onPressed: _handleAddToCart,
@@ -184,6 +183,7 @@ class _AddToCartFavoriteState extends State<AddToCartFavorite> {
                 ),
               ),
             ),
+
             const SizedBox(width: 12),
             // Favorite
             GestureDetector(
@@ -193,22 +193,18 @@ class _AddToCartFavoriteState extends State<AddToCartFavorite> {
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   color: widget.isFavorited
-                      ? Colors.red.withOpacity(0.08)
+                      ? Colors.red.withValues(alpha: 0.08)
                       : Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
                     color: widget.isFavorited
-                        ? Colors.red.withOpacity(0.2)
+                        ? Colors.red.withValues(alpha: 0.2)
                         : Colors.grey[300]!,
                   ),
                 ),
                 child: Icon(
-                  widget.isFavorited
-                      ? Icons.favorite
-                      : Icons.favorite_border,
-                  color: widget.isFavorited
-                      ? Colors.red
-                      : Colors.grey[500],
+                  widget.isFavorited ? Icons.favorite : Icons.favorite_border,
+                  color: widget.isFavorited ? Colors.red : Colors.grey[500],
                   size: 24,
                 ),
               ),

@@ -34,6 +34,7 @@ class _SizeSelectorState extends State<SizeSelector> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // HEADER
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -48,7 +49,8 @@ class _SizeSelectorState extends State<SizeSelector> {
             GestureDetector(
               onTap: () => _showSizeGuide(context),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(
                   color: accent.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(8),
@@ -83,9 +85,7 @@ class _SizeSelectorState extends State<SizeSelector> {
 
               return GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _selectedSize = size;
-                  });
+                  setState(() => _selectedSize = size);
                   widget.onSizeSelected(size);
                 },
                 child: AnimatedContainer(
@@ -94,12 +94,12 @@ class _SizeSelectorState extends State<SizeSelector> {
                   height: 48,
                   margin: const EdgeInsets.only(right: 10),
                   decoration: BoxDecoration(
+                    color: isSelected ? accent.withOpacity(0.15) : Colors.white,
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: isSelected ? accent : Colors.grey[300]!,
                       width: isSelected ? 2 : 1,
                     ),
-                    borderRadius: BorderRadius.circular(14),
-                    color: isSelected ? accent : Colors.white,
                     boxShadow: isSelected
                         ? [
                             BoxShadow(
@@ -130,6 +130,7 @@ class _SizeSelectorState extends State<SizeSelector> {
     );
   }
 
+  // ---------------- SIZE GUIDE ----------------
   void _showSizeGuide(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -143,6 +144,7 @@ class _SizeSelectorState extends State<SizeSelector> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // HEADER
               Row(
                 children: [
                   Container(
@@ -151,7 +153,8 @@ class _SizeSelectorState extends State<SizeSelector> {
                       color: accent.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(Icons.straighten, color: accent, size: 20),
+                    child:
+                        const Icon(Icons.straighten, color: accent, size: 20),
                   ),
                   const SizedBox(width: 12),
                   Text(
@@ -164,39 +167,39 @@ class _SizeSelectorState extends State<SizeSelector> {
                   ),
                 ],
               ),
+
               const SizedBox(height: 20),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: Colors.grey[200]!),
-                ),
-                child: Table(
-                  border: TableBorder.all(color: Colors.grey[200]!),
-                  columnWidths: const {
-                    0: FlexColumnWidth(1),
-                    1: FlexColumnWidth(1),
-                    2: FlexColumnWidth(1),
-                  },
-                  children: [
-                    TableRow(
-                      decoration: BoxDecoration(
-                        color: accent.withOpacity(0.08),
-                      ),
-                      children: [
-                        _sizeGuideCell('Size', isHeader: true),
-                        _sizeGuideCell('Chest', isHeader: true),
-                        _sizeGuideCell('Length', isHeader: true),
-                      ],
+
+              // TABLE
+              Table(
+                border: TableBorder.all(color: Colors.grey.shade200),
+                columnWidths: const {
+                  0: FlexColumnWidth(1),
+                  1: FlexColumnWidth(1),
+                  2: FlexColumnWidth(1),
+                },
+                children: [
+                  TableRow(
+                    decoration: BoxDecoration(
+                      color: accent.withOpacity(0.08),
                     ),
-                    _sizeRow('XS', '32"', '35"'),
-                    _sizeRow('S', '34"', '36"'),
-                    _sizeRow('M', '36"', '37"'),
-                    _sizeRow('L', '38"', '38"'),
-                    _sizeRow('XL', '40"', '39"'),
-                  ],
-                ),
+                    children: [
+                      _sizeGuideCell('Size', isHeader: true),
+                      _sizeGuideCell('Chest'),
+                      _sizeGuideCell('Length'),
+                    ],
+                  ),
+                  _sizeRow('XS', '32"', '35"'),
+                  _sizeRow('S', '34"', '36"'),
+                  _sizeRow('M', '36"', '37"'),
+                  _sizeRow('L', '38"', '38"'),
+                  _sizeRow('XL', '40"', '39"'),
+                ],
               ),
+
               const SizedBox(height: 20),
+
+              // CLOSE BUTTON
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -207,7 +210,6 @@ class _SizeSelectorState extends State<SizeSelector> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
-                    elevation: 0,
                   ),
                   child: Text(
                     'Close',

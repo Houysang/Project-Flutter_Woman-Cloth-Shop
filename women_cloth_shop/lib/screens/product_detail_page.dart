@@ -10,6 +10,7 @@ import '../components/product_detail/customer_reviews.dart';
 import '../models/customer_review.dart';
 import '../components/glass_bottom_nav_widget.dart';
 import '../components/floating_cart_button.dart';
+
 import '../models/wishlist_store.dart';
 import '../models/cart_store.dart';
 import '../models/related_item.dart';
@@ -59,6 +60,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       title: productData['name'],
       price: productData['price'],
       image: productData['images'][0],
+      color: _selectedColor,
+      size: _selectedSize,
       quantity: _quantity,
     );
 
@@ -111,8 +114,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      floatingActionButton:
-          cart.isNotEmpty ? const FloatingCartButton() : null,
+      floatingActionButton: cart.isNotEmpty ? const FloatingCartButton() : null,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -123,14 +125,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 6,
                 offset: const Offset(0, 2),
               ),
             ],
           ),
           child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 18, color: darkText),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                size: 18, color: darkText),
             onPressed: () => Navigator.pop(context),
           ),
         ),
@@ -142,7 +145,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 6,
                   offset: const Offset(0, 2),
                 ),
@@ -200,7 +203,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             Row(
                               children: [
                                 ...List.generate(5, (i) {
-                                  final rating = (product['rating'] as num).toDouble();
+                                  final rating =
+                                      (product['rating'] as num).toDouble();
                                   return Icon(
                                     i + 1 <= rating.round()
                                         ? Icons.star
@@ -285,7 +289,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
                   const SizedBox(height: 24),
 
-
                   // Product details
                   _buildDetailsSection(),
 
@@ -302,10 +305,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
                   const SizedBox(height: 24),
 
-                                    // Customer Reviews
+                  // Customer Reviews
                   CustomerReviews(
-                    reviews: List<CustomerReview>.from(
-                        product['customerReviews']),
+                    reviews:
+                        List<CustomerReview>.from(product['customerReviews']),
                   ),
 
                   const SizedBox(height: 20),
@@ -332,7 +335,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        color: accent.withOpacity(0.06),
+        color: accent.withValues(alpha: 0.06),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(

@@ -56,7 +56,8 @@ class StyleItWithSection extends StatelessWidget {
                 color: accent.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Icon(Icons.diamond_outlined, size: 16, color: accent),
+              child:
+                  const Icon(Icons.diamond_outlined, size: 16, color: accent),
             ),
             const SizedBox(width: 10),
             Text(
@@ -82,7 +83,7 @@ class StyleItWithSection extends StatelessWidget {
         ),
         const SizedBox(height: 14),
         SizedBox(
-          height: 260,
+          height: 270,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: relatedItems.length,
@@ -92,16 +93,16 @@ class StyleItWithSection extends StatelessWidget {
               return GestureDetector(
                 onTap: () => onItemTap(item.id),
                 child: Container(
-                  width: 150,
+                  width: 155,
                   margin: EdgeInsets.only(
                     right: index == relatedItems.length - 1 ? 0 : 12,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // IMAGE
+                      // IMAGE CARD
                       Container(
-                        height: 150,
+                        height: 160,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
@@ -164,12 +165,13 @@ class StyleItWithSection extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 6),
 
                       // Rating
                       Row(
                         children: [
-                          const Icon(Icons.star, size: 12, color: Color(0xFFFFB800)),
+                          const Icon(Icons.star,
+                              size: 12, color: Color(0xFFFFB800)),
                           const SizedBox(width: 4),
                           Text(
                             '${item.rating}',
