@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import '../components/app_footer.dart';
 import '../components/checkout/step_indicator.dart';
 import '../components/checkout/shipping_address_form.dart';
@@ -6,6 +8,9 @@ import '../components/checkout/payment_method_section.dart';
 import '../components/checkout/order_review_section.dart';
 import '../components/checkout/price_breakdown.dart';
 import '../models/cart_store.dart';
+import '../models/order.dart';
+import '../models/order_store.dart';
+import '../screens/map_picker_page.dart';
 
 class CheckoutPage extends StatefulWidget {
   const CheckoutPage({super.key});
@@ -27,6 +32,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   String _selectedPayment = '';
   int _currentStep = 1;
+
+  static const Color accent = Color(0xFFC5A081);
+  static const Color darkText = Color(0xFF2D2926);
 
   @override
   void initState() {
@@ -73,7 +81,6 @@ class _CheckoutPageState extends State<CheckoutPage> {
   }
 
   double get tax => subtotal * 0.2;
-
   double get total => subtotal + tax;
 
   @override
@@ -90,9 +97,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
   void _placeOrder() {
     if (!_formKey.currentState!.validate()) return;
 
-    final orderTotal = total;
+    final order = Order(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      items: List.from(cart),
+      totalPrice: total,
+      date: DateTime.now(),
+      status: OrderStatus.processing,
+    );
 
-    clearCart();
+    orderHistory.add(order); // ✅ SAVE TO HISTORY
+
+    final orderTotal = total;
+    clearCart(); // empty cart AFTER saving order
 
     Navigator.pushReplacementNamed(
       context,
@@ -109,19 +125,18 @@ class _CheckoutPageState extends State<CheckoutPage> {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      // HEADER LIKE WISHLIST
+      // APP BAR (MATCH HOMEPAGE STYLE)
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
-        title: const Text(
+        iconTheme: const IconThemeData(color: darkText),
+        title: Text(
           'Checkout',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
+          style: GoogleFonts.comfortaa(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: darkText,
           ),
-        ),
-        iconTheme: const IconThemeData(
-          color: Colors.black,
         ),
       ),
 
@@ -133,9 +148,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              StepIndicator(
-                currentStep: _currentStep,
-              ),
+              StepIndicator(currentStep: _currentStep),
               const SizedBox(height: 24),
               ShippingAddressForm(
                 firstNameCtrl: _firstNameCtrl,
@@ -143,23 +156,38 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 addressCtrl: _addressCtrl,
                 provinceCtrl: _provinceCtrl,
                 phoneCtrl: _phoneCtrl,
-                onPickLocation: () {},
+                onPickLocation: () async {
+                  final result = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const MapPickerPage(),
+                    ),
+                  );
+
+                  if (result == null || result is! Map) return;
+
+                  setState(() {
+                    // street / detail address
+                    _addressCtrl.text = result["address"] ?? "";
+
+                    // city only
+                    _provinceCtrl.text = result["city"] ?? "";
+
+                    // optional: if you want separate field later
+                    // country can be stored elsewhere or merged
+                  });
+                },
               ),
               const SizedBox(height: 28),
               PaymentMethodSection(
                 selectedPayment: _selectedPayment,
                 onPaymentChanged: (value) {
-                  setState(() {
-                    _selectedPayment = value;
-                  });
-
+                  setState(() => _selectedPayment = value);
                   _updateStep();
                 },
               ),
               const SizedBox(height: 28),
-              OrderReviewSection(
-                cartItems: cart,
-              ),
+              OrderReviewSection(cartItems: cart),
               const SizedBox(height: 20),
               PriceBreakdown(
                 subtotal: subtotal,
@@ -173,19 +201,19 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 child: ElevatedButton(
                   onPressed: _placeOrder,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 180, 138, 96),
+                    backgroundColor: accent,
                     foregroundColor: Colors.white,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'PLACE ORDER',
-                    style: TextStyle(
-                      fontSize: 14,
+                    style: GoogleFonts.comfortaa(
+                      fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      letterSpacing: 1.5,
+                      letterSpacing: 1.2,
                     ),
                   ),
                 ),
@@ -195,9 +223,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 child: Text(
                   'By placing your order, you agree to our\nTerms of Service and Privacy Policy.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: GoogleFonts.comfortaa(
                     fontSize: 11,
-                    color: Colors.grey.shade600,
+                    color: Colors.black54,
                   ),
                 ),
               ),
@@ -209,9 +237,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
       bottomNavigationBar: AppFooter(
         currentIndex: 1,
-        onTap: (index) {
-          AppFooter.navigateTo(context, index);
-        },
+        onTap: (index) => AppFooter.navigateTo(context, index),
       ),
     );
   }

@@ -26,9 +26,8 @@ class _WishlistPageState extends State<WishlistPage> {
   @override
   void initState() {
     super.initState();
-    _items = widget.items.isNotEmpty
-        ? List.of(widget.items)
-        : List.of(wishlist);
+    _items =
+        widget.items.isNotEmpty ? List.of(widget.items) : List.of(wishlist);
   }
 
   void _removeItem(int index) {
@@ -52,6 +51,8 @@ class _WishlistPageState extends State<WishlistPage> {
       title: item.title,
       price: item.price,
       image: item.image,
+      color: 'Default',
+      size: 'M',
     );
 
     addToCart(cartItem);
@@ -122,6 +123,8 @@ class _WishlistPageState extends State<WishlistPage> {
                         title: item.title,
                         price: item.price,
                         image: item.image,
+                        color: 'Default',
+                        size: 'M',
                       );
                       addToCart(cartItem);
                     }

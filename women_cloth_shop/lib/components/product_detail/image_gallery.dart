@@ -48,7 +48,7 @@ class _ImageGalleryState extends State<ImageGallery> {
       children: [
         // Main image (one at a time)
         SizedBox(
-          height: 200, // smaller height
+          height: 270, // smaller height
           child: PageView.builder(
             controller: _pageController,
             onPageChanged: (index) {

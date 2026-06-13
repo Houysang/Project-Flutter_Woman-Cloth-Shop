@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../models/related_item.dart';
 
 class StyleItWithSection extends StatelessWidget {
   final List<RelatedItem> relatedItems;
-
-  /// return itemId to parent screen
   final Function(String itemId) onItemTap;
 
   const StyleItWithSection({
@@ -12,6 +11,9 @@ class StyleItWithSection extends StatelessWidget {
     required this.relatedItems,
     required this.onItemTap,
   });
+
+  static const Color accent = Color(0xFFC5A081);
+  static const Color darkText = Color(0xFF2D2926);
 
   Widget _buildImage(String path) {
     if (path.startsWith('http')) {
@@ -22,7 +24,7 @@ class StyleItWithSection extends StatelessWidget {
         height: 160,
         errorBuilder: (context, error, stackTrace) {
           return Container(
-            color: Colors.grey[300],
+            color: Colors.grey[200],
             child: const Icon(Icons.image_not_supported),
           );
         },
@@ -46,24 +48,31 @@ class StyleItWithSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Style It With',
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        const SizedBox(height: 4),
+        // TITLE
         Text(
-          'Complete the look with these items',
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
+          'Style It With',
+          style: GoogleFonts.comfortaa(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: darkText,
           ),
         ),
+
+        const SizedBox(height: 4),
+
+        Text(
+          'Complete the look with curated pieces',
+          style: GoogleFonts.comfortaa(
+            fontSize: 12,
+            color: Colors.black54,
+          ),
+        ),
+
         const SizedBox(height: 12),
+
+        // LIST
         SizedBox(
-          height: 260,
+          height: 270,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: relatedItems.length,
@@ -71,51 +80,48 @@ class StyleItWithSection extends StatelessWidget {
               final item = relatedItems[index];
 
               return GestureDetector(
-                onTap: () {
-                  onItemTap(item.id);
-                },
+                onTap: () => onItemTap(item.id),
                 child: Container(
-                  width: 150,
+                  width: 155,
                   margin: EdgeInsets.only(
-                    right: index == relatedItems.length - 1 ? 0 : 10,
+                    right: index == relatedItems.length - 1 ? 0 : 12,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // IMAGE
+                      // IMAGE CARD
                       Container(
-                        height: 150,
+                        height: 160,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: Colors.grey.shade200,
-                          ),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.black12),
                         ),
                         clipBehavior: Clip.hardEdge,
                         child: Stack(
                           children: [
                             _buildImage(item.image),
 
-                            // Overlay text
-                            Align(
-                              alignment: Alignment.bottomCenter,
+                            // OVERLAY
+                            Positioned(
+                              bottom: 0,
+                              left: 0,
+                              right: 0,
                               child: Container(
-                                width: double.infinity,
                                 padding: const EdgeInsets.all(6),
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     begin: Alignment.bottomCenter,
                                     end: Alignment.topCenter,
                                     colors: [
-                                      Colors.black.withOpacity(0.6),
+                                      Colors.black.withOpacity(0.5),
                                       Colors.transparent,
                                     ],
                                   ),
                                 ),
-                                child: const Text(
+                                child: Text(
                                   'Tap to view',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: GoogleFonts.comfortaa(
                                     color: Colors.white,
                                     fontSize: 11,
                                   ),
@@ -126,20 +132,21 @@ class StyleItWithSection extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(height: 6),
+                      const SizedBox(height: 8),
 
                       // NAME
                       Text(
                         item.name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: GoogleFonts.comfortaa(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
+                          color: darkText,
                         ),
                       ),
 
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 6),
 
                       // RATING
                       Row(
@@ -152,16 +159,17 @@ class StyleItWithSection extends StatelessWidget {
                           const SizedBox(width: 4),
                           Text(
                             '${item.rating}',
-                            style: const TextStyle(
+                            style: GoogleFonts.comfortaa(
                               fontSize: 11,
+                              color: darkText,
                             ),
                           ),
                           const SizedBox(width: 4),
                           Text(
                             '(${item.reviewCount})',
-                            style: TextStyle(
+                            style: GoogleFonts.comfortaa(
                               fontSize: 11,
-                              color: Colors.grey[600],
+                              color: Colors.black54,
                             ),
                           ),
                         ],
@@ -172,9 +180,10 @@ class StyleItWithSection extends StatelessWidget {
                       // PRICE
                       Text(
                         item.price,
-                        style: const TextStyle(
+                        style: GoogleFonts.comfortaa(
                           fontSize: 13,
                           fontWeight: FontWeight.bold,
+                          color: accent,
                         ),
                       ),
                     ],

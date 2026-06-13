@@ -1,8 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import '../components/app_footer.dart';
 import '../components/floating_cart_button.dart';
+
+import '../screens/order_history_page.dart';
 
 class OrderConfirmationPage extends StatefulWidget {
   const OrderConfirmationPage({super.key});
@@ -19,27 +22,15 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
     super.initState();
 
     Timer(const Duration(seconds: 3), () {
-      if (mounted) {
-        setState(() {
-          currentStep = 1;
-        });
-      }
+      if (mounted) setState(() => currentStep = 1);
     });
 
     Timer(const Duration(seconds: 6), () {
-      if (mounted) {
-        setState(() {
-          currentStep = 2;
-        });
-      }
+      if (mounted) setState(() => currentStep = 2);
     });
 
     Timer(const Duration(seconds: 9), () {
-      if (mounted) {
-        setState(() {
-          currentStep = 3;
-        });
-      }
+      if (mounted) setState(() => currentStep = 3);
     });
   }
 
@@ -70,30 +61,27 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    color: completed ? Colors.black : Colors.grey,
-                  ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: GoogleFonts.comfortaa(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: completed ? Colors.black : Colors.grey,
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    color: Colors.black54,
-                    fontSize: 12,
-                  ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                subtitle,
+                style: GoogleFonts.comfortaa(
+                  fontSize: 12,
+                  color: Colors.black54,
                 ),
-                const SizedBox(height: 20),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+            ],
           ),
         ),
       ],
@@ -120,82 +108,77 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
-    final customer = args != null && args['customer'] != null
-        ? args['customer'] as String
-        : null;
-
-    final total =
-        args != null && args['total'] != null ? args['total'] as double : null;
+    final customer = args?['customer'] as String?;
+    final total = args?['total'] as double?;
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.5,
-        title: const Text(
+        iconTheme: const IconThemeData(color: Colors.black),
+        title: Text(
           'Order Confirmation',
-          style: TextStyle(
+          style: GoogleFonts.comfortaa(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
             color: Colors.black,
-            fontWeight: FontWeight.bold,
           ),
-        ),
-        iconTheme: const IconThemeData(
-          color: Colors.black,
         ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            const Icon(
-              Icons.check_circle,
-              color: Colors.green,
-              size: 80,
-            ),
+            const Icon(Icons.check_circle, color: Colors.green, size: 80),
             const SizedBox(height: 10),
+
             Text(
               'Thank you${customer != null ? ', $customer' : ''}!',
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+              style: GoogleFonts.comfortaa(fontWeight: FontWeight.w700),
             ),
+
             const SizedBox(height: 10),
+
             Text(
               'Your order${total != null ? ' of \$${total.toStringAsFixed(0)}' : ''} has been placed successfully.',
               textAlign: TextAlign.center,
-              style: const TextStyle(
+              style: GoogleFonts.comfortaa(
                 fontSize: 14,
                 color: Colors.black54,
               ),
             ),
+
             const SizedBox(height: 10),
+
             Text(
               getStatusText(),
-              style: const TextStyle(
+              style: GoogleFonts.comfortaa(
                 fontSize: 18,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w700,
                 color: Colors.green,
               ),
             ),
+
             const SizedBox(height: 20),
+
+            // TRACKING
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
                 color: Colors.grey.shade100,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Colors.grey.shade300,
-                ),
+                border: Border.all(color: Colors.grey.shade300),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Order Tracking',
-                    style: TextStyle(
+                    style: GoogleFonts.comfortaa(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -227,31 +210,65 @@ class _OrderConfirmationPageState extends State<OrderConfirmationPage> {
                 ],
               ),
             ),
+
             const SizedBox(height: 30),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    '/shop',
-                    (route) => false,
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.brown,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 14,
+
+            // BUTTONS
+            Column(
+              children: [
+                // CONTINUE SHOPPING
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/shop',
+                        (route) => false,
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.brown,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                    child: Text(
+                      'CONTINUE SHOPPING',
+                      style: GoogleFonts.comfortaa(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
-                child: const Text(
-                  'CONTINUE SHOPPING',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
+
+                const SizedBox(height: 12),
+
+                // ORDER HISTORY
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const OrderHistoryPage(),
+                        ),
+                      );
+                    },
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      side: const BorderSide(color: Colors.brown),
+                    ),
+                    child: Text(
+                      'VIEW ORDER HISTORY',
+                      style: GoogleFonts.comfortaa(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.brown,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           ],
         ),

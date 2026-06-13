@@ -41,15 +41,15 @@ class NavigationBarWidget extends StatelessWidget {
           // BRAND
           Column(
             children: [
-Text(
-  "NEARY",
-  style: GoogleFonts.cormorantGaramond(
-    fontSize: 30,
-    fontWeight: FontWeight.bold,
-    letterSpacing: 2,
-    color: darkText,
-  ),
-),
+              Text(
+                "NEARY",
+                style: GoogleFonts.cormorantGaramond(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 2,
+                  color: darkText,
+                ),
+              ),
               Text(
                 "fashion",
                 style: GoogleFonts.comfortaa(
@@ -108,7 +108,6 @@ Text(
                   size: 20,
                 ),
               ),
-
               Positioned(
                 right: 2,
                 top: 2,

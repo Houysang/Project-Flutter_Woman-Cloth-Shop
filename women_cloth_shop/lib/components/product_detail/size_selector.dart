@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SizeSelector extends StatefulWidget {
-  final List<String> sizes; // ['XS', 'S', 'M', 'L', 'XL']
+  final List<String> sizes;
   final Function(String size) onSizeSelected;
   final String selectedSize;
 
@@ -19,6 +20,9 @@ class SizeSelector extends StatefulWidget {
 class _SizeSelectorState extends State<SizeSelector> {
   late String _selectedSize;
 
+  static const Color accent = Color(0xFFC5A081);
+  static const Color darkText = Color(0xFF2D2926);
+
   @override
   void initState() {
     super.initState();
@@ -30,29 +34,37 @@ class _SizeSelectorState extends State<SizeSelector> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // HEADER
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
+            Text(
               'Size',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+              style: GoogleFonts.comfortaa(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: darkText,
+              ),
             ),
             GestureDetector(
               onTap: () => _showSizeGuide(context),
               child: Text(
                 'Size Guide',
-                style: TextStyle(
+                style: GoogleFonts.comfortaa(
                   fontSize: 12,
-                  color: Colors.brown[400],
+                  color: Colors.black54,
                   decoration: TextDecoration.underline,
                 ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 8),
+
+        const SizedBox(height: 10),
+
+        // SIZE OPTIONS
         SizedBox(
-          height: 55, // smaller height
+          height: 50,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.sizes.length,
@@ -62,32 +74,30 @@ class _SizeSelectorState extends State<SizeSelector> {
 
               return GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _selectedSize = size;
-                  });
+                  setState(() => _selectedSize = size);
                   widget.onSizeSelected(size);
                 },
-                child: Container(
-                  width: 45,
-                  height: 45,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  width: 44,
+                  height: 44,
                   margin: const EdgeInsets.only(right: 10),
                   decoration: BoxDecoration(
+                    color: isSelected ? accent.withOpacity(0.15) : Colors.white,
+                    borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: isSelected ? Colors.brown : Colors.grey[300]!,
-                      width: isSelected ? 2 : 1,
+                      color: isSelected ? accent : Colors.black12,
+                      width: isSelected ? 1.5 : 1,
                     ),
-                    borderRadius: BorderRadius.circular(6),
-                    color: isSelected ? Colors.brown[50] : Colors.white,
                   ),
                   child: Center(
                     child: Text(
                       size,
-                      style: TextStyle(
+                      style: GoogleFonts.comfortaa(
                         fontSize: 12,
-                        fontWeight: isSelected
-                            ? FontWeight.w700
-                            : FontWeight.w500,
-                        color: isSelected ? Colors.brown : Colors.grey[700],
+                        fontWeight:
+                            isSelected ? FontWeight.w700 : FontWeight.w500,
+                        color: isSelected ? accent : darkText,
                       ),
                     ),
                   ),
@@ -100,6 +110,7 @@ class _SizeSelectorState extends State<SizeSelector> {
     );
   }
 
+  // ---------------- SIZE GUIDE ----------------
   void _showSizeGuide(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -113,13 +124,17 @@ class _SizeSelectorState extends State<SizeSelector> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Size Guide',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
+                style: GoogleFonts.comfortaa(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: darkText,
+                ),
               ),
               const SizedBox(height: 12),
               Table(
-                border: TableBorder.all(color: Colors.grey[300]!),
+                border: TableBorder.all(color: Colors.black12),
                 columnWidths: const {
                   0: FlexColumnWidth(1),
                   1: FlexColumnWidth(1),
@@ -127,66 +142,18 @@ class _SizeSelectorState extends State<SizeSelector> {
                 },
                 children: [
                   TableRow(
-                    decoration: BoxDecoration(color: Colors.brown[50]),
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          'Size',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          'Chest',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Text(
-                          'Length',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const TableRow(
+                    decoration: BoxDecoration(color: accent.withOpacity(0.1)),
                     children: [
-                      Padding(padding: EdgeInsets.all(8), child: Text('XS')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('32"')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('35"')),
+                      _tableHeader('Size'),
+                      _tableHeader('Chest'),
+                      _tableHeader('Length'),
                     ],
                   ),
-                  const TableRow(
-                    children: [
-                      Padding(padding: EdgeInsets.all(8), child: Text('S')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('34"')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('36"')),
-                    ],
-                  ),
-                  const TableRow(
-                    children: [
-                      Padding(padding: EdgeInsets.all(8), child: Text('M')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('36"')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('37"')),
-                    ],
-                  ),
-                  const TableRow(
-                    children: [
-                      Padding(padding: EdgeInsets.all(8), child: Text('L')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('38"')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('38"')),
-                    ],
-                  ),
-                  const TableRow(
-                    children: [
-                      Padding(padding: EdgeInsets.all(8), child: Text('XL')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('40"')),
-                      Padding(padding: EdgeInsets.all(8), child: Text('39"')),
-                    ],
-                  ),
+                  _tableRow('XS', '32"', '35"'),
+                  _tableRow('S', '34"', '36"'),
+                  _tableRow('M', '36"', '37"'),
+                  _tableRow('L', '38"', '38"'),
+                  _tableRow('XL', '40"', '39"'),
                 ],
               ),
               const SizedBox(height: 16),
@@ -195,12 +162,18 @@ class _SizeSelectorState extends State<SizeSelector> {
                 child: ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.brown,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    backgroundColor: accent,
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Close',
-                    style: TextStyle(color: Colors.white),
+                    style: GoogleFonts.comfortaa(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -208,6 +181,44 @@ class _SizeSelectorState extends State<SizeSelector> {
           ),
         );
       },
+    );
+  }
+
+  // ---------------- TABLE HELPERS ----------------
+  Widget _tableHeader(String text) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Text(
+        text,
+        style: GoogleFonts.comfortaa(
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+          color: darkText,
+        ),
+      ),
+    );
+  }
+
+  TableRow _tableRow(String a, String b, String c) {
+    return TableRow(
+      children: [
+        _tableCell(a),
+        _tableCell(b),
+        _tableCell(c),
+      ],
+    );
+  }
+
+  Widget _tableCell(String text) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Text(
+        text,
+        style: GoogleFonts.comfortaa(
+          fontSize: 12,
+          color: Colors.black87,
+        ),
+      ),
     );
   }
 }

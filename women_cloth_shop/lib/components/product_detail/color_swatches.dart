@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ColorSwatches extends StatefulWidget {
-  final List<Map<String, String>>
-  colors; // [{name: 'Beige', hex: '#D4C5B9'}, ...]
+  final List<Map<String, String>> colors;
   final Function(String colorName) onColorSelected;
   final String selectedColor;
 
@@ -19,6 +19,9 @@ class ColorSwatches extends StatefulWidget {
 
 class _ColorSwatchesState extends State<ColorSwatches> {
   late String _selectedColor;
+
+  static const Color accent = Color(0xFFC5A081);
+  static const Color darkText = Color(0xFF2D2926);
 
   @override
   void initState() {
@@ -42,13 +45,21 @@ class _ColorSwatchesState extends State<ColorSwatches> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        // TITLE
+        Text(
           'Color',
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          style: GoogleFonts.comfortaa(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: darkText,
+          ),
         ),
-        const SizedBox(height: 8),
+
+        const SizedBox(height: 10),
+
+        // COLORS
         SizedBox(
-          height: 70, // reduced height to avoid overflow
+          height: 80,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.colors.length,
@@ -60,39 +71,52 @@ class _ColorSwatchesState extends State<ColorSwatches> {
 
               return GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _selectedColor = colorName;
-                  });
+                  setState(() => _selectedColor = colorName);
                   widget.onColorSelected(colorName);
                 },
-                child: Container(
-                  margin: const EdgeInsets.only(right: 12),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  margin: const EdgeInsets.only(right: 14),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min, // prevents overflow
+                    mainAxisSize: MainAxisSize.min,
                     children: [
+                      // COLOR CIRCLE
                       Container(
-                        width: 40,
-                        height: 40,
+                        width: 42,
+                        height: 42,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: _hexToColor(colorHex),
                           border: Border.all(
-                            color: isSelected
-                                ? Colors.black
-                                : Colors.grey[300]!,
+                            color: isSelected ? accent : Colors.black12,
                             width: isSelected ? 2 : 1,
                           ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.08),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                            if (isSelected)
+                              BoxShadow(
+                                color: accent.withOpacity(0.25),
+                                blurRadius: 12,
+                                offset: const Offset(0, 6),
+                              ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 4),
+
+                      const SizedBox(height: 6),
+
+                      // NAME
                       Text(
                         colorName,
-                        style: TextStyle(
+                        style: GoogleFonts.comfortaa(
                           fontSize: 11,
-                          fontWeight: isSelected
-                              ? FontWeight.w600
-                              : FontWeight.w400,
-                          color: isSelected ? Colors.black : Colors.grey[600],
+                          fontWeight:
+                              isSelected ? FontWeight.w600 : FontWeight.w400,
+                          color: isSelected ? accent : Colors.black54,
                         ),
                       ),
                     ],
