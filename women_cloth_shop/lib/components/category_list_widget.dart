@@ -6,6 +6,7 @@ import '../screens/tops_page.dart';
 import '../screens/skirts_page.dart';
 import '../screens/bags_page.dart';
 import '../pages/home_page.dart';
+import 'category_icons.dart';
 
 class CategoryListWidget extends StatelessWidget {
   final int activeIndex;
@@ -29,21 +30,25 @@ class CategoryListWidget extends StatelessWidget {
       _CategoryItem(
         label: "Dresses",
         icon: Icons.woman_2_outlined,
+        customIcon: (color) => DressIcon(size: 15, color: color),
         page: () => const DressPage(),
       ),
       _CategoryItem(
         label: "Tops",
         icon: Icons.checkroom_outlined,
+        customIcon: (color) => TopIcon(size: 15, color: color),
         page: () => const TopsPage(),
       ),
       _CategoryItem(
         label: "Skirts",
         icon: Icons.skateboarding_outlined,
+        customIcon: (color) => SkirtIcon(size: 15, color: color),
         page: () => const SkirtsPage(),
       ),
       _CategoryItem(
-        label: "Bags",
-        icon: Icons.shopping_bag_outlined,
+        label: "Pants",
+        icon: Icons.accessibility_new_outlined,
+        customIcon: (color) => PantIcon(size: 15, color: color),
         page: () => const BagsPage(),
       ),
     ];
@@ -91,11 +96,13 @@ class CategoryListWidget extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(
-                    item.icon,
-                    size: 15,
-                    color: isActive ? Colors.white : accent,
-                  ),
+                  item.customIcon != null
+                      ? item.customIcon!(isActive ? Colors.white : accent)
+                      : Icon(
+                          item.icon,
+                          size: 15,
+                          color: isActive ? Colors.white : accent,
+                        ),
                   const SizedBox(width: 6),
                   Text(
                     item.label,
@@ -118,11 +125,13 @@ class CategoryListWidget extends StatelessWidget {
 class _CategoryItem {
   final String label;
   final IconData icon;
+  final Widget Function(Color)? customIcon;
   final Widget Function() page;
 
   const _CategoryItem({
     required this.label,
     required this.icon,
+    this.customIcon,
     required this.page,
   });
 }

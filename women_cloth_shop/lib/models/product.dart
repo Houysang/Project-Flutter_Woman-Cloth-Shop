@@ -17,6 +17,11 @@ class Product {
     this.images = const [],
   });
 
+  double get priceValue {
+    final cleaned = price.replaceAll(RegExp(r'[^\d.]'), '');
+    return double.tryParse(cleaned) ?? 0.0;
+  }
+
   String get coverImage => image.isNotEmpty ? image : (images.isNotEmpty ? images.first : '');
 
   List<String> get allImages => images.isNotEmpty ? images : (image.isNotEmpty ? [image] : []);
