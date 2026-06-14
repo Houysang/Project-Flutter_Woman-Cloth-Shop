@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+void main() {
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: InterestedPage(),
+  ));
+}
+
 class InterestedPage extends StatefulWidget {
   const InterestedPage({super.key});
 
@@ -39,51 +46,35 @@ class _InterestedPageState extends State<InterestedPage> {
             children: [
               const SizedBox(height: 20),
 
-              // Brand pill
+              // Circular Logo
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                width: 100,
+                height: 100,
                 decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: accent.withOpacity(0.3),
+                    width: 2,
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.04),
-                      blurRadius: 8,
+                      color: accent.withOpacity(0.15),
+                      blurRadius: 20,
+                      offset: const Offset(0, 6),
                     ),
                   ],
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 22,
-                      height: 22,
-                      decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFD8B384), Color(0xFFC9A17B)],
-                        ),
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: const Center(
-                        child: Text("OW",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w700)),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text("NEARY",
-                        style: GoogleFonts.comfortaa(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
-                            color: dark)),
-                  ],
+                child: ClipOval(
+                  child: Image.asset(
+                    '../../assets/images/logo1.png',
+                    fit: BoxFit.cover,
+                    width: 100,
+                    height: 100,
+                  ),
                 ),
               ),
 
-              const SizedBox(height: 28),
+              const SizedBox(height: 24),
 
               // Title
               Text(

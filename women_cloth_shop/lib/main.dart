@@ -13,6 +13,8 @@ import 'screens/tops_page.dart';
 import 'screens/skirts_page.dart';
 import 'screens/bags_page.dart';
 import 'screens/profile_page.dart';
+import 'screens/about_app_page.dart';
+import 'screens/contact_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +49,8 @@ class MyApp extends StatelessWidget {
         '/checkout': (context) => const CheckoutPage(),
         '/order_confirmation': (context) => const OrderConfirmationPage(),
         '/profile': (context) => const ProfilePage(),
+        '/about': (context) => const AboutAppPage(),
+        '/contact': (context) => const ContactPage(),
       },
       debugShowCheckedModeBanner: false,
     );

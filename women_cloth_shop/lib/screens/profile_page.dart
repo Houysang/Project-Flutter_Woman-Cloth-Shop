@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,9 +8,12 @@ import 'order_history_page.dart';
 import 'setting_page.dart';
 import 'wishlist_page.dart';
 import 'filter_page.dart';
+import 'edit_profile_page.dart';
+import '../components/glass_bottom_nav_widget.dart';
 import '../models/wishlist_store.dart';
 import '../login_page.dart';
 import '../services/auth_service.dart';
+import '../services/profile_service.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -19,7 +24,9 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final AuthService _authService = AuthService();
+  final ProfileService _profileService = ProfileService();
   User? _user;
+  String? _photoBase64;
 
   @override
   void initState() {
@@ -31,6 +38,28 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _user = _authService.currentUser;
     });
+    _loadProfileImage();
+  }
+
+  Future<void> _loadProfileImage() async {
+    final profile = await _profileService.getProfile();
+    if (profile != null && mounted) {
+      setState(() {
+        _photoBase64 = profile['photoBase64'] as String?;
+      });
+    }
+  }
+
+  Future<void> _navigateToEdit() async {
+    final result = await Navigator.push<bool>(
+      context,
+      MaterialPageRoute(
+        builder: (_) => EditProfilePage(currentPhotoBase64: _photoBase64),
+      ),
+    );
+    if (result == true) {
+      _loadUser();
+    }
   }
 
   Future<void> _logout() async {
@@ -82,74 +111,82 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-
+      bottomNavigationBar: const GlassBottomNavWidget(selectedIndex: 3),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
             const SizedBox(height: 10),
 
-            // PROFILE HEADER
-            Container(
-              padding: const EdgeInsets.all(18),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(22),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
-                    blurRadius: 12,
-                    offset: const Offset(0, 6),
-                  ),
-                ],
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: accent, width: 2),
+            // PROFILE HEADER (tap to edit)
+            GestureDetector(
+              onTap: _navigateToEdit,
+              child: Container(
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(22),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 12,
+                      offset: const Offset(0, 6),
                     ),
-                    child: CircleAvatar(
-                      radius: 35,
-                      backgroundColor: accent.withOpacity(0.2),
-                      child: Text(
-                        initial,
-                        style: GoogleFonts.comfortaa(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: accent,
-                        ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(3),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: accent, width: 2),
+                      ),
+                      child: CircleAvatar(
+                        radius: 35,
+                        backgroundColor: accent.withOpacity(0.2),
+                        backgroundImage: _photoBase64 != null
+                            ? MemoryImage(base64Decode(_photoBase64!))
+                            : null,
+                        child: _photoBase64 == null
+                            ? Text(
+                                initial,
+                                style: GoogleFonts.comfortaa(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: accent,
+                                ),
+                              )
+                            : null,
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 15),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          name,
-                          style: GoogleFonts.comfortaa(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: darkText,
+                    const SizedBox(width: 15),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name,
+                            style: GoogleFonts.comfortaa(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: darkText,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          email,
-                          style: GoogleFonts.comfortaa(
-                            fontSize: 13,
-                            color: Colors.black54,
+                          const SizedBox(height: 4),
+                          Text(
+                            email,
+                            style: GoogleFonts.comfortaa(
+                              fontSize: 13,
+                              color: Colors.black54,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const Icon(Icons.edit, color: Colors.black45),
-                ],
+                    const Icon(Icons.edit, color: Colors.black45),
+                  ],
+                ),
               ),
             ),
 

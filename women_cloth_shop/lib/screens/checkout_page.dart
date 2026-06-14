@@ -94,7 +94,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     super.dispose();
   }
 
-  void _placeOrder() {
+  Future<void> _placeOrder() async {
     if (!_formKey.currentState!.validate()) return;
 
     final order = Order(
@@ -105,11 +105,12 @@ class _CheckoutPageState extends State<CheckoutPage> {
       status: OrderStatus.processing,
     );
 
-    orderHistory.add(order); // ✅ SAVE TO HISTORY
+    await saveOrder(order); // ✅ SAVE TO FIRESTORE + local history
 
     final orderTotal = total;
     clearCart(); // empty cart AFTER saving order
 
+    if (!mounted) return;
     Navigator.pushReplacementNamed(
       context,
       '/order_confirmation',

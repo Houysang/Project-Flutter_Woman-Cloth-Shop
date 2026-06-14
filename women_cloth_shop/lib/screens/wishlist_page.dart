@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/wishlist_store.dart';
@@ -20,50 +19,39 @@ class WishlistPage extends StatefulWidget {
   State<WishlistPage> createState() => _WishlistPageState();
 }
 
-class _WishlistPageState extends State<WishlistPage>
-    with SingleTickerProviderStateMixin {
+class _WishlistPageState extends State<WishlistPage> {
   late List<WishlistItem> _items;
-  int _selectedFooterIndex = 2;
-  late AnimationController _floatController;
-  late Animation<double> _floatAnimation;
 
   static const Color accent = Color(0xFFC5A081);
   static const Color darkText = Color(0xFF2D2926);
   static const Color bgLight = Color(0xFFF9F7F2);
+  static const Color softPink = Color(0xFFFFE8E0);
+  static const Color mutedPink = Color(0xFFFFD6CC);
 
   @override
   void initState() {
     super.initState();
     _items =
         widget.items.isNotEmpty ? List.of(widget.items) : List.of(wishlist);
-
-    _floatController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 2000),
-    )..repeat(reverse: true);
-
-    _floatAnimation = Tween<double>(begin: -6, end: 6).animate(
-      CurvedAnimation(parent: _floatController, curve: Curves.easeInOutSine),
-    );
   }
 
-  @override
-  void dispose() {
-    _floatController.dispose();
-    super.dispose();
-  }
+  void _removeItem(String id) {
+    setState(() {
+      _items.removeWhere((w) => w.id == id);
+    });
+    removeFromWishlistById(id);
 
-  void _removeItem(int index) {
-    final removedItem = _items.removeAt(index);
-    wishlist.removeWhere((w) => w.id == removedItem.id);
-    setState(() {});
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${removedItem.title} removed from wishlist'),
+        content: const Text('Removed from wishlist 💔'),
+        backgroundColor: accent,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         duration: const Duration(seconds: 2),
       ),
     );
-    if (removedItem.id == widget.currentProductId) {
+
+    if (id == widget.currentProductId) {
       Navigator.pop(context, false);
     }
   }
@@ -83,24 +71,11 @@ class _WishlistPageState extends State<WishlistPage>
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${item.title} added to bag'),
+        content: Text('${item.title} added to bag 🛍'),
+        backgroundColor: accent,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         duration: const Duration(seconds: 2),
-      ),
-    );
-  }
-
-  Widget _buildAmbientCircle(
-      double size, Color color, double? left, double? top) {
-    return Positioned(
-      left: left,
-      top: top,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color.withValues(alpha: 0.12),
-        ),
       ),
     );
   }
@@ -110,392 +85,332 @@ class _WishlistPageState extends State<WishlistPage>
     return Scaffold(
       backgroundColor: bgLight,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: bgLight,
         elevation: 0,
-        iconTheme: const IconThemeData(color: darkText),
-        title: Text(
-          'Wishlist',
-          style: GoogleFonts.comfortaa(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: darkText,
-          ),
-        ),
+        scrolledUnderElevation: 0,
         centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.favorite, color: accent, size: 20),
+            const SizedBox(width: 8),
+            Text(
+              'My Favorites',
+              style: GoogleFonts.comfortaa(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: darkText,
+              ),
+            ),
+          ],
+        ),
       ),
-      body: Stack(
+      body: _items.isEmpty ? _buildEmptyState() : _buildContent(),
+      floatingActionButton: cart.isNotEmpty ? const FloatingCartButton() : null,
+      bottomNavigationBar: const GlassBottomNavWidget(selectedIndex: 1),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Ambient abstract circles
-          _buildAmbientCircle(220, accent, -80, -40),
-          _buildAmbientCircle(160, const Color(0xFFE8D5C4), null, 360),
-          _buildAmbientCircle(100, const Color(0xFFD4B8A0), 280, 700),
-
-          SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Item count with decorative bar
-                Row(
-                  children: [
-                    Container(
-                      width: 3,
-                      height: 16,
-                      decoration: BoxDecoration(
-                        color: accent,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      '${_items.length} item${_items.length == 1 ? '' : 's'} curated',
-                      style: GoogleFonts.comfortaa(
-                        fontSize: 13,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 18),
-
-                if (_items.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 80),
-                    child: Center(
-                      child: Column(
-                        children: [
-                          AnimatedBuilder(
-                            animation: _floatAnimation,
-                            builder: (context, child) {
-                              return Transform.translate(
-                                offset: Offset(0, _floatAnimation.value),
-                                child: child,
-                              );
-                            },
-                            child: Container(
-                              width: 72,
-                              height: 72,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: accent.withValues(alpha: 0.08),
-                                border: Border.all(
-                                  color: accent.withValues(alpha: 0.15),
-                                  width: 1.5,
-                                ),
-                              ),
-                              child: const Center(
-                                child: Icon(
-                                  Icons.favorite_border,
-                                  size: 32,
-                                  color: accent,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Text(
-                            'Your wishlist is empty',
-                            style: GoogleFonts.comfortaa(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: darkText,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Save your favorite pieces here',
-                            style: GoogleFonts.comfortaa(
-                              fontSize: 13,
-                              color: Colors.black45,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                else
-                  Column(
-                    children: [
-                      // ADD ALL TO BAG
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            for (final item in _items) {
-                              final cartItem = CartItem(
-                                id: item.id,
-                                title: item.title,
-                                price: item.price,
-                                image: item.image,
-                                color: 'Default',
-                                size: 'M',
-                              );
-                              addToCart(cartItem);
-                            }
-
-                            setState(() {});
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'Added ${_items.length} item${_items.length == 1 ? '' : 's'} to bag',
-                                ),
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: accent,
-                            foregroundColor: Colors.white,
-                            elevation: 0,
-                            shadowColor: accent.withValues(alpha: 0.3),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                          ),
-                          child: Text(
-                            'ADD ALL TO BAG',
-                            style: GoogleFonts.comfortaa(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1.2,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 24),
-
-                      // Wishlist items
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _items.length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 20),
-                        itemBuilder: (context, index) {
-                          final item = _items[index];
-                          return WishlistCard(
-                            title: item.title,
-                            price: item.price,
-                            tag: item.tag,
-                            image: item.image,
-                            onRemove: () => _removeItem(index),
-                            onQuickAdd: () => _handleQuickAdd(item),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-
-                const SizedBox(height: 80),
-              ],
+          Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  softPink,
+                  mutedPink.withOpacity(0.5),
+                ],
+              ),
+            ),
+            child: Center(
+              child: Icon(
+                Icons.favorite_border,
+                size: 40,
+                color: accent.withOpacity(0.6),
+              ),
+            ),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            'Your wishlist is empty',
+            style: GoogleFonts.comfortaa(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: darkText,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Tap the heart icon to save your\nfavorite items ✨',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.comfortaa(
+              fontSize: 13,
+              color: Colors.black45,
+              height: 1.5,
             ),
           ),
         ],
       ),
-      floatingActionButton: cart.isNotEmpty ? const FloatingCartButton() : null,
-      bottomNavigationBar: const GlassBottomNavWidget(),
+    );
+  }
+
+  Widget _buildContent() {
+    return Column(
+      children: [
+        // Count header
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 4),
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: accent.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  '${_items.length} saved',
+                  style: GoogleFonts.comfortaa(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: accent,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              // Add all button as a small rounded button
+              GestureDetector(
+                onTap: () {
+                  for (final item in _items) {
+                    final cartItem = CartItem(
+                      id: item.id,
+                      title: item.title,
+                      price: item.price,
+                      image: item.image,
+                      color: 'Default',
+                      size: 'M',
+                    );
+                    addToCart(cartItem);
+                  }
+                  setState(() {});
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Added ${_items.length} item${_items.length == 1 ? '' : 's'} to bag 🛍',
+                      ),
+                      backgroundColor: accent,
+                      behavior: SnackBarBehavior.floating,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: accent,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(Icons.shopping_bag_outlined,
+                          size: 14, color: Colors.white),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Add All',
+                        style: GoogleFonts.comfortaa(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 16),
+
+        // Grid of items
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: GridView.builder(
+              physics: const BouncingScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                childAspectRatio: 0.65,
+              ),
+              itemCount: _items.length,
+              itemBuilder: (context, index) {
+                final item = _items[index];
+                return _CompactWishlistCard(
+                  title: item.title,
+                  price: item.price,
+                  image: item.image,
+                  onRemove: () => _removeItem(item.id),
+                  onQuickAdd: () => _handleQuickAdd(item),
+                );
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
 
-// ----------------
-// Card widget
-// ----------------
+// ── Compact Card Widget ──
 
-class WishlistCard extends StatelessWidget {
+class _CompactWishlistCard extends StatelessWidget {
   final String title;
   final String price;
-  final String tag;
   final String image;
   final VoidCallback onRemove;
   final VoidCallback onQuickAdd;
 
-  const WishlistCard({
-    super.key,
+  const _CompactWishlistCard({
     required this.title,
     required this.price,
-    required this.tag,
     required this.image,
     required this.onRemove,
     required this.onQuickAdd,
   });
 
   static const Color accent = Color(0xFFC5A081);
+  static const Color darkText = Color(0xFF2D2926);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 20,
-            offset: const Offset(0, 8),
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
           ),
         ],
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Image area with title/tag overlay and heart
-            Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image area
+          Expanded(
+            child: Stack(
               children: [
-                Image.asset(
-                  image,
-                  width: double.infinity,
-                  height: 300,
-                  fit: BoxFit.cover,
-                ),
-
-                // Subtle gradient overlay at bottom
-                Positioned.fill(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.topCenter,
-                        colors: [
-                          Colors.black.withValues(alpha: 0.5),
-                          Colors.transparent,
-                          Colors.transparent,
-                        ],
-                      ),
-                    ),
+                ClipRRect(
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(20)),
+                  child: Image.asset(
+                    image,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
                   ),
                 ),
 
+                // Heart remove button
                 Positioned(
-                  left: 16,
-                  bottom: 16,
-                  right: 16,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        tag.toUpperCase(),
-                        style: GoogleFonts.comfortaa(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white60,
-                          letterSpacing: 1.8,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        title,
-                        style: GoogleFonts.comfortaa(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                          height: 1.3,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-
-                // Heart icon overlay
-                Positioned(
-                  top: 16,
-                  right: 16,
+                  top: 8,
+                  right: 8,
                   child: GestureDetector(
                     onTap: onRemove,
                     child: Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.9),
+                        color: Colors.white.withOpacity(0.92),
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 8,
-                            offset: const Offset(0, 3),
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
                           ),
                         ],
                       ),
                       child: const Icon(
                         Icons.favorite,
-                        color: Color(0xFF6D4960),
-                        size: 20,
+                        color: Color(0xFFE07A7A),
+                        size: 16,
                       ),
                     ),
                   ),
                 ),
               ],
             ),
+          ),
 
-            // Bottom bar with price and quick add
-            Container(
-              color: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Price',
-                        style: GoogleFonts.comfortaa(
-                          fontSize: 10,
-                          color: Colors.black38,
-                          letterSpacing: 1,
-                        ),
+          // Info section
+          Padding(
+            padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.comfortaa(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: darkText,
+                  ),
+                ),
+                const SizedBox(height: 6),
+
+                // Price + Add row
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      price,
+                      style: GoogleFonts.comfortaa(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: accent,
                       ),
-                      const SizedBox(height: 2),
-                      Text(
-                        price,
-                        style: GoogleFonts.comfortaa(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
+                    ),
+                    GestureDetector(
+                      onTap: onQuickAdd,
+                      child: Container(
+                        padding: const EdgeInsets.all(7),
+                        decoration: BoxDecoration(
+                          color: accent.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Icon(
+                          Icons.shopping_bag_outlined,
+                          size: 16,
                           color: accent,
                         ),
                       ),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: onQuickAdd,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 18, vertical: 10),
-                      decoration: BoxDecoration(
-                        color: accent.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(
-                            Icons.shopping_bag_outlined,
-                            size: 14,
-                            color: accent,
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            'ADD',
-                            style: GoogleFonts.comfortaa(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: accent,
-                              letterSpacing: 1,
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

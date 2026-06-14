@@ -3,16 +3,37 @@ import 'package:google_fonts/google_fonts.dart';
 import '../models/order.dart';
 import '../models/order_store.dart';
 
-class OrderHistoryPage extends StatelessWidget {
+class OrderHistoryPage extends StatefulWidget {
   const OrderHistoryPage({super.key});
+
+  @override
+  State<OrderHistoryPage> createState() => _OrderHistoryPageState();
+}
+
+class _OrderHistoryPageState extends State<OrderHistoryPage> {
+  bool _isLoading = true;
 
   static const Color darkText = Color(0xFF2D2926);
   static const Color accent = Color(0xFFC5A081);
 
   @override
-  Widget build(BuildContext context) {
-    final orders = orderHistory;
+  void initState() {
+    super.initState();
+    _loadOrders();
+  }
 
+  Future<void> _loadOrders() async {
+    setState(() => _isLoading = true);
+    try {
+      await loadOrdersFromFirestore();
+    } catch (_) {
+      // If loading fails, just use whatever is in local cache
+    }
+    if (mounted) setState(() => _isLoading = false);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF9F7F2),
       appBar: AppBar(
@@ -27,142 +48,147 @@ class OrderHistoryPage extends StatelessWidget {
           ),
         ),
       ),
-      body: orders.isEmpty
-          ? Center(
-              child: Text(
-                "No orders yet",
-                style: GoogleFonts.comfortaa(
-                  color: Colors.black54,
-                ),
-              ),
-            )
-          : ListView.builder(
-              padding: const EdgeInsets.all(16),
-              itemCount: orders.length,
-              itemBuilder: (context, index) {
-                final order = orders[index];
-
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 16),
-                  padding: const EdgeInsets.all(14),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 12,
-                        offset: const Offset(0, 6),
-                      ),
-                    ],
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : orderHistory.isEmpty
+              ? Center(
+                  child: Text(
+                    "No orders yet",
+                    style: GoogleFonts.comfortaa(
+                      color: Colors.black54,
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // HEADER
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Order #${order.id}",
-                            style: GoogleFonts.comfortaa(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                              color: darkText,
-                            ),
-                          ),
-                          Text(
-                            order.status.name,
-                            style: GoogleFonts.comfortaa(
-                              fontSize: 12,
-                              color: order.status == OrderStatus.delivered
-                                  ? Colors.green
-                                  : Colors.orange,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      ),
+                )
+              : RefreshIndicator(
+                  onRefresh: _loadOrders,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: orderHistory.length,
+                    itemBuilder: (context, index) {
+                      final order = orderHistory[index];
 
-                      const SizedBox(height: 6),
-
-                      // DATE
-                      Text(
-                        "${order.date.day}/${order.date.month}/${order.date.year}",
-                        style: GoogleFonts.comfortaa(
-                          fontSize: 11,
-                          color: Colors.black45,
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 16),
+                        padding: const EdgeInsets.all(14),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 12,
+                              offset: const Offset(0, 6),
+                            ),
+                          ],
                         ),
-                      ),
-
-                      const SizedBox(height: 12),
-
-                      // ITEMS
-                      Column(
-                        children: order.items.map((item) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Row(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // HEADER
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.asset(
-                                    item.image,
-                                    width: 45,
-                                    height: 45,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: Text(
-                                    item.title,
-                                    style: GoogleFonts.comfortaa(
-                                      fontSize: 13,
-                                      color: darkText,
-                                    ),
+                                Text(
+                                  "Order #${order.id}",
+                                  style: GoogleFonts.comfortaa(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: darkText,
                                   ),
                                 ),
                                 Text(
-                                  "x${item.quantity}",
+                                  order.status.name,
                                   style: GoogleFonts.comfortaa(
                                     fontSize: 12,
-                                    color: Colors.black54,
+                                    color: order.status == OrderStatus.delivered
+                                        ? Colors.green
+                                        : Colors.orange,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ],
                             ),
-                          );
-                        }).toList(),
-                      ),
 
-                      const Divider(),
+                            const SizedBox(height: 6),
 
-                      // TOTAL
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Total",
-                            style: GoogleFonts.comfortaa(
-                              fontWeight: FontWeight.bold,
-                              color: darkText,
+                            // DATE
+                            Text(
+                              "${order.date.day}/${order.date.month}/${order.date.year}",
+                              style: GoogleFonts.comfortaa(
+                                fontSize: 11,
+                                color: Colors.black45,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "\$${order.totalPrice.toStringAsFixed(2)}",
-                            style: GoogleFonts.comfortaa(
-                              fontWeight: FontWeight.bold,
-                              color: accent,
+
+                            const SizedBox(height: 12),
+
+                            // ITEMS
+                            Column(
+                              children: order.items.map((item) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: Row(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.asset(
+                                          item.image,
+                                          width: 45,
+                                          height: 45,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 10),
+                                      Expanded(
+                                        child: Text(
+                                          item.title,
+                                          style: GoogleFonts.comfortaa(
+                                            fontSize: 13,
+                                            color: darkText,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        "x${item.quantity}",
+                                        style: GoogleFonts.comfortaa(
+                                          fontSize: 12,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+
+                            const Divider(),
+
+                            // TOTAL
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Total",
+                                  style: GoogleFonts.comfortaa(
+                                    fontWeight: FontWeight.bold,
+                                    color: darkText,
+                                  ),
+                                ),
+                                Text(
+                                  "\$${order.totalPrice.toStringAsFixed(2)}",
+                                  style: GoogleFonts.comfortaa(
+                                    fontWeight: FontWeight.bold,
+                                    color: accent,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
+                ),
     );
   }
 }

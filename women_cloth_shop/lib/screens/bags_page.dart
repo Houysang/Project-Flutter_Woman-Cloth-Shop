@@ -9,6 +9,7 @@ import '../components/category_list_widget.dart';
 import '../components/glass_bottom_nav_widget.dart';
 import '../components/category_icons.dart';
 import '../components/filter_bottom_sheet.dart';
+import '../components/menu_overlay_widget.dart';
 
 class BagsPage extends StatefulWidget {
   const BagsPage({super.key});
@@ -19,6 +20,11 @@ class BagsPage extends StatefulWidget {
 
 class _BagsPageState extends State<BagsPage> {
   PriceFilter _priceFilter = const PriceFilter();
+  bool _isMenuOpen = false;
+
+  void _closeMenu() {
+    setState(() => _isMenuOpen = false);
+  }
 
   static const Color backgroundColor = Color(0xFFF9F7F2);
   static const Color accent = Color(0xFFC5A081);
@@ -88,127 +94,138 @@ class _BagsPageState extends State<BagsPage> {
       backgroundColor: backgroundColor,
       extendBody: true,
       bottomNavigationBar: const GlassBottomNavWidget(),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const NavigationBarWidget(),
-              const SizedBox(height: 15),
-              const SearchBarWidget(),
-              const SizedBox(height: 20),
-              const CategoryListWidget(activeIndex: 4),
-              const SizedBox(height: 22),
-
-              // Section header with count
-              Row(
+      body: Stack(
+        children: [
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: accent,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: const PantIcon(
-                      color: Colors.white,
-                      size: 20,
-                    ),
+                  NavigationBarWidget(
+                    onMenuTap: () => setState(() => _isMenuOpen = true),
                   ),
-                  const SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  const SizedBox(height: 15),
+                  const SearchBarWidget(),
+                  const SizedBox(height: 20),
+                  const CategoryListWidget(activeIndex: 4),
+                  const SizedBox(height: 22),
+
+                  // Section header with count
+                  Row(
                     children: [
-                      Text(
-                        "Pants",
-                        style: GoogleFonts.comfortaa(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: darkText,
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: accent,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const PantIcon(
+                          color: Colors.white,
+                          size: 20,
                         ),
                       ),
-                      Text(
-                        "${pants.length} items",
-                        style: GoogleFonts.comfortaa(
-                          fontSize: 11,
-                          color: Colors.black45,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  // Filter chip
-                  GestureDetector(
-                    onTap: () => FilterBottomSheet.show(
-                      context,
-                      currentFilter: _priceFilter,
-                      onApply: (filter) => setState(() => _priceFilter = filter),
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: _priceFilter.isActive ? accent : Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: _priceFilter.isActive
-                              ? accent
-                              : Colors.black.withOpacity(0.08),
-                        ),
-                      ),
-                      child: Row(
+                      const SizedBox(width: 12),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(
-                            Icons.tune,
-                            size: 16,
-                            color: _priceFilter.isActive ? Colors.white : accent,
-                          ),
-                          const SizedBox(width: 6),
                           Text(
-                            _priceFilter.isActive ? "Filtered" : "Filter",
+                            "Pants",
                             style: GoogleFonts.comfortaa(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: _priceFilter.isActive ? Colors.white : darkText,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: darkText,
+                            ),
+                          ),
+                          Text(
+                            "${pants.length} items",
+                            style: GoogleFonts.comfortaa(
+                              fontSize: 11,
+                              color: Colors.black45,
                             ),
                           ),
                         ],
                       ),
-                    ),
+                      const Spacer(),
+                      // Filter chip
+                      GestureDetector(
+                        onTap: () => FilterBottomSheet.show(
+                          context,
+                          currentFilter: _priceFilter,
+                          onApply: (filter) => setState(() => _priceFilter = filter),
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: _priceFilter.isActive ? accent : Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: _priceFilter.isActive
+                                  ? accent
+                                  : Colors.black.withOpacity(0.08),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.tune,
+                                size: 16,
+                                color: _priceFilter.isActive ? Colors.white : accent,
+                              ),
+                              const SizedBox(width: 6),
+                              Text(
+                                _priceFilter.isActive ? "Filtered" : "Filter",
+                                style: GoogleFonts.comfortaa(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: _priceFilter.isActive ? Colors.white : darkText,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Product grid
+                  Expanded(
+                    child: pants.isEmpty
+                        ? Center(
+                            child: Text(
+                              "No products in this price range",
+                              style: GoogleFonts.comfortaa(
+                                fontSize: 14,
+                                color: Colors.black45,
+                              ),
+                            ),
+                          )
+                        : MasonryGridView.count(
+                            crossAxisCount: 2,
+                            physics: const BouncingScrollPhysics(),
+                            mainAxisSpacing: 14,
+                            crossAxisSpacing: 14,
+                            itemCount: pants.length,
+                            itemBuilder: (_, index) {
+                              return ProductCardWidget(product: pants[index]);
+                            },
+                          ),
                   ),
                 ],
               ),
-
-              const SizedBox(height: 20),
-
-              // Product grid
-              Expanded(
-                child: pants.isEmpty
-                    ? Center(
-                        child: Text(
-                          "No products in this price range",
-                          style: GoogleFonts.comfortaa(
-                            fontSize: 14,
-                            color: Colors.black45,
-                          ),
-                        ),
-                      )
-                    : MasonryGridView.count(
-                        crossAxisCount: 2,
-                        physics: const BouncingScrollPhysics(),
-                        mainAxisSpacing: 14,
-                        crossAxisSpacing: 14,
-                        itemCount: pants.length,
-                        itemBuilder: (_, index) {
-                          return ProductCardWidget(product: pants[index]);
-                        },
-                      ),
-              ),
-            ],
+            ),
           ),
-        ),
+          // === MENU OVERLAY ===
+          if (_isMenuOpen)
+            MenuOverlayWidget(
+              onClose: _closeMenu,
+            ),
+        ],
       ),
     );
   }

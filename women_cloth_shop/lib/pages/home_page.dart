@@ -14,6 +14,8 @@ import '../components/season_edit_section.dart';
 import '../components/footer_icon.dart';
 
 import '../data/products.dart';
+import '../models/cart_store.dart';
+import '../models/wishlist_store.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -35,6 +37,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _isMenuOpen = false;
+  bool _dataLoaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    if (_dataLoaded) return;
+    _dataLoaded = true;
+    await Future.wait([
+      loadCartFromFirestore(),
+      loadWishlistFromFirestore(),
+    ]);
+  }
 
   void _closeMenu() {
     setState(() => _isMenuOpen = false);
@@ -69,7 +87,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: HomePage.backgroundColor,
       extendBody: true,
-      bottomNavigationBar: const GlassBottomNavWidget(),
+      bottomNavigationBar: const GlassBottomNavWidget(selectedIndex: 0),
       body: Stack(
         children: [
           SafeArea(
