@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'screens/wishlist_page.dart';
 import 'screens/cart_page.dart';
 import 'screens/checkout_page.dart';
 import 'screens/order_confirmation_page.dart';
-import 'components/app_footer.dart';
-import 'components/floating_cart_button.dart';
 import 'models/wishlist_store.dart';
-import 'models/cart_store.dart';
 import 'login_page.dart';
-import 'register_page.dart';
 import 'pages/home_page.dart';
 import 'screens/dress_page.dart';
 import 'screens/tops_page.dart';
 import 'screens/skirts_page.dart';
 import 'screens/bags_page.dart';
-import 'screens/booking_page.dart';
 import 'screens/profile_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

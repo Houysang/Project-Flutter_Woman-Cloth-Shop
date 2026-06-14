@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "900288138933",
+    "project_id": "woman-clothes-shop",
+    "storage_bucket": "woman-clothes-shop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:900288138933:android:a15ec1988dc21d471b38fc",
+        "android_client_info": {
+          "package_name": "com.example.women_cloth_shop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuRdrn1cJUTO8w_RodnI6a6wbdih-aaZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

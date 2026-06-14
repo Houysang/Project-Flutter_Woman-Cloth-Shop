@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'order_history_page.dart';
 import 'setting_page.dart';
@@ -7,15 +8,50 @@ import 'wishlist_page.dart';
 import 'filter_page.dart';
 import '../models/wishlist_store.dart';
 import '../login_page.dart';
+import '../services/auth_service.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final AuthService _authService = AuthService();
+  User? _user;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  void _loadUser() {
+    setState(() {
+      _user = _authService.currentUser;
+    });
+  }
+
+  Future<void> _logout() async {
+    await _authService.signOut();
+    if (!mounted) return;
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const LoginPage()),
+      (route) => false,
+    );
+  }
 
   static const Color accent = Color(0xFFC5A081);
   static const Color darkText = Color(0xFF2D2926);
 
   @override
   Widget build(BuildContext context) {
+    final name = _user?.displayName ?? "User";
+    final email = _user?.email ?? "No email";
+    final initial = name.isNotEmpty ? name[0].toUpperCase() : "U";
+
     return Scaffold(
       backgroundColor: const Color(0xFFF9F7F2),
 
@@ -75,10 +111,16 @@ class ProfilePage extends StatelessWidget {
                       shape: BoxShape.circle,
                       border: Border.all(color: accent, width: 2),
                     ),
-                    child: const CircleAvatar(
+                    child: CircleAvatar(
                       radius: 35,
-                      backgroundImage: NetworkImage(
-                        'https://i.pravatar.cc/300',
+                      backgroundColor: accent.withOpacity(0.2),
+                      child: Text(
+                        initial,
+                        style: GoogleFonts.comfortaa(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: accent,
+                        ),
                       ),
                     ),
                   ),
@@ -88,7 +130,7 @@ class ProfilePage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "John Doe",
+                          name,
                           style: GoogleFonts.comfortaa(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -97,7 +139,7 @@ class ProfilePage extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          "johndoe@gmail.com",
+                          email,
                           style: GoogleFonts.comfortaa(
                             fontSize: 13,
                             color: Colors.black54,
@@ -117,10 +159,8 @@ class ProfilePage extends StatelessWidget {
             _cardSection(
               title: "Personal Information",
               children: [
-                _infoTile(Icons.person_outline, "Full Name", "John Doe"),
-                _infoTile(Icons.email_outlined, "Email", "johndoe@gmail.com"),
-                _infoTile(Icons.phone_outlined, "Phone", "+855 12 345 678"),
-                _infoTile(Icons.location_on_outlined, "Address", "Phnom Penh"),
+                _infoTile(Icons.person_outline, "Full Name", name),
+                _infoTile(Icons.email_outlined, "Email", email),
               ],
             ),
 
@@ -173,15 +213,7 @@ class ProfilePage extends StatelessWidget {
                   Icons.logout,
                   "Logout",
                   isDanger: true,
-                  onTap: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const LoginPage(),
-                      ),
-                      (route) => false,
-                    );
-                  },
+                  onTap: _logout,
                 ),
               ],
             ),
