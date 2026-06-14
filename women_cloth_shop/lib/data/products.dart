@@ -27,7 +27,7 @@ class ProductData {
       reviewCount: 97,
     ),
      Product(
-      id: 'product_001',
+      id: 'product_004',
       image: 'assets/images/fashion5.jpg',
       name: 'Silk Blouse',
       price: '\$59',
@@ -35,7 +35,7 @@ class ProductData {
       reviewCount: 234,
     ),
     Product(
-      id: 'product_002',
+      id: 'product_005',
       image: 'assets/images/fashion6.jpg',
       name: 'Elegant Dress',
       price: '\$79',
