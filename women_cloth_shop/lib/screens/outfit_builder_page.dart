@@ -1,7 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'lookbook_screen.dart';
-import '../components/navigation_bar_widget.dart';
 import '../components/glass_bottom_nav_widget.dart';
 
 class OutfitBuilderPage extends StatefulWidget {
@@ -88,19 +87,21 @@ class _OutfitBuilderPageState extends State<OutfitBuilderPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        toolbarHeight: 0,
+        iconTheme: const IconThemeData(color: Color(0xFF2D2926)),
+        title: Text(
+          'Outfit Builder',
+          style: GoogleFonts.comfortaa(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF2D2926),
+          ),
+        ),
+        centerTitle: true,
       ),
 
       body: SafeArea(
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: NavigationBarWidget(
-                onMenuTap: () {},
-              ),
-            ),
-
             const SizedBox(height: 12),
 
             // TAB SWITCH
@@ -370,7 +371,16 @@ class OutfitPreviewPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        toolbarHeight: 0,
+        iconTheme: const IconThemeData(color: Color(0xFF2D2926)),
+        title: Text(
+          'Outfit Preview',
+          style: GoogleFonts.comfortaa(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: const Color(0xFF2D2926),
+          ),
+        ),
+        centerTitle: true,
       ),
 
       body: SafeArea(
@@ -379,10 +389,7 @@ class OutfitPreviewPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              NavigationBarWidget(
-                onMenuTap: () => Navigator.maybePop(context),
-              ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 10),
               Text(
                 "Outfit Preview",
                 style: GoogleFonts.cormorantGaramond(

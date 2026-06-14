@@ -14,6 +14,7 @@ import '../components/season_edit_section.dart';
 import '../components/footer_icon.dart';
 
 import '../data/products.dart';
+import '../screens/lookbook_screen.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -80,6 +81,9 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   NavigationBarWidget(
                     onMenuTap: () => setState(() => _isMenuOpen = true),
+                    onChatTap: () {
+                      Navigator.pushNamed(context, '/chat');
+                    },
                   ),
                   const SizedBox(height: 20),
 
@@ -116,6 +120,10 @@ class _HomePageState extends State<HomePage> {
                     products: ProductData.products,
                   ),
 
+                  const SizedBox(height: 35),
+
+                  // ---- LOOKBOOK ----
+                  _lookbookSection(),
                   const SizedBox(height: 35),
 
                   // ---- STORY BETWEEN SECTIONS ----
@@ -333,6 +341,192 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+    );
+  }
+
+  // ---- LOOKBOOK SECTION ----
+  Widget _lookbookSection() {
+    final outfits = [
+      {"title": "The Silk Edit", "image": "assets/silk_edit.png"},
+      {"title": "Modern Tailoring", "image": "assets/modern_tailoring.png"},
+      {"title": "Golden Hour Ease", "image": "assets/golden_hour.png"},
+      {"title": "Ephemeral Lovers", "image": "assets/ephemeral_lovers.png"},
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Lookbook",
+                  style: GoogleFonts.cormorantGaramond(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF2D2926),
+                    height: 1.1,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  "Curated style stories for every mood",
+                  style: GoogleFonts.comfortaa(
+                    fontSize: 12,
+                    color: Colors.black45,
+                    letterSpacing: 0.5,
+                  ),
+                ),
+              ],
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LookbookPage(),
+                  ),
+                );
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  border: Border.all(color: HomePage.accent.withOpacity(0.4)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "View All",
+                      style: GoogleFonts.comfortaa(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: HomePage.accent,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Icon(Icons.arrow_forward_ios,
+                        size: 10, color: HomePage.accent),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 18),
+        SizedBox(
+          height: 230,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: outfits.length,
+            padding: const EdgeInsets.only(left: 0, right: 20),
+            separatorBuilder: (_, __) => const SizedBox(width: 16),
+            itemBuilder: (context, index) {
+              final outfit = outfits[index];
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LookbookPage(),
+                    ),
+                  );
+                },
+                child: SizedBox(
+                  width: 160,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Image container with overlay
+                      Expanded(
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.08),
+                                blurRadius: 16,
+                                offset: const Offset(0, 8),
+                              ),
+                            ],
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                Image.asset(
+                                  outfit["image"]!,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                ),
+                                // Gradient overlay
+                                Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.transparent,
+                                        Colors.black.withOpacity(0.5),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                // Title overlay at bottom
+                                Positioned(
+                                  left: 16,
+                                  right: 16,
+                                  bottom: 16,
+                                  child: Text(
+                                    outfit["title"]!,
+                                    style: GoogleFonts.cormorantGaramond(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                      height: 1.1,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Icon(Icons.circle, size: 6, color: HomePage.accent),
+                          const SizedBox(width: 8),
+                          Text(
+                            "Explore Collection",
+                            style: GoogleFonts.comfortaa(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                              color: HomePage.accent,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
+                          const SizedBox(width: 6),
+                          Icon(Icons.arrow_forward,
+                              size: 12, color: HomePage.accent),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 

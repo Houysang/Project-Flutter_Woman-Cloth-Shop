@@ -80,7 +80,7 @@ class _BookingPageState extends State<BookingPage> {
               child: Stack(
                 children: [
                   Image.asset(
-                    "assets/atelier_banner.png",
+                    "assets/images/fashion1.jpg",
                     height: 280,
                     width: double.infinity,
                     fit: BoxFit.cover,

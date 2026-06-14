@@ -10,12 +10,13 @@ import 'models/cart_store.dart';
 import 'login_page.dart';
 import 'register_page.dart';
 import 'pages/home_page.dart';
-import 'screens/dress_page.dart';
 import 'screens/tops_page.dart';
 import 'screens/skirts_page.dart';
 import 'screens/bags_page.dart';
 import 'screens/booking_page.dart';
 import 'screens/profile_page.dart';
+import 'screens/chat_page.dart';
+import 'screens/outfit_builder_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,7 +38,6 @@ class MyApp extends StatelessWidget {
         '/shop': (context) => const HomePage(),
         '/wishlist': (context) =>
             WishlistPage(items: wishlist, currentProductId: 'product_001'),
-        '/dresses': (context) => const DressPage(),
         '/tops': (context) => const TopsPage(),
         '/skirts': (context) => const SkirtsPage(),
         '/bags': (context) => const BagsPage(),
@@ -45,8 +45,10 @@ class MyApp extends StatelessWidget {
         '/bag': (context) => const CartPage(),
         '/checkout': (context) => const CheckoutPage(),
         '/order_confirmation': (context) => const OrderConfirmationPage(),
-        '/profileuser': (context) => ProfilePage(),
+        '/profileuser': (context) => const ProfilePage(),
         '/booking': (context) => const BookingPage(),
+        '/chat': (context) => const ChatPage(),
+        '/outfit-builder': (context) => const OutfitBuilderPage(),
       },
       debugShowCheckedModeBanner: false,
     );

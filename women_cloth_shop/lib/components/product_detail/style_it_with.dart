@@ -192,17 +192,6 @@ class StyleItWithSection extends StatelessWidget {
                         ],
                       ),
 
-                      const SizedBox(height: 4),
-
-                      // PRICE
-                      Text(
-                        item.price,
-                        style: GoogleFonts.comfortaa(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: accent,
-                        ),
-                      ),
                     ],
                   ),
                 ),

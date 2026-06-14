@@ -3,8 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class NavigationBarWidget extends StatelessWidget {
   final VoidCallback? onMenuTap;
+  final VoidCallback? onChatTap;
 
-  const NavigationBarWidget({super.key, this.onMenuTap});
+  const NavigationBarWidget({super.key, this.onMenuTap, this.onChatTap});
 
   static const Color darkText = Color(0xFF2D2926);
   static const Color accent = Color(0xFFC5A081);
@@ -78,7 +79,26 @@ class NavigationBarWidget extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          const SizedBox(width: 40),
+          // Chat icon
+          GestureDetector(
+            onTap: onChatTap,
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.04),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Icon(Icons.chat_bubble_outline_rounded, color: darkText, size: 20),
+            ),
+          ),
         ],
       ),
     );
