@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'lookbook_screen.dart';
+import 'chat_page.dart';
 import '../components/glass_bottom_nav_widget.dart';
 import '../components/floating_chat_button.dart';
 
@@ -630,6 +631,34 @@ class OutfitPreviewPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Send to Chat button
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatPage(
+                              initialOutfitItems: selectedItems,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.chat_bubble_outline, size: 18),
+                      label: const Text("Send to Chat"),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF5D4E37),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
                     ),
                   ),

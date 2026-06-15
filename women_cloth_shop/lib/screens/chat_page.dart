@@ -4,7 +4,9 @@ import 'package:image_picker/image_picker.dart';
 import '../components/glass_bottom_nav_widget.dart';
 
 class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+  final List<Map<String, String>>? initialOutfitItems;
+
+  const ChatPage({super.key, this.initialOutfitItems});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -14,13 +16,42 @@ class _ChatPageState extends State<ChatPage> {
   final TextEditingController _controller = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   final ScrollController _scrollController = ScrollController();
-  int _selectedBottomIndex = 1;
   bool _isComposing = false;
   File? _pendingImage;
   bool _isImageLoading = false;
+  bool _initialized = false;
 
-  // ✅ Start with empty messages
   final List<Map<String, dynamic>> messages = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialOutfitItems != null && widget.initialOutfitItems!.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _sendOutfitItems(widget.initialOutfitItems!);
+      });
+    }
+  }
+
+  void _sendOutfitItems(List<Map<String, String>> items) {
+    if (_initialized) return;
+    _initialized = true;
+
+    for (final item in items) {
+      setState(() {
+        messages.add({
+          "isMe": true,
+          "time": _getCurrentTime(),
+          "product": {
+            "name": item["name"],
+            "price": "\$49.99",
+            "image": item["image"],
+          },
+        });
+      });
+    }
+    _scrollToBottom();
+  }
 
   void sendMessage() {
     if (_controller.text.trim().isEmpty && _pendingImage == null) return;
