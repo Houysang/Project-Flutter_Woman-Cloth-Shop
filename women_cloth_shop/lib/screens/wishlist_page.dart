@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/wishlist_store.dart';
 import '../models/cart_store.dart';
-import '../components/floating_cart_button.dart';
 import '../components/glass_bottom_nav_widget.dart';
 
 class WishlistPage extends StatefulWidget {
@@ -106,7 +105,6 @@ class _WishlistPageState extends State<WishlistPage> {
         ),
       ),
       body: _items.isEmpty ? _buildEmptyState() : _buildContent(),
-      floatingActionButton: cart.isNotEmpty ? const FloatingCartButton() : null,
       bottomNavigationBar: const GlassBottomNavWidget(selectedIndex: 1),
     );
   }
@@ -171,7 +169,8 @@ class _WishlistPageState extends State<WishlistPage> {
           child: Row(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
                   color: accent.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(20),
@@ -216,7 +215,8 @@ class _WishlistPageState extends State<WishlistPage> {
                   );
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                   decoration: BoxDecoration(
                     color: accent,
                     borderRadius: BorderRadius.circular(20),
