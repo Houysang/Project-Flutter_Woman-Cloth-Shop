@@ -12,6 +12,7 @@ import '../components/footer_widget.dart';
 import '../components/glass_bottom_nav_widget.dart';
 import '../components/season_edit_section.dart';
 import '../components/footer_icon.dart';
+import '../components/floating_chat_button.dart';
 
 import '../data/products.dart';
 import '../screens/lookbook_screen.dart';
@@ -161,6 +162,13 @@ class _HomePageState extends State<HomePage> {
 
           // === MENU OVERLAY ===
           if (_isMenuOpen) const _MenuOverlay(),
+
+          // === FLOATING CHAT BUTTON ===
+          const Positioned(
+            right: 20,
+            bottom: 20,
+            child: FloatingChatButton(),
+          ),
         ],
       ),
     );

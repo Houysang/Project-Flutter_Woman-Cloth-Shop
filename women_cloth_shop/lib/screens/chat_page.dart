@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import '../components/glass_bottom_nav_widget.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -16,6 +17,7 @@ class _ChatPageState extends State<ChatPage> {
   int _selectedBottomIndex = 1;
   bool _isComposing = false;
   File? _pendingImage;
+  bool _isImageLoading = false;
 
   // ✅ Start with empty messages
   final List<Map<String, dynamic>> messages = [];
@@ -53,13 +55,113 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> pickImage({ImageSource source = ImageSource.gallery}) async {
-    final XFile? image = await _picker.pickImage(source: source);
-    if (image == null) return;
+    setState(() => _isImageLoading = true);
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: source,
+        maxWidth: 1024,
+        maxHeight: 1024,
+        imageQuality: 85,
+      );
+      if (image == null) return;
 
-    setState(() {
-      _pendingImage = File(image.path);
-    });
-    _scrollToBottom();
+      setState(() {
+        _pendingImage = File(image.path);
+      });
+      _scrollToBottom();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Could not pick image: $e"),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      setState(() => _isImageLoading = false);
+    }
+  }
+
+  void _showImagePickerOptions() {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                "Choose source",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: Color(0xFF2D2926),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  _imageSourceOption(
+                    icon: Icons.photo_library_outlined,
+                    label: "Gallery",
+                    onTap: () {
+                      Navigator.pop(context);
+                      pickImage(source: ImageSource.gallery);
+                    },
+                  ),
+                  _imageSourceOption(
+                    icon: Icons.camera_alt_outlined,
+                    label: "Camera",
+                    onTap: () {
+                      Navigator.pop(context);
+                      pickImage(source: ImageSource.camera);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _imageSourceOption({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 120,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF5E6D3).withOpacity(0.5),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, size: 36, color: const Color(0xFF5D4E37)),
+            const SizedBox(height: 8),
+            Text(
+              label,
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF5D4E37),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _onTextFieldChanged(String value) {
@@ -117,13 +219,21 @@ class _ChatPageState extends State<ChatPage> {
                 ),
               ),
             ),
-          if (msg.containsKey("image"))
+          if (msg.containsKey("image") && msg["image"] is File)
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Image.file(
                 msg["image"] as File,
                 width: 220,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  width: 220,
+                  height: 160,
+                  color: Colors.grey.shade200,
+                  child: const Center(
+                    child: Icon(Icons.broken_image, color: Colors.grey, size: 40),
+                  ),
+                ),
               ),
             ),
           if (msg.containsKey("product")) _buildProductCard(msg),
@@ -349,9 +459,15 @@ class _ChatPageState extends State<ChatPage> {
             child: Row(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.attach_file,
-                      color: Color(0xFF9F8E7F), size: 22),
-                  onPressed: () => pickImage(source: ImageSource.gallery),
+                  icon: _isImageLoading
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF9F8E7F)),
+                        )
+                      : const Icon(Icons.attach_file,
+                          color: Color(0xFF9F8E7F), size: 22),
+                  onPressed: _isImageLoading ? null : _showImagePickerOptions,
                 ),
                 Expanded(
                   child: TextField(
@@ -379,36 +495,8 @@ class _ChatPageState extends State<ChatPage> {
         ],
       ),
 
-      // Bottom Navigation Bar
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedBottomIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedBottomIndex = index;
-          });
-        },
-        selectedItemColor: const Color(0xFF5D4E37),
-        unselectedItemColor: Colors.black54,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: "Collections",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_bubble),
-            label: "Chat",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: "Bookings",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Account",
-          ),
-        ],
-      ),
+      // Glass bottom nav like homepage
+      bottomNavigationBar: const GlassBottomNavWidget(),
     );
   }
 }

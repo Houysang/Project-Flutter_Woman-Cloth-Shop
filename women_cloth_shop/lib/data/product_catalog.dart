@@ -269,7 +269,7 @@ class ProductCatalog {
     },
     'product_dress_002': {
       'id': 'product_dress_002',
-      'name': 'Elegant Evening Dress',
+      'name': 'gant Evening DrEleess',
       'price': '\$99',
       'oldPrice': '\$129',
       'rating': 4.6,

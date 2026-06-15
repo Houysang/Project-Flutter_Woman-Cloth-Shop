@@ -77,13 +77,13 @@ class LookbookDetailPage extends StatelessWidget {
       number: 2,
       imagePath: "assets/champagne_shoes.png",
       title: "Golden Stride",
-      subtitle: "Quilted Handbag",
+      subtitle: "Leather Heels",
     ),
     LookPiece(
       number: 3,
       imagePath: "assets/champagne_bag.png",
       title: "Golden Charm",
-      subtitle: "Champagne Handbag",
+      subtitle: "Quilted Handbag",
     ),
   ];
 
@@ -92,15 +92,15 @@ class LookbookDetailPage extends StatelessWidget {
       id: 'look_1',
       image: 'assets/champagne_dress.png',
       name: 'Satin Slip Dress',
-      price: '\$890',
+      price: '',
       rating: 4.5,
       reviewCount: 28,
     ),
     RelatedItem(
       id: 'look_2',
       image: 'assets/champagne_shoes.png',
-      name: 'Quilted Handbag',
-      price: '\$520',
+      name: 'Leather Heels',
+      price: '',
       rating: 4.0,
       reviewCount: 15,
     ),
@@ -112,36 +112,36 @@ class LookbookDetailPage extends StatelessWidget {
     LookPiece(
       number: 1,
       imagePath: "assets/champagne_dress.png",
-      title: "Silk Blouse",
-      subtitle: "Ivory Silk Top",
+      title: "Champagne Muse",
+      subtitle: "Satin Slip Dress",
     ),
     LookPiece(
       number: 2,
       imagePath: "assets/champagne_shoes.png",
-      title: "Ocean Satin",
-      subtitle: "Blue Satin Skirt",
+      title: "Golden Stride",
+      subtitle: "Leather Heels",
     ),
     LookPiece(
       number: 3,
       imagePath: "assets/champagne_bag.png",
-      title: "Pearl Clutch",
-      subtitle: "Evening Handbag",
+      title: "Golden Charm",
+      subtitle: "Quilted Handbag",
     ),
   ];
 
   static final List<RelatedItem> _silkEditRelated = [
     RelatedItem(
       id: 'se_1',
-      image: 'assets/silk_edit.png',
-      name: 'Ivory Silk Top',
+      image: 'assets/champagne_dress.png',
+      name: 'Satin Slip Dress',
       price: '',
       rating: 4.7,
       reviewCount: 32,
     ),
     RelatedItem(
       id: 'se_2',
-      image: 'assets/blue_dress.png',
-      name: 'Blue Satin Skirt',
+      image: 'assets/champagne_shoes.png',
+      name: 'Leather Heels',
       price: '',
       rating: 4.3,
       reviewCount: 19,
@@ -151,32 +151,44 @@ class LookbookDetailPage extends StatelessWidget {
   static final List<LookPiece> _modernTailoringPieces = [
     LookPiece(
       number: 1,
-      imagePath: "assets/modern_tailoring.png",
+      imagePath: "assets/brown_blazer.png",
       title: "Blazer Luxe",
       subtitle: "Tailored Wool Blazer",
     ),
     LookPiece(
       number: 2,
-      imagePath: "assets/brown_dress.png",
+      imagePath: "assets/brown_trousers.png",
       title: "Taupe Elegance",
       subtitle: "Straight-Leg Trousers",
+    ),
+    LookPiece(
+      number: 3,
+      imagePath: "assets/brown_satin.png",
+      title: "Satin Flow",
+      subtitle: "Brown Satin Camisole",
+    ),
+    LookPiece(
+      number: 4,
+      imagePath: "assets/brown_shoes.png",
+      title: "Espresso Step",
+      subtitle: "Brown Leather Heels",
     ),
   ];
 
   static final List<RelatedItem> _modernTailoringRelated = [
     RelatedItem(
       id: 'mt_1',
-      image: 'assets/modern_tailoring.png',
+      image: 'silk_clothe.png',
       name: 'Tailored Wool Blazer',
-      price: '\$650',
+      price: '',
       rating: 4.8,
       reviewCount: 41,
     ),
     RelatedItem(
       id: 'mt_2',
-      image: 'assets/brown_dress.png',
-      name: 'Straight-Leg Trousers',
-      price: '\$380',
+      image: 'assets/blue_blazer.png',
+      name: 'Tailored Blue Blazer',
+      price: '',
       rating: 4.4,
       reviewCount: 23,
     ),
@@ -185,38 +197,44 @@ class LookbookDetailPage extends StatelessWidget {
   static final List<LookPiece> _goldenHourPieces = [
     LookPiece(
       number: 1,
-      imagePath: "assets/golden_hour.png",
+      imagePath: "assets/yellow_blouse.png",
       title: "Warm Glow",
       subtitle: "Champagne Top",
     ),
     LookPiece(
       number: 2,
-      imagePath: "assets/champagne_dress.png",
-      title: "Cocoon Coat",
-      subtitle: "Wool Blend Coat",
+      imagePath: "assets/cream_trousers.png",
+      title: "Cream Tailored",
+      subtitle: "Straight-Leg Trousers",
     ),
     LookPiece(
       number: 3,
-      imagePath: "assets/champagne_shoes.png",
+      imagePath: "assets/cream_shoes.png",
       title: "Nude Pump",
       subtitle: "Leather Heels",
+    ),
+    LookPiece(
+      number: 4,
+      imagePath: "assets/cream_bag.png",
+      title: "Cream Carryall",
+      subtitle: "Structured Handbag",
     ),
   ];
 
   static final List<RelatedItem> _goldenHourRelated = [
     RelatedItem(
       id: 'gh_1',
-      image: 'assets/golden_hour.png',
+      image: 'assets/yellow_blouse.png',
       name: 'Champagne Top',
-      price: '\$280',
+      price: '',
       rating: 4.6,
       reviewCount: 37,
     ),
     RelatedItem(
       id: 'gh_2',
-      image: 'assets/champagne_dress.png',
-      name: 'Wool Blend Coat',
-      price: '\$720',
+      image: 'assets/cream_trousers.png',
+      name: 'Straight-Leg Trousers',
+      price: '',
       rating: 4.9,
       reviewCount: 52,
     ),
@@ -232,8 +250,8 @@ class LookbookDetailPage extends StatelessWidget {
     LookPiece(
       number: 2,
       imagePath: "assets/blue_dress.png",
-      title: "Tulle Skirt",
-      subtitle: "Layered Tulle",
+      title: "Azure Dream",
+      subtitle: "Blue Satin Dress",
     ),
   ];
 
@@ -242,15 +260,31 @@ class LookbookDetailPage extends StatelessWidget {
       id: 'el_1',
       image: 'assets/ephemeral_lovers.png',
       name: 'Lace Bodysuit',
-      price: '\$260',
+      price: '',
       rating: 4.5,
       reviewCount: 29,
     ),
     RelatedItem(
       id: 'el_2',
       image: 'assets/blue_dress.png',
-      name: 'Layered Tulle Skirt',
-      price: '\$490',
+      name: 'Blue Satin Dress',
+      price: '',
+      rating: 4.2,
+      reviewCount: 18,
+    ),
+    RelatedItem(
+      id: 'el_3',
+      image: 'assets/ephemeral_shoes.png',
+      name: 'Evening Heels',
+      price: '',
+      rating: 4.2,
+      reviewCount: 18,
+    ),
+    RelatedItem(
+      id: 'el_4',
+      image: 'assets/ephemeral_bag.png',
+      name: 'Evening Clutch',
+      price: '',
       rating: 4.2,
       reviewCount: 18,
     ),
@@ -264,7 +298,7 @@ class LookbookDetailPage extends StatelessWidget {
           image: 'assets/silk_edit.png',
           subtitle: 'Luxurious silk essentials for the modern wardrobe',
           tag: 'New',
-          items: 12,
+          items: 3,
           pieces: _silkEditPieces,
           relatedItems: _silkEditRelated,
         );
@@ -274,7 +308,7 @@ class LookbookDetailPage extends StatelessWidget {
           image: 'assets/modern_tailoring.png',
           subtitle: 'Sharp silhouettes meet soft femininity',
           tag: null,
-          items: 8,
+          items: 4,
           pieces: _modernTailoringPieces,
           relatedItems: _modernTailoringRelated,
         );
@@ -284,7 +318,7 @@ class LookbookDetailPage extends StatelessWidget {
           image: 'assets/golden_hour.png',
           subtitle: 'Warm tones and effortless sophistication',
           tag: null,
-          items: 10,
+          items: 4,
           pieces: _goldenHourPieces,
           relatedItems: _goldenHourRelated,
         );
@@ -294,7 +328,7 @@ class LookbookDetailPage extends StatelessWidget {
           image: 'assets/ephemeral_lovers.png',
           subtitle: 'Romantic layers and delicate textures',
           tag: 'Trending',
-          items: 6,
+          items: 3,
           pieces: _ephemeralLoversPieces,
           relatedItems: _ephemeralLoversRelated,
         );
@@ -369,7 +403,6 @@ class LookbookDetailPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-
             Container(
               width: double.infinity,
               decoration: const BoxDecoration(
@@ -439,9 +472,7 @@ class LookbookDetailPage extends StatelessWidget {
                         ),
                     ],
                   ),
-
                   const SizedBox(height: 16),
-
                   Text(
                     subtitle,
                     style: GoogleFonts.comfortaa(
@@ -450,9 +481,7 @@ class LookbookDetailPage extends StatelessWidget {
                       height: 1.7,
                     ),
                   ),
-
                   const SizedBox(height: 24),
-
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(18),
@@ -482,22 +511,19 @@ class LookbookDetailPage extends StatelessWidget {
                       ],
                     ),
                   ),
-
                   const SizedBox(height: 28),
-
                   ...pieces.map((piece) => Column(
-                    children: [
-                      _buildLookCard(
-                        context,
-                        number: piece.number,
-                        imagePath: piece.imagePath,
-                        title: piece.title,
-                        items: piece.subtitle,
-                      ),
-                      const SizedBox(height: 16),
-                    ],
-                  )),
-
+                        children: [
+                          _buildLookCard(
+                            context,
+                            number: piece.number,
+                            imagePath: piece.imagePath,
+                            title: piece.title,
+                            items: piece.subtitle,
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                      )),
                   AddToCartFavorite(
                     isFavorited: false,
                     quantity: 1,
@@ -521,9 +547,7 @@ class LookbookDetailPage extends StatelessWidget {
                       );
                     },
                   ),
-
                   const SizedBox(height: 24),
-
                   CustomerReviews(
                     reviews: [
                       CustomerReview(
@@ -542,16 +566,13 @@ class LookbookDetailPage extends StatelessWidget {
                       ),
                     ],
                   ),
-
                   const SizedBox(height: 20),
-
                   StyleItWithSection(
                     relatedItems: relatedItems,
                     onItemTap: (id) {
                       Navigator.pushNamed(context, '/outfit-builder');
                     },
                   ),
-
                   const SizedBox(height: 24),
                 ],
               ),
