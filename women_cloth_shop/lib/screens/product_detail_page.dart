@@ -9,7 +9,6 @@ import '../components/product_detail/style_it_with.dart';
 import '../components/product_detail/customer_reviews.dart';
 import '../models/customer_review.dart';
 import '../components/glass_bottom_nav_widget.dart';
-import '../components/floating_cart_button.dart';
 
 import '../models/wishlist_store.dart';
 import '../models/cart_store.dart';
@@ -114,7 +113,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      floatingActionButton: cart.isNotEmpty ? const FloatingCartButton() : null,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
