@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'screens/wishlist_page.dart';
 import 'screens/cart_page.dart';
 import 'screens/checkout_page.dart';
@@ -17,8 +19,14 @@ import 'screens/booking_page.dart';
 import 'screens/profile_page.dart';
 import 'screens/chat_page.dart';
 import 'screens/outfit_builder_page.dart';
+import 'screens/about_app_page.dart';
+import 'screens/contact_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -49,6 +57,9 @@ class MyApp extends StatelessWidget {
         '/booking': (context) => const BookingPage(),
         '/chat': (context) => const ChatPage(),
         '/outfit-builder': (context) => const OutfitBuilderPage(),
+        '/profile': (context) => const ProfilePage(),
+        '/about': (context) => const AboutAppPage(),
+        '/contact': (context) => const ContactPage(),
       },
       debugShowCheckedModeBanner: false,
     );

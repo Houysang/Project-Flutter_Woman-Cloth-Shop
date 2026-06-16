@@ -1,19 +1,49 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../models/cart_store.dart';
+import '../models/wishlist_store.dart';
 
 class GlassBottomNavWidget extends StatefulWidget {
-  const GlassBottomNavWidget({super.key});
+  final int selectedIndex;
+
+  const GlassBottomNavWidget({super.key, this.selectedIndex = 0});
 
   @override
   State<GlassBottomNavWidget> createState() => _GlassBottomNavWidgetState();
 }
 
 class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
-  int _selectedIndex = 0;
+  int _cartCount = cart.length;
+  int _wishlistCount = wishlist.length;
 
   static const Color accent = Color(0xFFC5A081);
   static const Color darkText = Color(0xFF2D2926);
+
+  @override
+  void initState() {
+    super.initState();
+    _cartCount = cart.length;
+    _wishlistCount = wishlist.length;
+
+    onCartCountChanged = (count) {
+      if (mounted) {
+        setState(() => _cartCount = count);
+      }
+    };
+    onWishlistCountChanged = (count) {
+      if (mounted) {
+        setState(() => _wishlistCount = count);
+      }
+    };
+  }
+
+  @override
+  void dispose() {
+    onCartCountChanged = null;
+    onWishlistCountChanged = null;
+    super.dispose();
+  }
 
   final List<_NavItem> _navItems = [
     _NavItem(
@@ -31,10 +61,6 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
   ];
 
   void _onItemTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
     final routes = ['/shop', '/wishlist', '/cart', '/profile'];
     Navigator.pushNamed(context, routes[index]);
   }
@@ -69,7 +95,12 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: List.generate(_navItems.length, (i) {
                 final item = _navItems[i];
-                final isSelected = i == _selectedIndex;
+                final isSelected = i == widget.selectedIndex;
+                final badgeCount = i == 1
+                    ? _wishlistCount
+                    : i == 2
+                        ? _cartCount
+                        : 0;
 
                 return Expanded(
                   child: GestureDetector(
@@ -91,24 +122,60 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          AnimatedContainer(
-                            duration: const Duration(milliseconds: 250),
-                            curve: Curves.easeOutBack,
-                            child: Icon(
-                              isSelected ? item.activeIcon : item.icon,
-                              size: isSelected ? 24 : 22,
-                              color: isSelected ? accent : Colors.grey[400],
-                            ),
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              AnimatedContainer(
+                                duration:
+                                    const Duration(milliseconds: 250),
+                                curve: Curves.easeOutBack,
+                                child: Icon(
+                                  isSelected ? item.activeIcon : item.icon,
+                                  size: isSelected ? 24 : 22,
+                                  color: isSelected
+                                      ? accent
+                                      : Colors.grey[400],
+                                ),
+                              ),
+                              if (badgeCount > 0)
+                                Positioned(
+                                  right: -8,
+                                  top: -4,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(4),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.red,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    constraints:
+                                        const BoxConstraints(
+                                            minWidth: 18, minHeight: 18),
+                                    child: Text(
+                                      badgeCount > 99
+                                          ? '99+'
+                                          : '$badgeCount',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
                           const SizedBox(height: 3),
                           AnimatedDefaultTextStyle(
-                            duration: const Duration(milliseconds: 250),
+                            duration:
+                                const Duration(milliseconds: 250),
                             style: GoogleFonts.comfortaa(
                               fontSize: isSelected ? 11 : 10,
                               fontWeight: isSelected
                                   ? FontWeight.w700
                                   : FontWeight.w500,
-                              color: isSelected ? accent : Colors.grey[400],
+                              color:
+                                  isSelected ? accent : Colors.grey[400],
                             ),
                             child: Text(item.label),
                           ),

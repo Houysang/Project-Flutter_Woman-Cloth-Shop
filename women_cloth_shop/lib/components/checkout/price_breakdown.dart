@@ -12,7 +12,6 @@ class PriceBreakdown extends StatelessWidget {
     required this.tax,
     required this.total,
   });
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,15 +22,15 @@ class PriceBreakdown extends StatelessWidget {
       ),
       child: Column(
         children: [
-          _priceRow('Subtotal', '\€${subtotal.toStringAsFixed(2)}'),
+          _priceRow('Subtotal', '\$${subtotal.toStringAsFixed(2)}'),
           const SizedBox(height: 8),
           _priceRow('Shipping', 'Free'),
           const SizedBox(height: 8),
-          _priceRow('Tax', '\€${tax.toStringAsFixed(2)}'),
+          _priceRow('Tax', '\$${tax.toStringAsFixed(2)}'),
           const Divider(height: 16),
           _priceRow(
             'Total',
-            '\€${total.toStringAsFixed(2)}',
+            '\$${total.toStringAsFixed(2)}',
             isBold: true,
           ),
         ],

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'pages/interested_page.dart';
+import 'package:women_cloth_shop/services/auth_service.dart';
+import 'login_page.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: RegisterPage(),
-  ));
-}    
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -21,11 +17,79 @@ class _RegisterPageState extends State<RegisterPage> {
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _isLoading = false;
+  final AuthService _authService = AuthService();
 
   static const Color _accent = Color(0xFFC5A081);
   static const Color _darkText = Color(0xFF2D2926);
   static const Color _mutedText = Color(0xFFA89890);
   static const Color _fieldBg = Color(0xFFF8F4F0);
+
+  Future<void> _signUp() async {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final phone = _phoneController.text.trim();
+    final password = _passwordController.text;
+
+    if (name.isEmpty || email.isEmpty || phone.isEmpty || password.isEmpty) {
+      _showSnackBar('Please fill in all fields');
+      return;
+    }
+
+    if (password.length < 6) {
+      _showSnackBar('Password must be at least 6 characters');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final credential = await _authService.signUp(
+        email: email,
+        password: password,
+      );
+
+      // Update display name
+      await credential.user?.updateDisplayName(name);
+
+      if (!mounted) return;
+      // Navigate to login page after successful registration
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const LoginPage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'email-already-in-use':
+          message = 'An account with this email already exists';
+          break;
+        case 'invalid-email':
+          message = 'Invalid email address';
+          break;
+        case 'weak-password':
+          message = 'Password is too weak';
+          break;
+        default:
+          message = 'Registration failed: ${e.message}';
+      }
+      _showSnackBar(message);
+    } catch (e) {
+      _showSnackBar('An error occurred. Please try again.');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red.shade400,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -197,14 +261,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             width: MediaQuery.of(context).size.width * 0.4,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const InterestedPage(),
-                                  ),
-                                );
-                              },
+                              onPressed: _isLoading ? null : _signUp,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: _accent,
                                 foregroundColor: Colors.white,

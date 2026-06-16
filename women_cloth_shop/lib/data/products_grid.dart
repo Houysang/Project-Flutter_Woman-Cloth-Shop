@@ -3,7 +3,7 @@ import '../models/product.dart';
 class ProductGridData {
   static const List<Product> products = [
     Product(
-      id: 'product_004',
+      id: 'product_001',
       image: 'assets/images/fashion1.jpg',
       name: 'Summer Dress',
       price: '\$29.99',
@@ -11,7 +11,7 @@ class ProductGridData {
       reviewCount: 156,
     ),
     Product(
-      id: 'product_005',
+      id: 'product_010',
       image: 'assets/images/fashion2.jpg',
       name: 'Elegant Top',
       price: '\$39.99',
@@ -19,7 +19,7 @@ class ProductGridData {
       reviewCount: 203,
     ),
     Product(
-      id: 'product_006',
+      id: 'product_011',
       image: 'assets/images/fashion3.jpg',
       name: 'Casual Shirt',
       price: '\$25.00',
@@ -27,7 +27,7 @@ class ProductGridData {
       reviewCount: 88,
     ),
     Product(
-      id: 'product_007',
+      id: 'product_012',
       image: 'assets/images/fashion4.jpg',
       name: 'Mini Skirt',
       price: '\$19.99',
@@ -35,8 +35,48 @@ class ProductGridData {
       reviewCount: 142,
     ),
     Product(
-      id: 'product_008',
+      id: 'product_013',
       image: 'assets/images/fashion5.jpg',
+      name: 'Luxury Bag',
+      price: '\$120.00',
+      rating: 4.9,
+      reviewCount: 312,
+    ),
+    Product(
+      id: 'product_014',
+      image: 'assets/images/fashion6.jpg',
+      name: 'Summer Dress',
+      price: '\$29.99',
+      rating: 4.5,
+      reviewCount: 156,
+    ),
+    Product(
+      id: 'product_015',
+      image: 'assets/images/fashion7.jpg',
+      name: 'Elegant Top',
+      price: '\$39.99',
+      rating: 4.7,
+      reviewCount: 203,
+    ),
+    Product(
+      id: 'product_016',
+      image: 'assets/images/fashion8.jpg',
+      name: 'Casual Shirt',
+      price: '\$25.00',
+      rating: 4.2,
+      reviewCount: 88,
+    ),
+    Product(
+      id: 'product_017',
+      image: 'assets/images/fashion9.jpg',
+      name: 'Mini Skirt',
+      price: '\$19.99',
+      rating: 4.4,
+      reviewCount: 142,
+    ),
+    Product(
+      id: 'product_018',
+      image: 'assets/images/fashion10.jpg',
       name: 'Luxury Bag',
       price: '\$120.00',
       rating: 4.9,

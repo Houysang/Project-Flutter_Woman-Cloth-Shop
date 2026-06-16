@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:women_cloth_shop/main.dart';
-import 'package:women_cloth_shop/register_page.dart';
 import 'pages/interested_page.dart';
-
-void main() {
-  runApp(const MyApp());
-}
+import 'package:women_cloth_shop/register_page.dart';
+import 'package:women_cloth_shop/services/auth_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,11 +16,67 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _isLoading = false;
+  final AuthService _authService = AuthService();
 
   static const Color _accent = Color(0xFFC5A081);
   static const Color _darkText = Color(0xFF2D2926);
   static const Color _mutedText = Color(0xFFA89890);
   static const Color _fieldBg = Color(0xFFF8F4F0);
+
+  Future<void> _signIn() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      _showSnackBar('Please fill in all fields');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      await _authService.signIn(email: email, password: password);
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const InterestedPage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'user-not-found':
+          message = 'No account found with this email';
+          break;
+        case 'wrong-password':
+          message = 'Incorrect password';
+          break;
+        case 'invalid-email':
+          message = 'Invalid email address';
+          break;
+        case 'invalid-credential':
+          message = 'Invalid email or password';
+          break;
+        default:
+          message = 'Login failed: ${e.message}';
+      }
+      _showSnackBar(message);
+    } catch (e) {
+      _showSnackBar('An error occurred. Please try again.');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red.shade400,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+  }
 
   @override
   void dispose() {
@@ -76,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   child: ClipOval(
                     child: Image.asset(
-                      '../assets/images/logo1.png',
+                      'assets/images/logo1.png',
                       fit: BoxFit.cover,
                       width: 100,
                       height: 100,
@@ -175,14 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                           width: MediaQuery.of(context).size.width * 0.4,
                           height: 50,
                           child: ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const InterestedPage(),
-                                ),
-                              );
-                            },
+                            onPressed: _isLoading ? null : _signIn,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: _accent,
                               foregroundColor: Colors.white,

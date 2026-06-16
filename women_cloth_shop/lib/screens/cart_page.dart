@@ -249,7 +249,7 @@ class _CartPageState extends State<CartPage> {
           ],
         ),
       ),
-      bottomNavigationBar: const GlassBottomNavWidget(),
+      bottomNavigationBar: const GlassBottomNavWidget(selectedIndex: 2),
     );
   }
 
