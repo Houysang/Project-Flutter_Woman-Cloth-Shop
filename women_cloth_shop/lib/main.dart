@@ -16,6 +16,8 @@ import 'screens/tops_page.dart';
 import 'screens/skirts_page.dart';
 import 'screens/bags_page.dart';
 import 'screens/booking_page.dart';
+import 'screens/view_booking_page.dart';
+import 'screens/manage_booking_page.dart';
 import 'screens/profile_page.dart';
 import 'screens/chat_page.dart';
 import 'screens/outfit_builder_page.dart';
@@ -55,6 +57,8 @@ class MyApp extends StatelessWidget {
         '/order_confirmation': (context) => const OrderConfirmationPage(),
         '/profileuser': (context) => const ProfilePage(),
         '/booking': (context) => const BookingPage(),
+        '/view-booking': (context) => const ViewBookingPage(),
+        '/manage-booking': (context) => const ManageBookingPage(),
         '/chat': (context) => const ChatPage(),
         '/outfit-builder': (context) => const OutfitBuilderPage(),
         '/profile': (context) => const ProfilePage(),

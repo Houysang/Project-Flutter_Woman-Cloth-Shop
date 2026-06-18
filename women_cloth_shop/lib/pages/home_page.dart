@@ -721,8 +721,8 @@ class _MenuContent extends StatelessWidget {
           route: '/profile'),
       MenuItemData(
           icon: Icons.calendar_today_outlined,
-          label: "Booking",
-          route: '/booking'),
+          label: "View Booking",
+          route: '/view-booking'),
       MenuItemData(
           icon: Icons.info_outlined, label: "About Us", route: '/about'),
       MenuItemData(

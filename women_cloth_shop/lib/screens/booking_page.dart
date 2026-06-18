@@ -123,7 +123,24 @@ class _BookingPageState extends State<BookingPage> {
                   Expanded(
                     child: _buildButton("View Booking", isFilled: false, onTap: () {
                       Navigator.pop(ctx);
-                      Navigator.pushNamed(context, '/profile');
+                      final String bookingId =
+                          "BK${DateTime.now().millisecondsSinceEpoch.toString().substring(5, 11)}";
+                      Navigator.pushNamed(
+                        context,
+                        '/view-booking',
+                        arguments: {
+                          'bookingId': bookingId,
+                          'date': _formattedDate,
+                          'time': selectedSlot,
+                          'service': widget.productName ?? "Clothing Appointment",
+                          'location': selectedLocation,
+                          'productName': widget.productName,
+                          'productPrice': widget.productPrice,
+                          'selectedSize': widget.selectedSize,
+                          'selectedColor': widget.selectedColor,
+                          'quantity': widget.quantity,
+                        },
+                      );
                     }),
                   ),
                   const SizedBox(width: 12),
@@ -200,7 +217,24 @@ class _BookingPageState extends State<BookingPage> {
                     child: _buildButton("Manage Booking",
                         isFilled: false, onTap: () {
                       Navigator.pop(ctx);
-                      Navigator.pushNamed(context, '/profile');
+                      final String bookingId =
+                          "BK${DateTime.now().millisecondsSinceEpoch.toString().substring(5, 11)}";
+                      Navigator.pushNamed(
+                        context,
+                        '/manage-booking',
+                        arguments: {
+                          'bookingId': bookingId,
+                          'date': _formattedDate,
+                          'time': selectedSlot,
+                          'service': widget.productName ?? "Clothing Appointment",
+                          'location': selectedLocation,
+                          'productName': widget.productName,
+                          'productPrice': widget.productPrice,
+                          'selectedSize': widget.selectedSize,
+                          'selectedColor': widget.selectedColor,
+                          'quantity': widget.quantity,
+                        },
+                      );
                     }),
                   ),
                   const SizedBox(width: 12),
