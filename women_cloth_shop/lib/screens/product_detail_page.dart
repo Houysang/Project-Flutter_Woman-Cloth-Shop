@@ -9,6 +9,7 @@ import '../components/product_detail/style_it_with.dart';
 import '../components/product_detail/customer_reviews.dart';
 import '../models/customer_review.dart';
 import '../components/glass_bottom_nav_widget.dart';
+import 'booking_page.dart';
 import '../components/floating_cart_button.dart';
 
 import '../models/wishlist_store.dart';
@@ -301,6 +302,51 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     onQuantityChanged: _handleQuantityChanged,
                     onAddToCart: _handleAddToCart,
                     onToggleFavorite: _handleToggleFavorite,
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  // Book an appointment
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BookingPage(
+                              productPrice: product['price'],
+                              productName: product['name'],
+                              productImage: product['images'][0],
+                              selectedSize: _selectedSize,
+                              selectedColor: _selectedColor,
+                              quantity: _quantity,
+                              material: product['material'],
+                              care: product['care'],
+                              origin: product['origin'],
+                              lining: product['lining'],
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.calendar_today_outlined, size: 18),
+                      label: const Text(
+                        "BOOK AN APPOINTMENT",
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFC5A081),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                    ),
                   ),
 
                   const SizedBox(height: 24),
