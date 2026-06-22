@@ -115,11 +115,9 @@ class _ChatPageState extends State<ChatPage> {
     }
 
     if (hasImage) {
-      // Store bytes directly in message - most reliable on mobile
       message["imageBytes"] = _pendingImageBytes;
     }
 
-    // Clear state immediately
     setState(() {
       messages.add(message);
       _isComposing = false;
@@ -130,7 +128,6 @@ class _ChatPageState extends State<ChatPage> {
     _controller.clear();
     _scrollToBottom();
 
-    // Get bot response
     String botQuery = userText;
     if (!hasText && hasImage) {
       botQuery = "image";

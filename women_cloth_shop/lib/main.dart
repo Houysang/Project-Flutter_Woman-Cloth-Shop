@@ -23,6 +23,7 @@ import 'screens/chat_page.dart';
 import 'screens/outfit_builder_page.dart';
 import 'screens/about_app_page.dart';
 import 'screens/contact_page.dart';
+import 'screens/map_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,6 +65,7 @@ class MyApp extends StatelessWidget {
         '/profile': (context) => const ProfilePage(),
         '/about': (context) => const AboutAppPage(),
         '/contact': (context) => const ContactPage(),
+        '/boutique-map': (context) => const MapPage(),
       },
       debugShowCheckedModeBanner: false,
     );

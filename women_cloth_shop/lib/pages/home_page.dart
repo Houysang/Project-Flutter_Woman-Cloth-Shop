@@ -13,6 +13,7 @@ import '../components/glass_bottom_nav_widget.dart';
 import '../components/season_edit_section.dart';
 import '../components/footer_icon.dart';
 import '../components/floating_chat_button.dart';
+import '../components/boutique_map_section.dart';
 
 import '../data/products.dart';
 import '../screens/lookbook_screen.dart';
@@ -150,6 +151,10 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 35),
 
                   const SeasonEditSection(),
+                  const SizedBox(height: 35),
+
+                  // ---- BOUTIQUE MAP ----
+                  const BoutiqueMapSection(),
                   const SizedBox(height: 35),
 
                   // ---- STYLE TAGS ----
