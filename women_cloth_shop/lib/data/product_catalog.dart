@@ -194,7 +194,7 @@ class ProductCatalog {
     },
     'product_009': {
       'id': 'product_009',
-      'name': 'Oversized Shirt',
+      'name': 'Oversized Short Shirt',
       'price': '\$59',
       'rating': 4.5,
       'reviews': 87,
@@ -269,7 +269,7 @@ class ProductCatalog {
     },
     'product_dress_002': {
       'id': 'product_dress_002',
-      'name': 'Elegant Evening Dress',
+      'name': 'gant Evening DrEleess',
       'price': '\$99',
       'oldPrice': '\$129',
       'rating': 4.6,
@@ -454,7 +454,7 @@ class ProductCatalog {
     },
     'product_top_004': {
       'id': 'product_top_004',
-      'name': 'Oversized Shirt',
+      'name': 'Oversized Short Shirt',
       'price': '\$59',
       'rating': 4.5,
       'reviews': 87,
@@ -474,7 +474,7 @@ class ProductCatalog {
     },
     'product_top_005': {
       'id': 'product_top_005',
-      'name': 'Crop Top',
+      'name': 'Crop Top Blue',
       'price': '\$39',
       'rating': 4.2,
       'reviews': 64,
@@ -498,7 +498,7 @@ class ProductCatalog {
     },
     'product_top_006': {
       'id': 'product_top_006',
-      'name': 'Silk Blouse',
+      'name': 'Silk Blouse Pink',
       'price': '\$69',
       'rating': 4.8,
       'reviews': 203,
@@ -612,7 +612,7 @@ class ProductCatalog {
     },
     'product_skirt_005': {
       'id': 'product_skirt_005',
-      'name': 'Long Skirt',
+      'name': 'Long Skirt White',
       'price': '\$59',
       'rating': 4.3,
       'reviews': 72,
@@ -632,7 +632,7 @@ class ProductCatalog {
     },
     'product_skirt_006': {
       'id': 'product_skirt_006',
-      'name': 'Long Skirt',
+      'name': 'Long Skirt Flower',
       'price': '\$44',
       'rating': 4.6,
       'reviews': 115,

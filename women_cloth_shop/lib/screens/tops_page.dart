@@ -57,7 +57,7 @@ class _TopsPageState extends State<TopsPage> {
     ),
     Product(
       id: "product_top_004",
-      name: "Oversized Shirt",
+      name: "Oversized Short Shirt",
       price: "\$59",
       image: "../../assets/images/top6.jpg",
       rating: 4.5,
@@ -65,7 +65,7 @@ class _TopsPageState extends State<TopsPage> {
     ),
     Product(
       id: "product_top_005",
-      name: "Crop Top",
+      name: "Crop Top Blue",
       price: "\$39",
       image: "../../assets/images/top4.webp",
       rating: 4.2,
@@ -73,7 +73,7 @@ class _TopsPageState extends State<TopsPage> {
     ),
     Product(
       id: "product_top_006",
-      name: "Silk Blouse",
+      name: "Silk Blouse Pink",
       price: "\$69",
       image: "../../assets/images/top7.jpg",
       rating: 4.8,

@@ -5,14 +5,22 @@ import 'screens/wishlist_page.dart';
 import 'screens/cart_page.dart';
 import 'screens/checkout_page.dart';
 import 'screens/order_confirmation_page.dart';
+import 'components/app_footer.dart';
+import 'components/floating_cart_button.dart';
 import 'models/wishlist_store.dart';
+import 'models/cart_store.dart';
 import 'login_page.dart';
+import 'register_page.dart';
 import 'pages/home_page.dart';
-import 'screens/dress_page.dart';
 import 'screens/tops_page.dart';
 import 'screens/skirts_page.dart';
 import 'screens/bags_page.dart';
+import 'screens/booking_page.dart';
+import 'screens/view_booking_page.dart';
+import 'screens/manage_booking_page.dart';
 import 'screens/profile_page.dart';
+import 'screens/chat_page.dart';
+import 'screens/outfit_builder_page.dart';
 import 'screens/about_app_page.dart';
 import 'screens/contact_page.dart';
 
@@ -40,7 +48,6 @@ class MyApp extends StatelessWidget {
         '/shop': (context) => const HomePage(),
         '/wishlist': (context) =>
             WishlistPage(items: wishlist, currentProductId: 'product_001'),
-        '/dresses': (context) => const DressPage(),
         '/tops': (context) => const TopsPage(),
         '/skirts': (context) => const SkirtsPage(),
         '/bags': (context) => const BagsPage(),
@@ -48,6 +55,12 @@ class MyApp extends StatelessWidget {
         '/bag': (context) => const CartPage(),
         '/checkout': (context) => const CheckoutPage(),
         '/order_confirmation': (context) => const OrderConfirmationPage(),
+        '/profileuser': (context) => const ProfilePage(),
+        '/booking': (context) => const BookingPage(),
+        '/view-booking': (context) => const ViewBookingPage(),
+        '/manage-booking': (context) => const ManageBookingPage(),
+        '/chat': (context) => const ChatPage(),
+        '/outfit-builder': (context) => const OutfitBuilderPage(),
         '/profile': (context) => const ProfilePage(),
         '/about': (context) => const AboutAppPage(),
         '/contact': (context) => const ContactPage(),

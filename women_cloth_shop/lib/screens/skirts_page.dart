@@ -33,7 +33,7 @@ class _SkirtsPageState extends State<SkirtsPage> {
   List<Product> get allSkirts => const [
     Product(
       id: "product_skirt_001",
-      name: "Short Skirt",
+      name: "Short Skirt Blue",
       price: "\$49",
       image: "../../assets/images/skirt1.webp",
       rating: 4.5,
@@ -49,7 +49,7 @@ class _SkirtsPageState extends State<SkirtsPage> {
     ),
     Product(
       id: "product_skirt_003",
-      name: "Short Skirt",
+      name: "Short Skirt White",
       price: "\$44",
       image: "../../assets/images/skirt3.jpg",
       rating: 4.6,
@@ -65,7 +65,7 @@ class _SkirtsPageState extends State<SkirtsPage> {
     ),
     Product(
       id: "product_skirt_005",
-      name: "long Skirt",
+      name: "long Skirt White",
       price: "\$59",
       image: "../../assets/images/skirt5.jpg",
       rating: 4.3,
@@ -73,7 +73,7 @@ class _SkirtsPageState extends State<SkirtsPage> {
     ),
     Product(
       id: "product_skirt_006",
-      name: "long Skirt",
+      name: "long Skirt Flower",
       price: "\$44",
       image: "../../assets/images/skirt6.webp",
       rating: 4.6,
