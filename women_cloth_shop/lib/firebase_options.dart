@@ -16,9 +16,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.macOS:
         return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions are not supported for this platform.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -64,5 +62,14 @@ class DefaultFirebaseOptions {
     projectId: 'woman-clothes-shop',
     storageBucket: 'woman-clothes-shop.firebasestorage.app',
     iosBundleId: 'com.example.womenClothShop',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCuRdrn1cJUTO8w_RodnI6a6wbdih-aaZQ',
+    appId: '1:900288138933:web:55ffde7ff63a41071b38fc',
+    messagingSenderId: '900288138933',
+    projectId: 'woman-clothes-shop',
+    authDomain: 'woman-clothes-shop.firebaseapp.com',
+    storageBucket: 'woman-clothes-shop.firebasestorage.app',
   );
 }

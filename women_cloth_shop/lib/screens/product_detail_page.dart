@@ -124,7 +124,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      floatingActionButton: cart.isNotEmpty ? const FloatingCartButton() : null,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

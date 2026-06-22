@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import '../services/firestore_service.dart';
 
 class CartItem {
@@ -25,14 +26,11 @@ class CartItem {
 final List<CartItem> cart = <CartItem>[];
 final FirestoreService _firestore = FirestoreService();
 
-/// Callback for count changes (used by navbar badges)
-typedef CartCountCallback = void Function(int count);
-CartCountCallback? onCartCountChanged;
+/// Notifier that all nav widgets can listen to for badge count updates.
+final ValueNotifier<int> cartCountNotifier = ValueNotifier<int>(0);
 
 void _notifyCountChange() {
-  if (onCartCountChanged != null) {
-    onCartCountChanged!(cart.length);
-  }
+  cartCountNotifier.value = cart.length;
 }
 
 /// Load cart from Firestore into local cache
