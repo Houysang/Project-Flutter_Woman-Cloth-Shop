@@ -37,7 +37,10 @@ class _OutfitBuilderPageState extends State<OutfitBuilderPage> {
       {"name": "Summer Floral Dress", "image": "assets/images/dress1.jpg"},
       {"name": "Elegant Evening Dress", "image": "assets/images/dress2.png"},
       {"name": "Casual Day Dress", "image": "assets/images/dress3.png"},
-      {"name": "Elegant Blue Evening Dress", "image": "assets/images/dress4.jpg"},
+      {
+        "name": "Elegant Blue Evening Dress",
+        "image": "assets/images/dress4.jpg"
+      },
       {"name": "Casual Yellow Day Dress", "image": "assets/images/dress7.jpg"},
       {"name": "Girly Pink Day Dress", "image": "assets/images/dress8.jpg"},
     ],
@@ -142,7 +145,6 @@ class _OutfitBuilderPageState extends State<OutfitBuilderPage> {
         ),
         centerTitle: true,
       ),
-
       body: Stack(
         children: [
           SafeArea(
@@ -257,8 +259,10 @@ class _OutfitBuilderPageState extends State<OutfitBuilderPage> {
                                           width: 100,
                                           height: 120,
                                           decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(12),
-                                            border: Border.all(color: Colors.grey),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            border:
+                                                Border.all(color: Colors.grey),
                                           ),
                                           child: Image.asset(
                                             item["image"]!,
@@ -464,7 +468,6 @@ class _OutfitBuilderPageState extends State<OutfitBuilderPage> {
           ),
         ],
       ),
-
       bottomNavigationBar: const GlassBottomNavWidget(),
     );
   }
@@ -484,40 +487,108 @@ class OutfitPreviewPage extends StatelessWidget {
   // Define outfit combinations using unique keys from the clothes above
   static const Map<String, String> outfitCombinations = {
     // Dresses (single items)
-    "Summer Floral Dress": "assets/images/dress1.jpg",
-    "Elegant Evening Dress": "assets/images/dress2.png",
-    "Casual Day Dress": "assets/images/dress3.png",
-    "Elegant Blue Evening Dress": "assets/images/dress4.jpg",
-    "Casual Yellow Day Dress": "assets/images/dress7.jpg",
-    "Girly Pink Day Dress": "assets/images/dress8.jpg",
+    "Summer Floral Dress": "assets/images_outfit/dress1.jpg",
+    "Elegant Evening Dress": "assets/images_outfit/dress2.png",
+    "Casual Day Dress": "assets/images_outfit/dress3.png",
+    "Elegant Blue Evening Dress": "assets/images_outfit/dress4.jpg",
+    "Casual Yellow Day Dress": "assets/images_outfit/dress5.jpg",
+    "Girly Pink Day Dress": "assets/images_outfit/dress6.jpg",
 
     // Top + Skirt combinations
-    "Oversized Shirt|Short Skirt": "assets/images/top1.webp",
-    "Oversized Shirt|Long Skirt": "assets/images/top6.jpg",
-    "Crop Top|Short Skirt": "assets/images/top2.jpg",
-    "Crop Top|Long Skirt": "assets/images/top4.webp",
-    "Silk Blouse|Short Skirt": "assets/images/top3.webp",
-    "Silk Blouse|Long Skirt": "assets/images/top7.jpg",
+    "Oversized Shirt|Short Skirt": "assets/images_outfit/image1_1.png",
+    "Oversized Shirt|Short Skirt blue": "assets/images_outfit/image1_2.png",
+    "Oversized Shirt|Short Skirt white": "assets/images_outfit/image1_3.png",
+    "Oversized Shirt|Long Skirt": "assets/images_outfit/image1_4.png",
+    "Oversized Shirt|Long Skirt white": "assets/images_outfit/image1_5.png",
+    "Oversized Shirt|Long Skirt flower": "assets/images_outfit/image1_6.png",
+
+    "Crop Top|Short Skirt": "assets/images_outfit/image2_1.png",
+    "Crop Top|Long Skirt blue": "assets/images_outfit/image2_2.png",
+    "Crop Top|Short Skirt white": "assets/images_outfit/image2_3.png",
+    "Crop Top|Long Skirt": "assets/images_outfit/image2_4.png",
+    "Crop Top|Long Skirt white": "assets/images_outfit/image2_5.png",
+    "Crop Top|Long Skirt flower": "assets/images_outfit/image2_6.png",
+
+    "Silk Blouse|Short Skirt": "assets/images_outfit/image3_1.png",
+    "Silk Blouse|Long Skirt blue": "assets/images_outfit/image3_2.png",
+    "Silk Blouse|Short Skirt white": "assets/images_outfit/image3_3.png",
+    "Silk Blouse|Long Skirt": "assets/images_outfit/image3_4.png",
+    "Silk Blouse|Long Skirt white": "assets/images_outfit/image3_5.png",
+    "Silk Blouse|Long Skirt flower": "assets/images_outfit/image3_6.png",
+
+    "Oversized Shirt short|Short Skirt": "assets/images_outfit/image4_1.png",
+    "Oversized Shirt short|Short Skirt blue":
+        "assets/images_outfit/image4_2.png",
+    "Oversized Shirt short|Short Skirt white":
+        "assets/images_outfit/image4_3.png",
+    "Oversized Shirt short|Long Skirt": "assets/images_outfit/image4_4.png",
+    "Oversized Shirt short|Long Skirt white":
+        "assets/images_outfit/image4_5.png",
+    "Oversized Shirt short|Long Skirt flower":
+        "assets/images_outfit/image4_6.png",
+
+    "Crop Top blue|Short Skirt": "assets/images_outfit/image5_1.png",
+    "Crop Top blue|Long Skirt blue": "assets/images_outfit/image5_2.png",
+    "Crop Top blue|Short Skirt white": "assets/images_outfit/image5_3.png",
+    "Crop Top blue|Long Skirt": "assets/images_outfit/image5_4.png",
+    "Crop Top blue|Long Skirt white": "assets/images_outfit/image5_5.png",
+    "Crop Top blue|Long Skirt flower": "assets/images_outfit/image5_6.png",
+
+    "Silk Blouse pink|Short Skirt": "assets/images_outfit/image6_1.png",
+    "Silk Blouse pink|Long Skirt blue": "assets/images_outfit/image6_2.png",
+    "Silk Blouse pink|Short Skirt white": "assets/images_outfit/image6_3.png",
+    "Silk Blouse pink|Long Skirt": "assets/images_outfit/image6_4.png",
+    "Silk Blouse pink|Long Skirt white": "assets/images_outfit/image6_5.png",
+    "Silk Blouse pink|Long Skirt flower": "assets/images_outfit/image6_6.png",
 
     // Top + Pants combinations
-    "Oversized Shirt|White Short Pant": "assets/images/pant1.jpg",
-    "Oversized Shirt|Pink Short Pant": "assets/images/pant2.jpg",
-    "Oversized Shirt|Short Jean": "assets/images/pant3.webp",
-    "Oversized Shirt|White Long Pant": "assets/images/pant4.jpg",
-    "Oversized Shirt|Long Jean": "assets/images/pant5.webp",
-    "Oversized Shirt|Long Pink Pilate Pant": "assets/images/pant6.jpg",
-    "Crop Top|White Short Pant": "assets/images/pant1.jpg",
-    "Crop Top|Pink Short Pant": "assets/images/pant2.jpg",
-    "Crop Top|Short Jean": "assets/images/pant3.webp",
-    "Crop Top|White Long Pant": "assets/images/pant4.jpg",
-    "Crop Top|Long Jean": "assets/images/pant5.webp",
-    "Crop Top|Long Pink Pilate Pant": "assets/images/pant6.jpg",
-    "Silk Blouse|White Short Pant": "assets/images/pant1.jpg",
-    "Silk Blouse|Pink Short Pant": "assets/images/pant2.jpg",
-    "Silk Blouse|Short Jean": "assets/images/pant3.webp",
-    "Silk Blouse|White Long Pant": "assets/images/pant4.jpg",
-    "Silk Blouse|Long Jean": "assets/images/pant5.webp",
-    "Silk Blouse|Long Pink Pilate Pant": "assets/images/pant6.jpg",
+    "Oversized Shirt|White Short Pant": "assets/images_outfit/image1_7.png",
+    "Oversized Shirt|Pink Short Pant": "assets/images_outfit/image1_8.png",
+    "Oversized Shirt|Short Jean": "assets/images_outfit/image1_9.png",
+    "Oversized Shirt|White Long Pant": "assets/images_outfit/image1_10.png",
+    "Oversized Shirt|Long Jean": "assets/images_outfit/image1_11.png",
+    "Oversized Shirt|Long Pink Pilate Pant":
+        "assets/images_outfit/image1_12.png",
+
+    "Crop Top|White Short Pant": "assets/images_outfit/image2_7.png",
+    "Crop Top|Pink Short Pant": "assets/images_outfit/image2_8.png",
+    "Crop Top|Short Jean": "assets/images_outfit/image2_9.png",
+    "Crop Top|White Long Pant": "assets/images_outfit/image2_10.png",
+    "Crop Top|Long Jean": "assets/images_outfit/image2_11.png",
+    "Crop Top|Long Pink Pilate Pant": "assets/images_outfit/image2_12.png",
+
+    "Silk Blouse |White Short Pant": "assets/images_outfit/image3_7.png",
+    "Silk Blouse |Pink Short Pant": "assets/images_outfit/image3_8.png",
+    "Silk Blouse |Short Jean": "assets/images_outfit/image3_9.png",
+    "Silk Blouse |White Long Pant": "assets/images_outfit/image3_10.png",
+    "Silk Blouse |Long Jean": "assets/images_outfit/image3_11.png",
+    "Silk Blouse |Long Pink Pilate Pant": "assets/images_outfit/image3_12.png",
+
+    "Oversized Shirt short|White Short Pant":
+        "assets/images_outfit/image4_7.png",
+    "Oversized Shirt short|Pink Short Pant":
+        "assets/images_outfit/image4_8.png",
+    "Oversized Shirt short|Short Jean": "assets/images_outfit/image4_9.png",
+    "Oversized Shirt short|White Long Pant":
+        "assets/images_outfit/image4_10.png",
+    "Oversized Shirt short|Long Jean": "assets/images_outfit/image4_11.png",
+    "Oversized Shirt short|Long Pink Pilate Pant":
+        "assets/images_outfit/image4_12.png",
+
+    "Crop Top blue|White Short Pant": "assets/images_outfit/image5_7.png",
+    "Crop Top blue|Pink Short Pant": "assets/images_outfit/image5_8.png",
+    "Crop Top blue|Short Jean": "assets/images_outfit/image5_9.png",
+    "Crop Top blue|White Long Pant": "assets/images_outfit/image5_10.png",
+    "Crop Top blue|Long Jean": "assets/images_outfit/image5_11.png",
+    "Crop Top blue|Long Pink Pilate Pant": "assets/images_outfit/image5_12.png",
+
+    "Silk Blouse pink|White Short Pant": "assets/images_outfit/image6_7.png",
+    "Silk Blouse pink|Pink Short Pant": "assets/images_outfit/image6_8.png",
+    "Silk Blouse pink|Short Jean": "assets/images_outfit/image6_9.png",
+    "Silk Blouse pink|White Long Pant": "assets/images_outfit/image6_10.png",
+    "Silk Blouse pink|Long Jean": "assets/images_outfit/image6_11.png",
+    "Silk Blouse pink|Long Pink Pilate Pant":
+        "assets/images_outfit/image6_12.png",
   };
 
   String? getPreviewImage(List<Map<String, String>> items) {
@@ -577,7 +648,6 @@ class OutfitPreviewPage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-
       body: Stack(
         children: [
           SafeArea(
@@ -617,8 +687,9 @@ class OutfitPreviewPage extends StatelessWidget {
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Image.asset(
-                                  getPreviewImage(selectedItems) ?? selectedItems.first["image"]!,
-                                  fit: BoxFit.contain,
+                                  getPreviewImage(selectedItems) ??
+                                      selectedItems.first["image"]!,
+                                  fit: BoxFit.cover,
                                 ),
                               )
                             : Center(
@@ -675,7 +746,6 @@ class OutfitPreviewPage extends StatelessWidget {
           ),
         ],
       ),
-
       bottomNavigationBar: const GlassBottomNavWidget(),
     );
   }
