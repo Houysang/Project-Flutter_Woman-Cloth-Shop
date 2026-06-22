@@ -10,6 +10,7 @@ import '../components/product_detail/customer_reviews.dart';
 import '../models/customer_review.dart';
 import '../components/glass_bottom_nav_widget.dart';
 import 'booking_page.dart';
+import 'cart_page.dart';
 import '../components/floating_cart_button.dart';
 
 import '../models/wishlist_store.dart';
@@ -69,6 +70,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     addToCart(item);
     _quantity = 1;
     setState(() {});
+
+    // Navigate to cart page
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CartPage(),
+      ),
+    );
   }
 
   Future<void> _handleToggleFavorite() async {
@@ -164,11 +173,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Image gallery
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ImageGallery(
-                images: List<String>.from(product['images']),
-              ),
+            ImageGallery(
+              images: List<String>.from(product['images']),
+              selectedColor: _selectedColor,
             ),
             const SizedBox(height: 8),
 

@@ -132,16 +132,16 @@ class LookbookDetailPage extends StatelessWidget {
   static final List<RelatedItem> _silkEditRelated = [
     RelatedItem(
       id: 'se_1',
-      image: 'assets/champagne_dress.png',
-      name: 'Satin Slip Dress',
+      image: 'assets/blue_dress.png',
+      name: 'Satin Slip Blue Dress',
       price: '',
       rating: 4.7,
       reviewCount: 32,
     ),
     RelatedItem(
       id: 'se_2',
-      image: 'assets/champagne_shoes.png',
-      name: 'Leather Heels',
+      image: 'assets/brown_dress.png',
+      name: 'Satin Slip Brown Dress',
       price: '',
       rating: 4.3,
       reviewCount: 19,
@@ -224,16 +224,16 @@ class LookbookDetailPage extends StatelessWidget {
   static final List<RelatedItem> _goldenHourRelated = [
     RelatedItem(
       id: 'gh_1',
-      image: 'assets/yellow_blouse.png',
-      name: 'Champagne Top',
+      image: 'assets/yellow_dress.png',
+      name: 'Yellow Hour Ease',
       price: '',
       rating: 4.6,
       reviewCount: 37,
     ),
     RelatedItem(
       id: 'gh_2',
-      image: 'assets/cream_trousers.png',
-      name: 'Straight-Leg Trousers',
+      image: 'assets/green_blazer.png',
+      name: 'Green Hour Ease',
       price: '',
       rating: 4.9,
       reviewCount: 52,
@@ -243,47 +243,37 @@ class LookbookDetailPage extends StatelessWidget {
   static final List<LookPiece> _ephemeralLoversPieces = [
     LookPiece(
       number: 1,
-      imagePath: "assets/ephemeral_lovers.png",
+      imagePath: "assets/ephemeral_dress.png",
       title: "Lace Dream",
       subtitle: "Lace Bodysuit",
     ),
     LookPiece(
       number: 2,
-      imagePath: "assets/blue_dress.png",
-      title: "Azure Dream",
-      subtitle: "Blue Satin Dress",
+      imagePath: "assets/ephemeral_bag.png",
+      title: "Bag of Whispers",
+      subtitle: "White Bag",
+    ),
+    LookPiece(
+      number: 3,
+      imagePath: "assets/ephemeral_shoes.png",
+      title: "Shoes of Whispers",
+      subtitle: "White Shoes",
     ),
   ];
 
   static final List<RelatedItem> _ephemeralLoversRelated = [
     RelatedItem(
       id: 'el_1',
-      image: 'assets/ephemeral_lovers.png',
-      name: 'Lace Bodysuit',
+      image: 'assets/black_dress.png',
+      name: 'Black Dress',
       price: '',
       rating: 4.5,
       reviewCount: 29,
     ),
     RelatedItem(
       id: 'el_2',
-      image: 'assets/blue_dress.png',
-      name: 'Blue Satin Dress',
-      price: '',
-      rating: 4.2,
-      reviewCount: 18,
-    ),
-    RelatedItem(
-      id: 'el_3',
-      image: 'assets/ephemeral_shoes.png',
-      name: 'Evening Heels',
-      price: '',
-      rating: 4.2,
-      reviewCount: 18,
-    ),
-    RelatedItem(
-      id: 'el_4',
-      image: 'assets/ephemeral_bag.png',
-      name: 'Evening Clutch',
+      image: 'assets/light_blue_dress.png',
+      name: 'Light Blue Dress',
       price: '',
       rating: 4.2,
       reviewCount: 18,
@@ -400,6 +390,7 @@ class LookbookDetailPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: ImageGallery(
                 images: [image],
+                selectedColor: '',
               ),
             ),
             const SizedBox(height: 8),
