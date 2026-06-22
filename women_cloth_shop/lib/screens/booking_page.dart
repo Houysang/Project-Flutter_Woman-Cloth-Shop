@@ -48,12 +48,16 @@ class _BookingPageState extends State<BookingPage> {
 
   final List<Map<String, String>> locations = [
     {
-      "name": "OnlyWomen Flagship - 5th Avenue",
-      "address": "572 5th Ave, New York, NY 10019"
+      "name": "Neary Woman Fashion - 5th Avenue",
+      "address": "572 5th Ave, Bactouk ,Phnom Penh"
     },
     {
-      "name": "Soho Concept Atelier",
-      "address": "116 Greene St, New York, NY 10012"
+      "name": "Neary Woman Fashion - Toul Kork",
+      "address": "#168, St. 315, Toul Kork, Phnom Penh "
+    },
+    {
+      "name": "Neary Woman Fashion - River",
+      "address": "#72, Sisowath Quay, Daun Penh, Phnom Penh"
     },
   ];
 
