@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MapPickerPage extends StatefulWidget {
   const MapPickerPage({super.key});
@@ -15,6 +16,10 @@ class _MapPickerPageState extends State<MapPickerPage> {
   String address = "";
   String city = "Phnom Penh";
   String country = "Cambodia";
+
+  static const Color accent = Color(0xFFC5A081);
+  static const Color darkText = Color(0xFF2D2926);
+  static const Color backgroundColor = Color(0xFFF9F7F2);
 
   void _confirm() {
     Navigator.pop(context, {
@@ -52,7 +57,20 @@ class _MapPickerPageState extends State<MapPickerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Pick Location")),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.5,
+        iconTheme: const IconThemeData(color: darkText),
+        title: Text(
+          'Pick Location',
+          style: GoogleFonts.comfortaa(
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+            color: darkText,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           FlutterMap(
@@ -96,25 +114,69 @@ class _MapPickerPageState extends State<MapPickerPage> {
             left: 20,
             right: 20,
             child: Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: const [
-                  BoxShadow(color: Colors.black26, blurRadius: 10),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 16,
+                    offset: const Offset(0, 4),
+                  ),
                 ],
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Icon(
+                    address.isEmpty ? Icons.touch_app : Icons.location_on,
+                    color: accent,
+                    size: 28,
+                  ),
+                  const SizedBox(height: 8),
                   Text(
                     address.isEmpty ? "Tap map to select location" : address,
                     textAlign: TextAlign.center,
+                    style: GoogleFonts.comfortaa(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: darkText,
+                    ),
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: _confirm,
-                    child: const Text("Confirm Location"),
+                  if (address.isNotEmpty) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      "$city, $country",
+                      style: GoogleFonts.comfortaa(
+                        fontSize: 12,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 14),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _confirm,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: accent,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: Text(
+                        "CONFIRM LOCATION",
+                        style: GoogleFonts.comfortaa(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

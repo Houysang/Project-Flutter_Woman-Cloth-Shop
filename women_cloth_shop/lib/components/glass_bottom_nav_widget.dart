@@ -14,7 +14,6 @@ class GlassBottomNavWidget extends StatefulWidget {
 }
 
 class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
-  int _cartCount = cart.length;
   int _wishlistCount = wishlist.length;
 
   static const Color accent = Color(0xFFC5A081);
@@ -23,14 +22,8 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
   @override
   void initState() {
     super.initState();
-    _cartCount = cart.length;
     _wishlistCount = wishlist.length;
 
-    onCartCountChanged = (count) {
-      if (mounted) {
-        setState(() => _cartCount = count);
-      }
-    };
     onWishlistCountChanged = (count) {
       if (mounted) {
         setState(() => _wishlistCount = count);
@@ -40,7 +33,6 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
 
   @override
   void dispose() {
-    onCartCountChanged = null;
     onWishlistCountChanged = null;
     super.dispose();
   }
@@ -96,11 +88,7 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
               children: List.generate(_navItems.length, (i) {
                 final item = _navItems[i];
                 final isSelected = i == widget.selectedIndex;
-                final badgeCount = i == 1
-                    ? _wishlistCount
-                    : i == 2
-                        ? _cartCount
-                        : 0;
+                final badgeCount = i == 1 ? _wishlistCount : 0;
 
                 return Expanded(
                   child: GestureDetector(
@@ -126,18 +114,47 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
                             clipBehavior: Clip.none,
                             children: [
                               AnimatedContainer(
-                                duration:
-                                    const Duration(milliseconds: 250),
+                                duration: const Duration(milliseconds: 250),
                                 curve: Curves.easeOutBack,
                                 child: Icon(
                                   isSelected ? item.activeIcon : item.icon,
                                   size: isSelected ? 24 : 22,
-                                  color: isSelected
-                                      ? accent
-                                      : Colors.grey[400],
+                                  color: isSelected ? accent : Colors.grey[400],
                                 ),
                               ),
-                              if (badgeCount > 0)
+                              // Cart badge uses ValueListenableBuilder for real-time updates
+                              if (i == 2)
+                                ValueListenableBuilder<int>(
+                                  valueListenable: cartCountNotifier,
+                                  builder: (context, count, _) {
+                                    if (count <= 0) {
+                                      return const SizedBox.shrink();
+                                    }
+                                    return Positioned(
+                                      right: -8,
+                                      top: -4,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(4),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        constraints: const BoxConstraints(
+                                            minWidth: 18, minHeight: 18),
+                                        child: Text(
+                                          count > 99 ? '99+' : '$count',
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                )
+                              else if (badgeCount > 0)
                                 Positioned(
                                   right: -8,
                                   top: -4,
@@ -147,13 +164,10 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
                                       color: Colors.red,
                                       shape: BoxShape.circle,
                                     ),
-                                    constraints:
-                                        const BoxConstraints(
-                                            minWidth: 18, minHeight: 18),
+                                    constraints: const BoxConstraints(
+                                        minWidth: 18, minHeight: 18),
                                     child: Text(
-                                      badgeCount > 99
-                                          ? '99+'
-                                          : '$badgeCount',
+                                      badgeCount > 99 ? '99+' : '$badgeCount',
                                       style: const TextStyle(
                                         color: Colors.white,
                                         fontSize: 10,
@@ -167,15 +181,13 @@ class _GlassBottomNavWidgetState extends State<GlassBottomNavWidget> {
                           ),
                           const SizedBox(height: 3),
                           AnimatedDefaultTextStyle(
-                            duration:
-                                const Duration(milliseconds: 250),
+                            duration: const Duration(milliseconds: 250),
                             style: GoogleFonts.comfortaa(
                               fontSize: isSelected ? 11 : 10,
                               fontWeight: isSelected
                                   ? FontWeight.w700
                                   : FontWeight.w500,
-                              color:
-                                  isSelected ? accent : Colors.grey[400],
+                              color: isSelected ? accent : Colors.grey[400],
                             ),
                             child: Text(item.label),
                           ),
